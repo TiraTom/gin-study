@@ -1,4 +1,4 @@
-module gin-study
+module github.com/Tiratom/gin-study
 
 go 1.16
 
