@@ -15,5 +15,5 @@
 # vendor/
 
 
-!./docker/mysql/my.cnf
-./docker/mysql/
+!docker/mysql/my.cnf
+docker/mysql/
