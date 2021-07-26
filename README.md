@@ -10,7 +10,7 @@ Go 言語での勉強用 CRUD(TODO 管理)アプリ
 
 ## TODO（勉強がてらやってみたいこと含む）
 
-- [ ] MySQL コンテナの立ち上げ（my.cnf 準備含む）
+- [x] MySQL コンテナの立ち上げ（my.cnf 準備含む）
 - [ ] API 設計(gRPC) <https://user-first.ikyu.co.jp/entry/2019/06/17/100000>あたりを参考にしてみる
 - [ ] DB 設計
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
