@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service TaskService {
+  /* 
+  全タスクの取得
+  */
+  rpc GetAllTasks (google.protobuf.Empty) returns (Tasks) {}
+
+  /* 
+  条件付きタスクの取得
+  */
+  rpc GetTasks (GetTaskByConditionRequestParam) returns (Tasks) {}
+
+  /* 
+  id指定でタスクの取得   
+  ・エラー返却について  
+  - NotFound：idに対応するタスクが存在しない  
+  - InvalidArgument：引数の内容が不適切  
+  */
+  rpc GetTask (GetTaskByIdRequestParam) returns (Task) {}
+
+  /* タスクの新規作成
+  ・エラー返却について
+  - InvalidArgument：引数の内容が不適切
+  */
+  rpc CreateTask (CreateTaskRequestParam) returns (Task) {}
+
+  /* タスクの更新
+  ・エラー返却について
+  - NotFound：idに対応するタスクが存在しない
+  - InvalidArgument：引数の内容が不適切
+  */
+  rpc UpdateTask (UpdateTaskRequestParam) returns (Task) {}
+
+  /* タスクの一件削除
+  ・エラー返却について
+  - NotFound：idに対応するタスクが存在しない
+  - InvalidArgument：引数の内容が不適切
+  */
+  rpc DeleteTask (DeleteTaskRequestParam) returns (google.protobuf.Empty) {}
+}
+
+message Task {
+  string id = 1;
+  string name = 2;
+  string details = 3;
+  // 重要度
+  Importance importance = 4;
+  // 登録日時（タイムスタンプ）
+  google.protobuf.Timestamp registered_at = 5;
+  // 期限日時（タイムスタンプ）
+  google.protobuf.Timestamp deadline = 6;
+  // 更新日時（タイムスタンプ）
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message Tasks {
+  repeated Task tasks = 1;
+}
+
+message GetTaskByIdRequestParam {
+  string id = 1;
+}
+
+message GetTaskByConditionRequestParam {
+  string name = 1;
+  string details = 2;
+  // 重要度
+  Importance importance = 3;
+
+  // 登録日時（タイムスタンプ）
+  google.protobuf.Timestamp registered_at = 4;
+  TimestampCompareBy serachTypeForRegisterdAt = 5;
+
+  // 期限日時（タイムスタンプ）
+  google.protobuf.Timestamp deadline = 6;
+  TimestampCompareBy serachTypeForDeadline = 7;
+
+  // 更新日時（タイムスタンプ）
+  google.protobuf.Timestamp updated_at = 8;
+  TimestampCompareBy serachTypeForUpdatedAt = 9;
+}
+
+message CreateTaskRequestParam {
+  string name = 1;
+  string details = 2;
+  enum Importance {  
+    MEDIUM = 0;
+    VERY_HIGH = 1;
+    HIGH = 2;
+    LOW = 3;
+  }
+  // 重要度
+  Importance importance = 3;
+  // 期限日時（タイムスタンプ）
+  google.protobuf.Timestamp deadline = 4;
+}
+
+message UpdateTaskRequestParam {
+  string id = 1;
+  string name = 2;
+  string details = 3;
+  // 重要度
+  Importance importance = 4;
+  // 期限日時（タイムスタンプ）
+  google.protobuf.Timestamp deadline = 5;
+}
+
+message DeleteTaskRequestParam {
+  string id = 1;
+}
+
+enum Importance {  
+  MEDIUM = 0;
+  VERY_HIGH = 1;
+  HIGH = 2;
+  LOW = 3;
+}
+
+enum TimestampCompareBy {
+  SAME = 0;
+  BEFORE = 1;
+  AFTER = 2;
+}
