@@ -1,6 +1,8 @@
 package main
 
-import "github.com/Tiratom/gin-study/config"
+import (
+	"github.com/Tiratom/gin-study/config"
+)
 
 func main() {
 	r := config.GetRouter()
