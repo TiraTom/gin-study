@@ -2,11 +2,15 @@
 // versions:
 // 	protoc-gen-go v1.27.1
 // 	protoc        v3.17.3
-// source: controller/gRPC/gin-study.proto
+// source: gRPC/gin-study.proto
 
-package controller
+package grpc
 
 import (
+	context "context"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -58,11 +62,11 @@ func (x Importance) String() string {
 }
 
 func (Importance) Descriptor() protoreflect.EnumDescriptor {
-	return file_controller_gRPC_gin_study_proto_enumTypes[0].Descriptor()
+	return file_gRPC_gin_study_proto_enumTypes[0].Descriptor()
 }
 
 func (Importance) Type() protoreflect.EnumType {
-	return &file_controller_gRPC_gin_study_proto_enumTypes[0]
+	return &file_gRPC_gin_study_proto_enumTypes[0]
 }
 
 func (x Importance) Number() protoreflect.EnumNumber {
@@ -71,7 +75,7 @@ func (x Importance) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Importance.Descriptor instead.
 func (Importance) EnumDescriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{0}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{0}
 }
 
 type TimestampCompareBy int32
@@ -107,11 +111,11 @@ func (x TimestampCompareBy) String() string {
 }
 
 func (TimestampCompareBy) Descriptor() protoreflect.EnumDescriptor {
-	return file_controller_gRPC_gin_study_proto_enumTypes[1].Descriptor()
+	return file_gRPC_gin_study_proto_enumTypes[1].Descriptor()
 }
 
 func (TimestampCompareBy) Type() protoreflect.EnumType {
-	return &file_controller_gRPC_gin_study_proto_enumTypes[1]
+	return &file_gRPC_gin_study_proto_enumTypes[1]
 }
 
 func (x TimestampCompareBy) Number() protoreflect.EnumNumber {
@@ -120,7 +124,7 @@ func (x TimestampCompareBy) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TimestampCompareBy.Descriptor instead.
 func (TimestampCompareBy) EnumDescriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{1}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{1}
 }
 
 type CreateTaskRequestParam_Importance int32
@@ -159,11 +163,11 @@ func (x CreateTaskRequestParam_Importance) String() string {
 }
 
 func (CreateTaskRequestParam_Importance) Descriptor() protoreflect.EnumDescriptor {
-	return file_controller_gRPC_gin_study_proto_enumTypes[2].Descriptor()
+	return file_gRPC_gin_study_proto_enumTypes[2].Descriptor()
 }
 
 func (CreateTaskRequestParam_Importance) Type() protoreflect.EnumType {
-	return &file_controller_gRPC_gin_study_proto_enumTypes[2]
+	return &file_gRPC_gin_study_proto_enumTypes[2]
 }
 
 func (x CreateTaskRequestParam_Importance) Number() protoreflect.EnumNumber {
@@ -172,7 +176,109 @@ func (x CreateTaskRequestParam_Importance) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CreateTaskRequestParam_Importance.Descriptor instead.
 func (CreateTaskRequestParam_Importance) EnumDescriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{4, 0}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{6, 0}
+}
+
+type GetMyCatMessage struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TargetCat string `protobuf:"bytes,1,opt,name=target_cat,json=targetCat,proto3" json:"target_cat,omitempty"`
+}
+
+func (x *GetMyCatMessage) Reset() {
+	*x = GetMyCatMessage{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_gRPC_gin_study_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetMyCatMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMyCatMessage) ProtoMessage() {}
+
+func (x *GetMyCatMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_gRPC_gin_study_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMyCatMessage.ProtoReflect.Descriptor instead.
+func (*GetMyCatMessage) Descriptor() ([]byte, []int) {
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GetMyCatMessage) GetTargetCat() string {
+	if x != nil {
+		return x.TargetCat
+	}
+	return ""
+}
+
+type MyCatResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Kind string `protobuf:"bytes,2,opt,name=kind,proto3" json:"kind,omitempty"`
+}
+
+func (x *MyCatResponse) Reset() {
+	*x = MyCatResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_gRPC_gin_study_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MyCatResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MyCatResponse) ProtoMessage() {}
+
+func (x *MyCatResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_gRPC_gin_study_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MyCatResponse.ProtoReflect.Descriptor instead.
+func (*MyCatResponse) Descriptor() ([]byte, []int) {
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MyCatResponse) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *MyCatResponse) GetKind() string {
+	if x != nil {
+		return x.Kind
+	}
+	return ""
 }
 
 type Task struct {
@@ -196,7 +302,7 @@ type Task struct {
 func (x *Task) Reset() {
 	*x = Task{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_controller_gRPC_gin_study_proto_msgTypes[0]
+		mi := &file_gRPC_gin_study_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -209,7 +315,7 @@ func (x *Task) String() string {
 func (*Task) ProtoMessage() {}
 
 func (x *Task) ProtoReflect() protoreflect.Message {
-	mi := &file_controller_gRPC_gin_study_proto_msgTypes[0]
+	mi := &file_gRPC_gin_study_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -222,7 +328,7 @@ func (x *Task) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Task.ProtoReflect.Descriptor instead.
 func (*Task) Descriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{0}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Task) GetId() string {
@@ -285,7 +391,7 @@ type Tasks struct {
 func (x *Tasks) Reset() {
 	*x = Tasks{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_controller_gRPC_gin_study_proto_msgTypes[1]
+		mi := &file_gRPC_gin_study_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -298,7 +404,7 @@ func (x *Tasks) String() string {
 func (*Tasks) ProtoMessage() {}
 
 func (x *Tasks) ProtoReflect() protoreflect.Message {
-	mi := &file_controller_gRPC_gin_study_proto_msgTypes[1]
+	mi := &file_gRPC_gin_study_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -311,7 +417,7 @@ func (x *Tasks) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Tasks.ProtoReflect.Descriptor instead.
 func (*Tasks) Descriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{1}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Tasks) GetTasks() []*Task {
@@ -332,7 +438,7 @@ type GetTaskByIdRequestParam struct {
 func (x *GetTaskByIdRequestParam) Reset() {
 	*x = GetTaskByIdRequestParam{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_controller_gRPC_gin_study_proto_msgTypes[2]
+		mi := &file_gRPC_gin_study_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -345,7 +451,7 @@ func (x *GetTaskByIdRequestParam) String() string {
 func (*GetTaskByIdRequestParam) ProtoMessage() {}
 
 func (x *GetTaskByIdRequestParam) ProtoReflect() protoreflect.Message {
-	mi := &file_controller_gRPC_gin_study_proto_msgTypes[2]
+	mi := &file_gRPC_gin_study_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -358,7 +464,7 @@ func (x *GetTaskByIdRequestParam) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTaskByIdRequestParam.ProtoReflect.Descriptor instead.
 func (*GetTaskByIdRequestParam) Descriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{2}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetTaskByIdRequestParam) GetId() string {
@@ -391,7 +497,7 @@ type GetTaskByConditionRequestParam struct {
 func (x *GetTaskByConditionRequestParam) Reset() {
 	*x = GetTaskByConditionRequestParam{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_controller_gRPC_gin_study_proto_msgTypes[3]
+		mi := &file_gRPC_gin_study_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -404,7 +510,7 @@ func (x *GetTaskByConditionRequestParam) String() string {
 func (*GetTaskByConditionRequestParam) ProtoMessage() {}
 
 func (x *GetTaskByConditionRequestParam) ProtoReflect() protoreflect.Message {
-	mi := &file_controller_gRPC_gin_study_proto_msgTypes[3]
+	mi := &file_gRPC_gin_study_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -417,7 +523,7 @@ func (x *GetTaskByConditionRequestParam) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTaskByConditionRequestParam.ProtoReflect.Descriptor instead.
 func (*GetTaskByConditionRequestParam) Descriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{3}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetTaskByConditionRequestParam) GetName() string {
@@ -499,7 +605,7 @@ type CreateTaskRequestParam struct {
 func (x *CreateTaskRequestParam) Reset() {
 	*x = CreateTaskRequestParam{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_controller_gRPC_gin_study_proto_msgTypes[4]
+		mi := &file_gRPC_gin_study_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -512,7 +618,7 @@ func (x *CreateTaskRequestParam) String() string {
 func (*CreateTaskRequestParam) ProtoMessage() {}
 
 func (x *CreateTaskRequestParam) ProtoReflect() protoreflect.Message {
-	mi := &file_controller_gRPC_gin_study_proto_msgTypes[4]
+	mi := &file_gRPC_gin_study_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -525,7 +631,7 @@ func (x *CreateTaskRequestParam) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTaskRequestParam.ProtoReflect.Descriptor instead.
 func (*CreateTaskRequestParam) Descriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{4}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateTaskRequestParam) GetName() string {
@@ -573,7 +679,7 @@ type UpdateTaskRequestParam struct {
 func (x *UpdateTaskRequestParam) Reset() {
 	*x = UpdateTaskRequestParam{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_controller_gRPC_gin_study_proto_msgTypes[5]
+		mi := &file_gRPC_gin_study_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -586,7 +692,7 @@ func (x *UpdateTaskRequestParam) String() string {
 func (*UpdateTaskRequestParam) ProtoMessage() {}
 
 func (x *UpdateTaskRequestParam) ProtoReflect() protoreflect.Message {
-	mi := &file_controller_gRPC_gin_study_proto_msgTypes[5]
+	mi := &file_gRPC_gin_study_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -599,7 +705,7 @@ func (x *UpdateTaskRequestParam) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTaskRequestParam.ProtoReflect.Descriptor instead.
 func (*UpdateTaskRequestParam) Descriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{5}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateTaskRequestParam) GetId() string {
@@ -648,7 +754,7 @@ type DeleteTaskRequestParam struct {
 func (x *DeleteTaskRequestParam) Reset() {
 	*x = DeleteTaskRequestParam{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_controller_gRPC_gin_study_proto_msgTypes[6]
+		mi := &file_gRPC_gin_study_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -661,7 +767,7 @@ func (x *DeleteTaskRequestParam) String() string {
 func (*DeleteTaskRequestParam) ProtoMessage() {}
 
 func (x *DeleteTaskRequestParam) ProtoReflect() protoreflect.Message {
-	mi := &file_controller_gRPC_gin_study_proto_msgTypes[6]
+	mi := &file_gRPC_gin_study_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -674,7 +780,7 @@ func (x *DeleteTaskRequestParam) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTaskRequestParam.ProtoReflect.Descriptor instead.
 func (*DeleteTaskRequestParam) Descriptor() ([]byte, []int) {
-	return file_controller_gRPC_gin_study_proto_rawDescGZIP(), []int{6}
+	return file_gRPC_gin_study_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteTaskRequestParam) GetId() string {
@@ -684,15 +790,21 @@ func (x *DeleteTaskRequestParam) GetId() string {
 	return ""
 }
 
-var File_controller_gRPC_gin_study_proto protoreflect.FileDescriptor
+var File_gRPC_gin_study_proto protoreflect.FileDescriptor
 
-var file_controller_gRPC_gin_study_proto_rawDesc = []byte{
-	0x0a, 0x1f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x2f, 0x67, 0x52, 0x50,
-	0x43, 0x2f, 0x67, 0x69, 0x6e, 0x2d, 0x73, 0x74, 0x75, 0x64, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x1a, 0x1b, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2f, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f,
-	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f,
-	0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22,
+var file_gRPC_gin_study_proto_rawDesc = []byte{
+	0x0a, 0x14, 0x67, 0x52, 0x50, 0x43, 0x2f, 0x67, 0x69, 0x6e, 0x2d, 0x73, 0x74, 0x75, 0x64, 0x79,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x22, 0x30, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x4d, 0x79, 0x43, 0x61, 0x74,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x74, 0x61, 0x72, 0x67, 0x65,
+	0x74, 0x5f, 0x63, 0x61, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x74, 0x61, 0x72,
+	0x67, 0x65, 0x74, 0x43, 0x61, 0x74, 0x22, 0x37, 0x0a, 0x0d, 0x4d, 0x79, 0x43, 0x61, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6b,
+	0x69, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6b, 0x69, 0x6e, 0x64, 0x22,
 	0xa5, 0x02, 0x0a, 0x04, 0x54, 0x61, 0x73, 0x6b, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07,
@@ -788,103 +900,134 @@ var file_controller_gRPC_gin_study_proto_rawDesc = []byte{
 	0x73, 0x74, 0x61, 0x6d, 0x70, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x65, 0x42, 0x79, 0x12, 0x08,
 	0x0a, 0x04, 0x53, 0x41, 0x4d, 0x45, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x42, 0x45, 0x46, 0x4f,
 	0x52, 0x45, 0x10, 0x01, 0x12, 0x09, 0x0a, 0x05, 0x41, 0x46, 0x54, 0x45, 0x52, 0x10, 0x02, 0x32,
-	0xc4, 0x02, 0x0a, 0x0b, 0x54, 0x61, 0x73, 0x6b, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
-	0x2f, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x54, 0x61, 0x73, 0x6b, 0x73, 0x12, 0x16,
-	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
-	0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x06, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x73, 0x22, 0x00,
-	0x12, 0x35, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x73, 0x12, 0x1f, 0x2e, 0x47,
-	0x65, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f,
-	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x1a, 0x06, 0x2e,
-	0x54, 0x61, 0x73, 0x6b, 0x73, 0x22, 0x00, 0x12, 0x2c, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x54, 0x61,
-	0x73, 0x6b, 0x12, 0x18, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x42, 0x79, 0x49, 0x64,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x1a, 0x05, 0x2e, 0x54,
-	0x61, 0x73, 0x6b, 0x22, 0x00, 0x12, 0x2e, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54,
-	0x61, 0x73, 0x6b, 0x12, 0x17, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x1a, 0x05, 0x2e, 0x54,
-	0x61, 0x73, 0x6b, 0x22, 0x00, 0x12, 0x2e, 0x0a, 0x0a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54,
-	0x61, 0x73, 0x6b, 0x12, 0x17, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x1a, 0x05, 0x2e, 0x54,
-	0x61, 0x73, 0x6b, 0x22, 0x00, 0x12, 0x3f, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54,
-	0x61, 0x73, 0x6b, 0x12, 0x17, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x1a, 0x16, 0x2e, 0x67,
-	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45,
-	0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x42, 0x29, 0x5a, 0x27, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x54, 0x69, 0x72, 0x61, 0x74, 0x6f, 0x6d, 0x2f, 0x67, 0x69, 0x6e,
-	0x2d, 0x73, 0x74, 0x75, 0x64, 0x79, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65,
-	0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x35, 0x0a, 0x03, 0x43, 0x61, 0x74, 0x12, 0x2e, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x4d, 0x79, 0x43,
+	0x61, 0x74, 0x12, 0x10, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x79, 0x43, 0x61, 0x74, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x1a, 0x0e, 0x2e, 0x4d, 0x79, 0x43, 0x61, 0x74, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0xc4, 0x02, 0x0a, 0x0b, 0x54, 0x61, 0x73, 0x6b, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x2f, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c,
+	0x54, 0x61, 0x73, 0x6b, 0x73, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x06, 0x2e,
+	0x54, 0x61, 0x73, 0x6b, 0x73, 0x22, 0x00, 0x12, 0x35, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x54, 0x61,
+	0x73, 0x6b, 0x73, 0x12, 0x1f, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x42, 0x79, 0x43,
+	0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50,
+	0x61, 0x72, 0x61, 0x6d, 0x1a, 0x06, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x73, 0x22, 0x00, 0x12, 0x2c,
+	0x0a, 0x07, 0x47, 0x65, 0x74, 0x54, 0x61, 0x73, 0x6b, 0x12, 0x18, 0x2e, 0x47, 0x65, 0x74, 0x54,
+	0x61, 0x73, 0x6b, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x1a, 0x05, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x22, 0x00, 0x12, 0x2e, 0x0a, 0x0a,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x12, 0x17, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x1a, 0x05, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x22, 0x00, 0x12, 0x2e, 0x0a, 0x0a,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x12, 0x17, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x1a, 0x05, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x22, 0x00, 0x12, 0x3f, 0x0a, 0x0a,
+	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x12, 0x17, 0x2e, 0x44, 0x65, 0x6c,
+	0x65, 0x74, 0x65, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x42, 0x23, 0x5a,
+	0x21, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x54, 0x69, 0x72, 0x61,
+	0x74, 0x6f, 0x6d, 0x2f, 0x67, 0x69, 0x6e, 0x2d, 0x73, 0x74, 0x75, 0x64, 0x79, 0x2f, 0x67, 0x72,
+	0x70, 0x63, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_controller_gRPC_gin_study_proto_rawDescOnce sync.Once
-	file_controller_gRPC_gin_study_proto_rawDescData = file_controller_gRPC_gin_study_proto_rawDesc
+	file_gRPC_gin_study_proto_rawDescOnce sync.Once
+	file_gRPC_gin_study_proto_rawDescData = file_gRPC_gin_study_proto_rawDesc
 )
 
-func file_controller_gRPC_gin_study_proto_rawDescGZIP() []byte {
-	file_controller_gRPC_gin_study_proto_rawDescOnce.Do(func() {
-		file_controller_gRPC_gin_study_proto_rawDescData = protoimpl.X.CompressGZIP(file_controller_gRPC_gin_study_proto_rawDescData)
+func file_gRPC_gin_study_proto_rawDescGZIP() []byte {
+	file_gRPC_gin_study_proto_rawDescOnce.Do(func() {
+		file_gRPC_gin_study_proto_rawDescData = protoimpl.X.CompressGZIP(file_gRPC_gin_study_proto_rawDescData)
 	})
-	return file_controller_gRPC_gin_study_proto_rawDescData
+	return file_gRPC_gin_study_proto_rawDescData
 }
 
-var file_controller_gRPC_gin_study_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_controller_gRPC_gin_study_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_controller_gRPC_gin_study_proto_goTypes = []interface{}{
+var file_gRPC_gin_study_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_gRPC_gin_study_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_gRPC_gin_study_proto_goTypes = []interface{}{
 	(Importance)(0),                        // 0: Importance
 	(TimestampCompareBy)(0),                // 1: TimestampCompareBy
 	(CreateTaskRequestParam_Importance)(0), // 2: CreateTaskRequestParam.Importance
-	(*Task)(nil),                           // 3: Task
-	(*Tasks)(nil),                          // 4: Tasks
-	(*GetTaskByIdRequestParam)(nil),        // 5: GetTaskByIdRequestParam
-	(*GetTaskByConditionRequestParam)(nil), // 6: GetTaskByConditionRequestParam
-	(*CreateTaskRequestParam)(nil),         // 7: CreateTaskRequestParam
-	(*UpdateTaskRequestParam)(nil),         // 8: UpdateTaskRequestParam
-	(*DeleteTaskRequestParam)(nil),         // 9: DeleteTaskRequestParam
-	(*timestamppb.Timestamp)(nil),          // 10: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),                  // 11: google.protobuf.Empty
+	(*GetMyCatMessage)(nil),                // 3: GetMyCatMessage
+	(*MyCatResponse)(nil),                  // 4: MyCatResponse
+	(*Task)(nil),                           // 5: Task
+	(*Tasks)(nil),                          // 6: Tasks
+	(*GetTaskByIdRequestParam)(nil),        // 7: GetTaskByIdRequestParam
+	(*GetTaskByConditionRequestParam)(nil), // 8: GetTaskByConditionRequestParam
+	(*CreateTaskRequestParam)(nil),         // 9: CreateTaskRequestParam
+	(*UpdateTaskRequestParam)(nil),         // 10: UpdateTaskRequestParam
+	(*DeleteTaskRequestParam)(nil),         // 11: DeleteTaskRequestParam
+	(*timestamppb.Timestamp)(nil),          // 12: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),                  // 13: google.protobuf.Empty
 }
-var file_controller_gRPC_gin_study_proto_depIdxs = []int32{
+var file_gRPC_gin_study_proto_depIdxs = []int32{
 	0,  // 0: Task.importance:type_name -> Importance
-	10, // 1: Task.registered_at:type_name -> google.protobuf.Timestamp
-	10, // 2: Task.deadline:type_name -> google.protobuf.Timestamp
-	10, // 3: Task.updated_at:type_name -> google.protobuf.Timestamp
-	3,  // 4: Tasks.tasks:type_name -> Task
+	12, // 1: Task.registered_at:type_name -> google.protobuf.Timestamp
+	12, // 2: Task.deadline:type_name -> google.protobuf.Timestamp
+	12, // 3: Task.updated_at:type_name -> google.protobuf.Timestamp
+	5,  // 4: Tasks.tasks:type_name -> Task
 	0,  // 5: GetTaskByConditionRequestParam.importance:type_name -> Importance
-	10, // 6: GetTaskByConditionRequestParam.registered_at:type_name -> google.protobuf.Timestamp
+	12, // 6: GetTaskByConditionRequestParam.registered_at:type_name -> google.protobuf.Timestamp
 	1,  // 7: GetTaskByConditionRequestParam.serachTypeForRegisterdAt:type_name -> TimestampCompareBy
-	10, // 8: GetTaskByConditionRequestParam.deadline:type_name -> google.protobuf.Timestamp
+	12, // 8: GetTaskByConditionRequestParam.deadline:type_name -> google.protobuf.Timestamp
 	1,  // 9: GetTaskByConditionRequestParam.serachTypeForDeadline:type_name -> TimestampCompareBy
-	10, // 10: GetTaskByConditionRequestParam.updated_at:type_name -> google.protobuf.Timestamp
+	12, // 10: GetTaskByConditionRequestParam.updated_at:type_name -> google.protobuf.Timestamp
 	1,  // 11: GetTaskByConditionRequestParam.serachTypeForUpdatedAt:type_name -> TimestampCompareBy
 	2,  // 12: CreateTaskRequestParam.importance:type_name -> CreateTaskRequestParam.Importance
-	10, // 13: CreateTaskRequestParam.deadline:type_name -> google.protobuf.Timestamp
+	12, // 13: CreateTaskRequestParam.deadline:type_name -> google.protobuf.Timestamp
 	0,  // 14: UpdateTaskRequestParam.importance:type_name -> Importance
-	10, // 15: UpdateTaskRequestParam.deadline:type_name -> google.protobuf.Timestamp
-	11, // 16: TaskService.GetAllTasks:input_type -> google.protobuf.Empty
-	6,  // 17: TaskService.GetTasks:input_type -> GetTaskByConditionRequestParam
-	5,  // 18: TaskService.GetTask:input_type -> GetTaskByIdRequestParam
-	7,  // 19: TaskService.CreateTask:input_type -> CreateTaskRequestParam
-	8,  // 20: TaskService.UpdateTask:input_type -> UpdateTaskRequestParam
-	9,  // 21: TaskService.DeleteTask:input_type -> DeleteTaskRequestParam
-	4,  // 22: TaskService.GetAllTasks:output_type -> Tasks
-	4,  // 23: TaskService.GetTasks:output_type -> Tasks
-	3,  // 24: TaskService.GetTask:output_type -> Task
-	3,  // 25: TaskService.CreateTask:output_type -> Task
-	3,  // 26: TaskService.UpdateTask:output_type -> Task
-	11, // 27: TaskService.DeleteTask:output_type -> google.protobuf.Empty
-	22, // [22:28] is the sub-list for method output_type
-	16, // [16:22] is the sub-list for method input_type
+	12, // 15: UpdateTaskRequestParam.deadline:type_name -> google.protobuf.Timestamp
+	3,  // 16: Cat.GetMyCat:input_type -> GetMyCatMessage
+	13, // 17: TaskService.GetAllTasks:input_type -> google.protobuf.Empty
+	8,  // 18: TaskService.GetTasks:input_type -> GetTaskByConditionRequestParam
+	7,  // 19: TaskService.GetTask:input_type -> GetTaskByIdRequestParam
+	9,  // 20: TaskService.CreateTask:input_type -> CreateTaskRequestParam
+	10, // 21: TaskService.UpdateTask:input_type -> UpdateTaskRequestParam
+	11, // 22: TaskService.DeleteTask:input_type -> DeleteTaskRequestParam
+	4,  // 23: Cat.GetMyCat:output_type -> MyCatResponse
+	6,  // 24: TaskService.GetAllTasks:output_type -> Tasks
+	6,  // 25: TaskService.GetTasks:output_type -> Tasks
+	5,  // 26: TaskService.GetTask:output_type -> Task
+	5,  // 27: TaskService.CreateTask:output_type -> Task
+	5,  // 28: TaskService.UpdateTask:output_type -> Task
+	13, // 29: TaskService.DeleteTask:output_type -> google.protobuf.Empty
+	23, // [23:30] is the sub-list for method output_type
+	16, // [16:23] is the sub-list for method input_type
 	16, // [16:16] is the sub-list for extension type_name
 	16, // [16:16] is the sub-list for extension extendee
 	0,  // [0:16] is the sub-list for field type_name
 }
 
-func init() { file_controller_gRPC_gin_study_proto_init() }
-func file_controller_gRPC_gin_study_proto_init() {
-	if File_controller_gRPC_gin_study_proto != nil {
+func init() { file_gRPC_gin_study_proto_init() }
+func file_gRPC_gin_study_proto_init() {
+	if File_gRPC_gin_study_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_controller_gRPC_gin_study_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_gRPC_gin_study_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetMyCatMessage); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_gRPC_gin_study_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MyCatResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_gRPC_gin_study_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Task); i {
 			case 0:
 				return &v.state
@@ -896,7 +1039,7 @@ func file_controller_gRPC_gin_study_proto_init() {
 				return nil
 			}
 		}
-		file_controller_gRPC_gin_study_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_gRPC_gin_study_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Tasks); i {
 			case 0:
 				return &v.state
@@ -908,7 +1051,7 @@ func file_controller_gRPC_gin_study_proto_init() {
 				return nil
 			}
 		}
-		file_controller_gRPC_gin_study_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_gRPC_gin_study_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetTaskByIdRequestParam); i {
 			case 0:
 				return &v.state
@@ -920,7 +1063,7 @@ func file_controller_gRPC_gin_study_proto_init() {
 				return nil
 			}
 		}
-		file_controller_gRPC_gin_study_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_gRPC_gin_study_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetTaskByConditionRequestParam); i {
 			case 0:
 				return &v.state
@@ -932,7 +1075,7 @@ func file_controller_gRPC_gin_study_proto_init() {
 				return nil
 			}
 		}
-		file_controller_gRPC_gin_study_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_gRPC_gin_study_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateTaskRequestParam); i {
 			case 0:
 				return &v.state
@@ -944,7 +1087,7 @@ func file_controller_gRPC_gin_study_proto_init() {
 				return nil
 			}
 		}
-		file_controller_gRPC_gin_study_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_gRPC_gin_study_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateTaskRequestParam); i {
 			case 0:
 				return &v.state
@@ -956,7 +1099,7 @@ func file_controller_gRPC_gin_study_proto_init() {
 				return nil
 			}
 		}
-		file_controller_gRPC_gin_study_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_gRPC_gin_study_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteTaskRequestParam); i {
 			case 0:
 				return &v.state
@@ -973,19 +1116,391 @@ func file_controller_gRPC_gin_study_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_controller_gRPC_gin_study_proto_rawDesc,
+			RawDescriptor: file_gRPC_gin_study_proto_rawDesc,
 			NumEnums:      3,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
-		GoTypes:           file_controller_gRPC_gin_study_proto_goTypes,
-		DependencyIndexes: file_controller_gRPC_gin_study_proto_depIdxs,
-		EnumInfos:         file_controller_gRPC_gin_study_proto_enumTypes,
-		MessageInfos:      file_controller_gRPC_gin_study_proto_msgTypes,
+		GoTypes:           file_gRPC_gin_study_proto_goTypes,
+		DependencyIndexes: file_gRPC_gin_study_proto_depIdxs,
+		EnumInfos:         file_gRPC_gin_study_proto_enumTypes,
+		MessageInfos:      file_gRPC_gin_study_proto_msgTypes,
 	}.Build()
-	File_controller_gRPC_gin_study_proto = out.File
-	file_controller_gRPC_gin_study_proto_rawDesc = nil
-	file_controller_gRPC_gin_study_proto_goTypes = nil
-	file_controller_gRPC_gin_study_proto_depIdxs = nil
+	File_gRPC_gin_study_proto = out.File
+	file_gRPC_gin_study_proto_rawDesc = nil
+	file_gRPC_gin_study_proto_goTypes = nil
+	file_gRPC_gin_study_proto_depIdxs = nil
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConnInterface
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion6
+
+// CatClient is the client API for Cat service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type CatClient interface {
+	GetMyCat(ctx context.Context, in *GetMyCatMessage, opts ...grpc.CallOption) (*MyCatResponse, error)
+}
+
+type catClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCatClient(cc grpc.ClientConnInterface) CatClient {
+	return &catClient{cc}
+}
+
+func (c *catClient) GetMyCat(ctx context.Context, in *GetMyCatMessage, opts ...grpc.CallOption) (*MyCatResponse, error) {
+	out := new(MyCatResponse)
+	err := c.cc.Invoke(ctx, "/Cat/GetMyCat", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CatServer is the server API for Cat service.
+type CatServer interface {
+	GetMyCat(context.Context, *GetMyCatMessage) (*MyCatResponse, error)
+}
+
+// UnimplementedCatServer can be embedded to have forward compatible implementations.
+type UnimplementedCatServer struct {
+}
+
+func (*UnimplementedCatServer) GetMyCat(context.Context, *GetMyCatMessage) (*MyCatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMyCat not implemented")
+}
+
+func RegisterCatServer(s *grpc.Server, srv CatServer) {
+	s.RegisterService(&_Cat_serviceDesc, srv)
+}
+
+func _Cat_GetMyCat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMyCatMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatServer).GetMyCat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Cat/GetMyCat",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatServer).GetMyCat(ctx, req.(*GetMyCatMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Cat_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "Cat",
+	HandlerType: (*CatServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetMyCat",
+			Handler:    _Cat_GetMyCat_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "gRPC/gin-study.proto",
+}
+
+// TaskServiceClient is the client API for TaskService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type TaskServiceClient interface {
+	//
+	//全タスクの取得
+	GetAllTasks(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Tasks, error)
+	//
+	//条件付きタスクの取得
+	GetTasks(ctx context.Context, in *GetTaskByConditionRequestParam, opts ...grpc.CallOption) (*Tasks, error)
+	//
+	//id指定でタスクの取得
+	//・エラー返却について
+	//- NotFound：idに対応するタスクが存在しない
+	//- InvalidArgument：引数の内容が不適切
+	GetTask(ctx context.Context, in *GetTaskByIdRequestParam, opts ...grpc.CallOption) (*Task, error)
+	// タスクの新規作成
+	//・エラー返却について
+	//- InvalidArgument：引数の内容が不適切
+	CreateTask(ctx context.Context, in *CreateTaskRequestParam, opts ...grpc.CallOption) (*Task, error)
+	// タスクの更新
+	//・エラー返却について
+	//- NotFound：idに対応するタスクが存在しない
+	//- InvalidArgument：引数の内容が不適切
+	UpdateTask(ctx context.Context, in *UpdateTaskRequestParam, opts ...grpc.CallOption) (*Task, error)
+	// タスクの一件削除
+	//・エラー返却について
+	//- NotFound：idに対応するタスクが存在しない
+	//- InvalidArgument：引数の内容が不適切
+	DeleteTask(ctx context.Context, in *DeleteTaskRequestParam, opts ...grpc.CallOption) (*emptypb.Empty, error)
+}
+
+type taskServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTaskServiceClient(cc grpc.ClientConnInterface) TaskServiceClient {
+	return &taskServiceClient{cc}
+}
+
+func (c *taskServiceClient) GetAllTasks(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Tasks, error) {
+	out := new(Tasks)
+	err := c.cc.Invoke(ctx, "/TaskService/GetAllTasks", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) GetTasks(ctx context.Context, in *GetTaskByConditionRequestParam, opts ...grpc.CallOption) (*Tasks, error) {
+	out := new(Tasks)
+	err := c.cc.Invoke(ctx, "/TaskService/GetTasks", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) GetTask(ctx context.Context, in *GetTaskByIdRequestParam, opts ...grpc.CallOption) (*Task, error) {
+	out := new(Task)
+	err := c.cc.Invoke(ctx, "/TaskService/GetTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) CreateTask(ctx context.Context, in *CreateTaskRequestParam, opts ...grpc.CallOption) (*Task, error) {
+	out := new(Task)
+	err := c.cc.Invoke(ctx, "/TaskService/CreateTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) UpdateTask(ctx context.Context, in *UpdateTaskRequestParam, opts ...grpc.CallOption) (*Task, error) {
+	out := new(Task)
+	err := c.cc.Invoke(ctx, "/TaskService/UpdateTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) DeleteTask(ctx context.Context, in *DeleteTaskRequestParam, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/TaskService/DeleteTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TaskServiceServer is the server API for TaskService service.
+type TaskServiceServer interface {
+	//
+	//全タスクの取得
+	GetAllTasks(context.Context, *emptypb.Empty) (*Tasks, error)
+	//
+	//条件付きタスクの取得
+	GetTasks(context.Context, *GetTaskByConditionRequestParam) (*Tasks, error)
+	//
+	//id指定でタスクの取得
+	//・エラー返却について
+	//- NotFound：idに対応するタスクが存在しない
+	//- InvalidArgument：引数の内容が不適切
+	GetTask(context.Context, *GetTaskByIdRequestParam) (*Task, error)
+	// タスクの新規作成
+	//・エラー返却について
+	//- InvalidArgument：引数の内容が不適切
+	CreateTask(context.Context, *CreateTaskRequestParam) (*Task, error)
+	// タスクの更新
+	//・エラー返却について
+	//- NotFound：idに対応するタスクが存在しない
+	//- InvalidArgument：引数の内容が不適切
+	UpdateTask(context.Context, *UpdateTaskRequestParam) (*Task, error)
+	// タスクの一件削除
+	//・エラー返却について
+	//- NotFound：idに対応するタスクが存在しない
+	//- InvalidArgument：引数の内容が不適切
+	DeleteTask(context.Context, *DeleteTaskRequestParam) (*emptypb.Empty, error)
+}
+
+// UnimplementedTaskServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedTaskServiceServer struct {
+}
+
+func (*UnimplementedTaskServiceServer) GetAllTasks(context.Context, *emptypb.Empty) (*Tasks, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllTasks not implemented")
+}
+func (*UnimplementedTaskServiceServer) GetTasks(context.Context, *GetTaskByConditionRequestParam) (*Tasks, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTasks not implemented")
+}
+func (*UnimplementedTaskServiceServer) GetTask(context.Context, *GetTaskByIdRequestParam) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTask not implemented")
+}
+func (*UnimplementedTaskServiceServer) CreateTask(context.Context, *CreateTaskRequestParam) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTask not implemented")
+}
+func (*UnimplementedTaskServiceServer) UpdateTask(context.Context, *UpdateTaskRequestParam) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
+}
+func (*UnimplementedTaskServiceServer) DeleteTask(context.Context, *DeleteTaskRequestParam) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTask not implemented")
+}
+
+func RegisterTaskServiceServer(s *grpc.Server, srv TaskServiceServer) {
+	s.RegisterService(&_TaskService_serviceDesc, srv)
+}
+
+func _TaskService_GetAllTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).GetAllTasks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TaskService/GetAllTasks",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).GetAllTasks(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_GetTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaskByConditionRequestParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).GetTasks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TaskService/GetTasks",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).GetTasks(ctx, req.(*GetTaskByConditionRequestParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_GetTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaskByIdRequestParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).GetTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TaskService/GetTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).GetTask(ctx, req.(*GetTaskByIdRequestParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_CreateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTaskRequestParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).CreateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TaskService/CreateTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).CreateTask(ctx, req.(*CreateTaskRequestParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_UpdateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaskRequestParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).UpdateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TaskService/UpdateTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).UpdateTask(ctx, req.(*UpdateTaskRequestParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_DeleteTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTaskRequestParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).DeleteTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TaskService/DeleteTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).DeleteTask(ctx, req.(*DeleteTaskRequestParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _TaskService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "TaskService",
+	HandlerType: (*TaskServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetAllTasks",
+			Handler:    _TaskService_GetAllTasks_Handler,
+		},
+		{
+			MethodName: "GetTasks",
+			Handler:    _TaskService_GetTasks_Handler,
+		},
+		{
+			MethodName: "GetTask",
+			Handler:    _TaskService_GetTask_Handler,
+		},
+		{
+			MethodName: "CreateTask",
+			Handler:    _TaskService_CreateTask_Handler,
+		},
+		{
+			MethodName: "UpdateTask",
+			Handler:    _TaskService_UpdateTask_Handler,
+		},
+		{
+			MethodName: "DeleteTask",
+			Handler:    _TaskService_DeleteTask_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "gRPC/gin-study.proto",
 }

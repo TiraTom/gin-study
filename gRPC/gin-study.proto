@@ -1,9 +1,20 @@
 syntax = "proto3";
 
-option go_package = "github.com/Tiratom/gin-study/controller";
+option go_package = "github.com/Tiratom/gin-study/grpc";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+
+service Cat {
+  rpc GetMyCat (GetMyCatMessage) returns (MyCatResponse) {}
+}
+message GetMyCatMessage {
+  string target_cat = 1;
+}
+message MyCatResponse {
+  string name = 1;
+  string kind = 2;
+}
 
 service TaskService {
   /* 
