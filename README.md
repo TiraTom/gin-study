@@ -1,6 +1,7 @@
 # gin-study
 
 Go 言語での勉強用 CRUD(TODO 管理)アプリ
+gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用って感じ
 
 ## 構成案
 
