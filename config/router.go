@@ -11,9 +11,12 @@ import (
 func GetRouter() *gin.Engine {
 	engine := gin.Default()
 
+	// ダミーメソッド（叩けるか試すために作った）
 	engine.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"message": "hello"})
 	})
+
+	// ダミーメソッド（叩けるか試すために作った）
 	engine.GET("/cat", func(ctx *gin.Context) {
 		cs := &controller.CatServer{}
 		msg := &pb.GetMyCatMessage{TargetCat: "tama"}

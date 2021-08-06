@@ -13,7 +13,7 @@ Go 言語での勉強用 CRUD(TODO 管理)アプリ
 - [x] MySQL コンテナの立ち上げ（my.cnf 準備含む）
 - [x] API 設計(gRPC) <https://user-first.ikyu.co.jp/entry/2019/06/17/100000>あたりを参考にしてみる
 - [x] ダミーのメソッドでサーバー起動（CatServer）
-- [ ] 実際の API の定義に従って受け口だけ用意
+- [x] 実際の API の定義に従って受け口だけ用意
 - [ ] ログ出力設定
 - [ ] DB 設計
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
