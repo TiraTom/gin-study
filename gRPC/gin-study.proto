@@ -5,7 +5,7 @@ option go_package = "github.com/Tiratom/gin-study/grpc";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
-service Cat {
+service CatService {
   rpc GetMyCat (GetMyCatMessage) returns (MyCatResponse) {}
 }
 message GetMyCatMessage {
@@ -17,21 +17,21 @@ message MyCatResponse {
 }
 
 service TaskService {
-  /* 
+  /*
   全タスクの取得
   */
   rpc GetAllTasks (google.protobuf.Empty) returns (Tasks) {}
 
-  /* 
+  /*
   条件付きタスクの取得
   */
   rpc GetTasks (GetTaskByConditionRequestParam) returns (Tasks) {}
 
-  /* 
-  id指定でタスクの取得   
-  ・エラー返却について  
-  - NotFound：idに対応するタスクが存在しない  
-  - InvalidArgument：引数の内容が不適切  
+  /*
+  id指定でタスクの取得
+  ・エラー返却について
+  - NotFound：idに対応するタスクが存在しない
+  - InvalidArgument：引数の内容が不適切
   */
   rpc GetTask (GetTaskByIdRequestParam) returns (Task) {}
 
@@ -100,7 +100,7 @@ message GetTaskByConditionRequestParam {
 message CreateTaskRequestParam {
   string name = 1;
   string details = 2;
-  enum Importance {  
+  enum Importance {
     MEDIUM = 0;
     VERY_HIGH = 1;
     HIGH = 2;
@@ -126,7 +126,7 @@ message DeleteTaskRequestParam {
   string id = 1;
 }
 
-enum Importance {  
+enum Importance {
   MEDIUM = 0;
   VERY_HIGH = 1;
   HIGH = 2;

@@ -18,7 +18,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	client := gr.NewCatClient(conn)
+	client := gr.NewCatServiceClient(conn)
 	message := &gr.GetMyCatMessage{TargetCat: "tama"}
 	res, err := client.GetMyCat(context.TODO(), message)
 

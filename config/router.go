@@ -3,8 +3,8 @@ package config
 import (
 	"net/http"
 
-	controller "github.com/Tiratom/gin-study/controller"
-	pb "github.com/Tiratom/gin-study/grpc"
+	gr "github.com/Tiratom/gin-study/grpc"
+	"github.com/Tiratom/gin-study/presentation"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,8 +18,8 @@ func GetRouter() *gin.Engine {
 
 	// ダミーメソッド（叩けるか試すために作った）
 	engine.GET("/cat", func(ctx *gin.Context) {
-		cs := &controller.CatServer{}
-		msg := &pb.GetMyCatMessage{TargetCat: "tama"}
+		cs := &presentation.CatServiceServer{}
+		msg := &gr.GetMyCatMessage{TargetCat: "tama"}
 		rsp, err := cs.GetMyCat(ctx, msg)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"message": "ERROR"})

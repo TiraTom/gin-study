@@ -1,4 +1,4 @@
-package controller
+package presentation
 
 import (
 	"context"
@@ -7,14 +7,14 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	grpc "github.com/Tiratom/gin-study/grpc"
+	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/google/uuid"
 )
 
 type TaskServiceServer struct {
 }
 
-func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*grpc.Tasks, error) {
+func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
 
 	id, err := uuid.NewRandom()
 	if err != nil {
@@ -28,13 +28,13 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
-	return &grpc.Tasks{
-		Tasks: []*grpc.Task{
+	return &gr.Tasks{
+		Tasks: []*gr.Task{
 			{
 				Id:           id.String(),
 				Name:         "ダミー",
 				Details:      "詳細",
-				Importance:   grpc.Importance_HIGH,
+				Importance:   gr.Importance_HIGH,
 				RegisteredAt: nowTimestamp,
 				Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
 				UpdatedAt:    nowTimestamp,
@@ -43,7 +43,7 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 	}, nil
 }
 
-func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *grpc.GetTaskByConditionRequestParam) (*grpc.Tasks, error) {
+func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByConditionRequestParam) (*gr.Tasks, error) {
 	id, err := uuid.NewRandom()
 	if err != nil {
 		return nil, err
@@ -56,13 +56,13 @@ func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *grpc.GetTaskB
 
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
-	return &grpc.Tasks{
-		Tasks: []*grpc.Task{
+	return &gr.Tasks{
+		Tasks: []*gr.Task{
 			{
 				Id:           id.String(),
 				Name:         "ダミー",
 				Details:      "詳細",
-				Importance:   grpc.Importance_HIGH,
+				Importance:   gr.Importance_HIGH,
 				RegisteredAt: nowTimestamp,
 				Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
 				UpdatedAt:    nowTimestamp,
@@ -71,7 +71,7 @@ func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *grpc.GetTaskB
 	}, nil
 }
 
-func (tss *TaskServiceServer) GetTask(ctx context.Context, param *grpc.GetTaskByIdRequestParam) (*grpc.Task, error) {
+func (tss *TaskServiceServer) GetTask(ctx context.Context, param *gr.GetTaskByIdRequestParam) (*gr.Task, error) {
 
 	id, err := uuid.NewRandom()
 	if err != nil {
@@ -85,18 +85,18 @@ func (tss *TaskServiceServer) GetTask(ctx context.Context, param *grpc.GetTaskBy
 
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
-	return &grpc.Task{
+	return &gr.Task{
 		Id:           id.String(),
 		Name:         "ダミー",
 		Details:      "詳細",
-		Importance:   grpc.Importance_HIGH,
+		Importance:   gr.Importance_HIGH,
 		RegisteredAt: nowTimestamp,
 		Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
 		UpdatedAt:    nowTimestamp,
 	}, nil
 }
 
-func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *grpc.CreateTaskRequestParam) (*grpc.Task, error) {
+func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *gr.CreateTaskRequestParam) (*gr.Task, error) {
 	id, err := uuid.NewRandom()
 	if err != nil {
 		return nil, err
@@ -109,18 +109,18 @@ func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *grpc.Create
 
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
-	return &grpc.Task{
+	return &gr.Task{
 		Id:           id.String(),
 		Name:         "ダミー",
 		Details:      "詳細",
-		Importance:   grpc.Importance_HIGH,
+		Importance:   gr.Importance_HIGH,
 		RegisteredAt: nowTimestamp,
 		Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
 		UpdatedAt:    nowTimestamp,
 	}, nil
 }
 
-func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *grpc.UpdateTaskRequestParam) (*grpc.Task, error) {
+func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTaskRequestParam) (*gr.Task, error) {
 	id, err := uuid.NewRandom()
 	if err != nil {
 		return nil, err
@@ -133,17 +133,17 @@ func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *grpc.Update
 
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
-	return &grpc.Task{
+	return &gr.Task{
 		Id:           id.String(),
 		Name:         "ダミー",
 		Details:      "詳細",
-		Importance:   grpc.Importance_HIGH,
+		Importance:   gr.Importance_HIGH,
 		RegisteredAt: nowTimestamp,
 		Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
 		UpdatedAt:    nowTimestamp,
 	}, nil
 }
 
-func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *grpc.DeleteTaskRequestParam) (*emptypb.Empty, error) {
+func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTaskRequestParam) (*emptypb.Empty, error) {
 	return &emptypb.Empty{}, nil
 }

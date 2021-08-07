@@ -1,4 +1,4 @@
-package controller
+package presentation
 
 import (
 	"context"
@@ -7,11 +7,11 @@ import (
 	pb "github.com/Tiratom/gin-study/grpc"
 )
 
-type CatServer struct {
+type CatServiceServer struct {
 }
 
 // https://qiita.com/marnie_ms4/items/4582a1a0db363fe246f3　参考にお試し実装
-func (c *CatServer) GetMyCat(ctx context.Context, msg *pb.GetMyCatMessage) (*pb.MyCatResponse, error) {
+func (c *CatServiceServer) GetMyCat(ctx context.Context, msg *pb.GetMyCatMessage) (*pb.MyCatResponse, error) {
 	switch msg.TargetCat {
 	case "tama":
 		//たまはメインクーン
