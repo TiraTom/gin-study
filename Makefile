@@ -2,6 +2,9 @@
 grpc: FORCE
 	protoc --go_out=plugins=grpc:./gRPC --go_opt=module=github.com/Tiratom/gin-study/grpc ./gRPC/gin-study.proto
 
+grpcDoc: FORCE
+	protoc --doc_out=./doc --doc_opt=markdown,api.md ./gRPC/gin-study.proto
+
 # サーバー起動
 run:
 	go run main.go
