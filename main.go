@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net"
 
 	gr "github.com/Tiratom/gin-study/grpc"
@@ -42,11 +41,11 @@ func main() {
 	// gRPCサーバーの起動設定
 	listenPort, err := net.Listen("tcp", ":8081")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	err = server.Serve(listenPort)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
