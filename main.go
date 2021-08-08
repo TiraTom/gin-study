@@ -7,7 +7,6 @@ import (
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
-	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -19,14 +18,15 @@ func main() {
 
 	// middlewareの設定
 	server := grpc.NewServer(
-		grpc.StreamInterceptor(
-			grpc_middleware.ChainStreamServer(
-				grpc_zap.StreamServerInterceptor(middleware.GetZapLogger()),
-			),
-		),
+		// TODO: 処理終わりにリクエストIDなしのログが出てしまうので一旦コメントアウト
+		// grpc.StreamInterceptor(
+		// 	grpc_middleware.ChainStreamServer(
+		// 		grpc_zap.StreamServerInterceptor(middleware.GetZapLogger()),
+		// 	),
+		// ),
 		grpc.UnaryInterceptor(
 			grpc_middleware.ChainUnaryServer(
-				grpc_zap.UnaryServerInterceptor(middleware.GetZapLogger()),
+				middleware.GetZapLoggerUnaryInterceptor(middleware.GetZapLogger()),
 			),
 		),
 	)
