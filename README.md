@@ -15,7 +15,9 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] API 設計(gRPC) <https://user-first.ikyu.co.jp/entry/2019/06/17/100000>あたりを参考にしてみる
 - [x] ダミーのメソッドでサーバー起動（CatServer）
 - [x] 実際の API の定義に従って受け口だけ用意
-- [x] ログ出力設定
+- [x] リクエストのログ出力設定
+- [ ] DI 設定
+- [ ] interceptor 以外でも zap でログが出せるようにする
 - [ ] DB 設計
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
 - [ ] READ 機能の実装
