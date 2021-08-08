@@ -17,3 +17,5 @@
 
 !docker/mysql/my.cnf
 docker/mysql/
+
+log/
