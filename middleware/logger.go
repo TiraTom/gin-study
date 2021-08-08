@@ -26,6 +26,7 @@ func GetZapLogger() *zap.Logger {
 }
 
 // readZapConfig zap用の設定ファイルを読み込む
+// <https://qiita.com/emonuh/items/28dbee9bf2fe51d28153>を参考にした
 func readZapConfig() *zap.Config {
 	configJson, err := ioutil.ReadFile("config/zap_config.json")
 	if err != nil {
