@@ -7,6 +7,7 @@ import (
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -16,17 +17,20 @@ func main() {
 	// r := config.GetRouter()
 	// r.Run(":8080")
 
+	// グローバルロガーの設定
+	zap.ReplaceGlobals(middleware.GetZapLogger())
+
 	// middlewareの設定
 	server := grpc.NewServer(
 		// TODO: 処理終わりにリクエストIDなしのログが出てしまうので一旦コメントアウト
 		// grpc.StreamInterceptor(
 		// 	grpc_middleware.ChainStreamServer(
-		// 		grpc_zap.StreamServerInterceptor(middleware.GetZapLogger()),
+		// 		grpc_zap.StreamServerInterceptor(),
 		// 	),
 		// ),
 		grpc.UnaryInterceptor(
 			grpc_middleware.ChainUnaryServer(
-				middleware.GetZapLoggerUnaryInterceptor(middleware.GetZapLogger()),
+				middleware.GetZapLoggerUnaryInterceptor(),
 			),
 		),
 	)

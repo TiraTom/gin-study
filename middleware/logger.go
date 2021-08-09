@@ -3,16 +3,11 @@ package middleware
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 
-	"github.com/google/uuid"
+	"github.com/Tiratom/gin-study/config"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-)
-
-const (
-	CONTEXT_KEY_FOR_REQUEST_ID = "RequestID"
 )
 
 func GetZapLogger() *zap.Logger {
@@ -44,23 +39,16 @@ func readZapConfig() *zap.Config {
 
 // GetZapLoggerInterceptor リクエスト詳細をログに出せるようにしたインターセプター。
 // <https://note.com/dd_techblog/n/nd902b7ef8088>や<https://www.sambaiz.net/article/174/>を参考にした
-func GetZapLoggerUnaryInterceptor(zapLogger *zap.Logger) grpc.UnaryServerInterceptor {
+func GetZapLoggerUnaryInterceptor() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-		var requestID = ""
-		uuid, err := uuid.NewRandom()
+		requestID := config.CreateNewRequestID()
 
-		if err != nil {
-			requestID = "cannot create requestID"
-		} else {
-			requestID = uuid.String()
-		}
-
-		newCtx := context.WithValue(ctx, CONTEXT_KEY_FOR_REQUEST_ID, requestID)
-		zapLogger.Info(fmt.Sprintf("[REQUEST_START] RequestID=%s", requestID))
+		newCtx := context.WithValue(ctx, config.CONTEXT_KEY_FOR_REQUEST_ID, requestID)
+		zap.L().Info("[REQUEST_START]", zap.String(config.LOG_KEY_NAME_FOR_REQUEST_ID, requestID.Value))
 
 		resp, err := handler(newCtx, req)
 
-		zapLogger.Info(fmt.Sprintf("[REQUEST_END] RequestID=%s", requestID))
+		zap.L().Info("[REQUEST_END]", zap.String(config.LOG_KEY_NAME_FOR_REQUEST_ID, requestID.Value))
 
 		return resp, err
 	}

@@ -4,9 +4,11 @@ import (
 	"context"
 	"time"
 
+	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
+	"github.com/Tiratom/gin-study/config"
 	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/google/uuid"
 )
@@ -15,6 +17,8 @@ type TaskServiceServer struct {
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
+
+	zap.L().Info("HOGEHOGE", zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
 
 	id, err := uuid.NewRandom()
 	if err != nil {
@@ -27,6 +31,8 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 	}
 
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
+
+	zap.L().Info("HUGAHUGA", zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
 
 	return &gr.Tasks{
 		Tasks: []*gr.Task{
