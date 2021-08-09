@@ -17,7 +17,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] 実際の API の定義に従って受け口だけ用意
 - [x] リクエストのログ出力設定
 - [ ] DI 設定
-- [ ] interceptor 以外でも zap でログが出せるようにする
+- [x] interceptor 以外でも zap でログが出せるようにする
 - [ ] DB 設計
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
 - [ ] READ 機能の実装
