@@ -10,6 +10,22 @@ import (
 	"google.golang.org/grpc"
 )
 
+type ZapLogger struct {
+}
+
+func (l ZapLogger) Info(ctx context.Context, msg string) {
+	zap.L().Info(msg, zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
+}
+
+func (l ZapLogger) Warn(ctx context.Context, msg string) {
+	zap.L().Warn(msg, zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
+}
+
+func (l ZapLogger) Error(ctx context.Context, msg string) {
+	zap.L().Error(msg, zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
+}
+
+// GetZapLogger zapのロガーを取得する
 func GetZapLogger() *zap.Logger {
 
 	zapLogger, err := readZapConfig().Build()
@@ -52,4 +68,8 @@ func GetZapLoggerUnaryInterceptor() grpc.UnaryServerInterceptor {
 
 		return resp, err
 	}
+}
+
+func NewZapLogger() *ZapLogger {
+	return &ZapLogger{}
 }

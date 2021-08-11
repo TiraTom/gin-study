@@ -16,11 +16,12 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] ダミーのメソッドでサーバー起動（CatServer）
 - [x] 実際の API の定義に従って受け口だけ用意
 - [x] リクエストのログ出力設定
-- [ ] DI 設定
 - [x] interceptor 以外でも zap でログが出せるようにする
-- [ ] DB 設計
+- [ ] 環境変数の読み込み設定
+- [ ] DB 設定
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
 - [ ] READ 機能の実装
+- [x] DI 設定
 - [ ] CREATE 機能の実装
 - [ ] UPDATE 機能の実装
 - [ ] DELETE 機能の実装

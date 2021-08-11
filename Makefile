@@ -16,4 +16,8 @@ hello1:
 hello2:
 	grpcurl -plaintext localhost:8081 TaskService/GetAllTasks
 
+# DI用ファイル作成
+di: FORCE
+	wire di/wire.go
+
 FORCE:

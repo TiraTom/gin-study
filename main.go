@@ -3,6 +3,7 @@ package main
 import (
 	"net"
 
+	"github.com/Tiratom/gin-study/di"
 	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
@@ -37,7 +38,7 @@ func main() {
 
 	// サービスの登録
 	gr.RegisterCatServiceServer(server, &presentation.CatServiceServer{})
-	gr.RegisterTaskServiceServer(server, &presentation.TaskServiceServer{})
+	gr.RegisterTaskServiceServer(server, di.InitializeTaskServiceServer())
 
 	// grpcurlコマンドで叩けるようにリフレクションサービスを登録
 	reflection.Register(server)

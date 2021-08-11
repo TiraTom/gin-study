@@ -4,21 +4,21 @@ import (
 	"context"
 	"time"
 
-	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/Tiratom/gin-study/config"
 	gr "github.com/Tiratom/gin-study/grpc"
+	"github.com/Tiratom/gin-study/middleware"
 	"github.com/google/uuid"
 )
 
 type TaskServiceServer struct {
+	log *middleware.ZapLogger
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
 
-	zap.L().Info("HOGEHOGE", zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
+	tss.log.Info(ctx, "HOGEHOGE")
 
 	id, err := uuid.NewRandom()
 	if err != nil {
@@ -32,7 +32,7 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
-	zap.L().Info("HUGAHUGA", zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
+	tss.log.Info(ctx, "HUGAHUGA")
 
 	return &gr.Tasks{
 		Tasks: []*gr.Task{
@@ -152,4 +152,8 @@ func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTa
 
 func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTaskRequestParam) (*emptypb.Empty, error) {
 	return &emptypb.Empty{}, nil
+}
+
+func NewTaskServiceServer(log *middleware.ZapLogger) *TaskServiceServer {
+	return &TaskServiceServer{log}
 }
