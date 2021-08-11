@@ -5,9 +5,9 @@ grpc: FORCE
 grpcDoc: FORCE
 	protoc --doc_out=./doc --doc_opt=markdown,api.md ./gRPC/gin-study.proto
 
-# サーバー起動
+# ローカル環境設定でのサーバー起動
 run:
-	go run main.go
+	ENV=local go run main.go
 
 # gRPCサーバーにお試しリクエストを送る（main.go内でリフレクションサービスを有効にしていない版）
 hello1:
