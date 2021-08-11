@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"net"
 
+	"github.com/Tiratom/gin-study/config"
 	"github.com/Tiratom/gin-study/di"
 	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/middleware"
@@ -43,8 +45,11 @@ func main() {
 	// grpcurlコマンドで叩けるようにリフレクションサービスを登録
 	reflection.Register(server)
 
+	// 環境変数読み込み
+	env := config.NewEnvironment()
+
 	// gRPCサーバーの起動設定
-	listenPort, err := net.Listen("tcp", ":8081")
+	listenPort, err := net.Listen("tcp", fmt.Sprintf(":%s", env.APP_PORT_NUM))
 	if err != nil {
 		panic(err)
 	}
