@@ -27,7 +27,7 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 
 	tss.log.Info(ctx, "HOGEHOGE")
 
-	// TODO とりあえずDB接続と値取得のテスト
+	// TODO 後で消す　とりあえずDB接続と値取得のテスト
 	hoge := infrastructure.NewImportanceImpl(config.NewDB(config.NewEnvironment()))
 	huga := hoge.GetAll()
 	fmt.Println(huga)
