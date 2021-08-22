@@ -8,11 +8,11 @@ import (
 )
 
 type DB struct {
-	env *Environment
+	Gdb *gorm.DB
 }
 
-func (d *DB) GormConnect() *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/gin_study", d.env.DB_USER, d.env.DB_PASSWORD, d.env.DB_ADDRESS)
+func NewDB(env *Environment) *DB {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/gin_study", env.DB_USER, env.DB_PASSWORD, env.DB_ADDRESS)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
@@ -23,13 +23,9 @@ func (d *DB) GormConnect() *gorm.DB {
 	if err != nil {
 		panic(err)
 	}
-	sqlDB.SetConnMaxLifetime(d.env.DB_CONNECTION_MAX_LIFE_TIME)
-	sqlDB.SetMaxOpenConns(d.env.DB_MAX_OPEN_CONNECTION)
-	sqlDB.SetConnMaxIdleTime(d.env.DB_CONNECTION_MAX_IDLE_TIME)
+	sqlDB.SetConnMaxLifetime(env.DB_CONNECTION_MAX_LIFE_TIME)
+	sqlDB.SetMaxOpenConns(env.DB_MAX_OPEN_CONNECTION)
+	sqlDB.SetConnMaxIdleTime(env.DB_CONNECTION_MAX_IDLE_TIME)
 
-	return db
-}
-
-func NewDB(env *Environment) *DB {
-	return &DB{env}
+	return &DB{db}
 }

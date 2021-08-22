@@ -11,7 +11,7 @@ type ImportanceImpl struct {
 
 func (ii *ImportanceImpl) GetAll() *[]domain.Importance {
 	result := &[]domain.Importance{}
-	ii.db.GormConnect().Find(&result)
+	ii.db.Gdb.Find(&result)
 
 	return result
 }
