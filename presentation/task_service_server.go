@@ -8,19 +8,15 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/Tiratom/gin-study/config"
 	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/infrastructure"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/google/uuid"
 )
 
-// type TaskServiceServer struct {
-// 	log *middleware.ZapLogger
-// 	i   *domain.ImportanceInterface
-// }
 type TaskServiceServer struct {
 	log *middleware.ZapLogger
+	i   infrastructure.ImportanceRepository
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
@@ -28,9 +24,8 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 	tss.log.Info(ctx, "HOGEHOGE")
 
 	// TODO 後で消す　とりあえずDB接続と値取得のテスト
-	hoge := infrastructure.NewImportanceImpl(config.NewDB(config.NewEnvironment()))
-	huga := hoge.GetAll()
-	fmt.Println(huga)
+	piyo := tss.i.GetAll()
+	fmt.Println(piyo)
 
 	id, err := uuid.NewRandom()
 	if err != nil {
@@ -166,9 +161,6 @@ func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTa
 	return &emptypb.Empty{}, nil
 }
 
-// func NewTaskServiceServer(log *middleware.ZapLogger, i *domain.ImportanceInterface) *TaskServiceServer {
-// 	return &TaskServiceServer{log, i}
-// }
-func NewTaskServiceServer(log *middleware.ZapLogger) *TaskServiceServer {
-	return &TaskServiceServer{log}
+func NewTaskServiceServer(log *middleware.ZapLogger, i infrastructure.ImportanceRepository) *TaskServiceServer {
+	return &TaskServiceServer{log, i}
 }
