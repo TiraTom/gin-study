@@ -1,10 +1,21 @@
+GRANT SELECT,UPDATE ON gin_study.* to 'docker'@'%';
+
 CREATE DATABASE gin_study;
 
 CREATE TABLE gin_study.importances (
-	id int PRIMARY KEY COMMENT '重要度ID',
+	id int PRIMARY KEY AUTO_INCREMENT COMMENT '重要度ID',
 	name CHAR(255) NOT NULL COMMENT '重要度ラベル',
 	level int NOT NULL COMMENT '重要度'
 ) COMMENT '重要度';
+
+INSERT INTO gin_study.importances
+	(name, level)
+	VALUES
+	("MEDIUM", 1),
+	("VERY_HIGH", 4),
+	("HIGH", 3),
+	("LOW", 2);
+
 
 CREATE TABLE gin_study.tasks (
   id CHAR(32) PRIMARY KEY COMMENT 'タスクID',

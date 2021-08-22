@@ -2,16 +2,23 @@ package presentation
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
+	"github.com/Tiratom/gin-study/config"
 	gr "github.com/Tiratom/gin-study/grpc"
+	"github.com/Tiratom/gin-study/infrastructure"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/google/uuid"
 )
 
+// type TaskServiceServer struct {
+// 	log *middleware.ZapLogger
+// 	i   *domain.ImportanceInterface
+// }
 type TaskServiceServer struct {
 	log *middleware.ZapLogger
 }
@@ -19,6 +26,11 @@ type TaskServiceServer struct {
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
 
 	tss.log.Info(ctx, "HOGEHOGE")
+
+	// TODO とりあえずDB接続と値取得のテスト
+	hoge := infrastructure.NewImportanceImpl(config.NewDB(config.NewEnvironment()))
+	huga := hoge.GetAll()
+	fmt.Println(huga)
 
 	id, err := uuid.NewRandom()
 	if err != nil {
@@ -154,6 +166,9 @@ func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTa
 	return &emptypb.Empty{}, nil
 }
 
+// func NewTaskServiceServer(log *middleware.ZapLogger, i *domain.ImportanceInterface) *TaskServiceServer {
+// 	return &TaskServiceServer{log, i}
+// }
 func NewTaskServiceServer(log *middleware.ZapLogger) *TaskServiceServer {
 	return &TaskServiceServer{log}
 }

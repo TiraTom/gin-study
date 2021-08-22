@@ -13,6 +13,7 @@ type Environment struct {
 	APP_PORT_NUM                string        `default:"8081"`
 	DB_USER                     string        `required:"true"`
 	DB_PASSWORD                 string        `required:"true"`
+	DB_ADDRESS                  string        `required:"true"`
 	DB_CONNECTION_MAX_LIFE_TIME time.Duration `default:"10s"`
 	DB_MAX_OPEN_CONNECTION      int           `default:"10"`
 	DB_CONNECTION_MAX_IDLE_TIME time.Duration `default:"10s"`
