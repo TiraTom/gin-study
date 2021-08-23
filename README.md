@@ -19,7 +19,10 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] interceptor 以外でも zap でログが出せるようにする
 - [x] DI 設定　参考：<https://christina04.hatenablog.com/entry/google-wire>
 - [x] 環境変数の読み込み設定
-- [ ] DB 設定
+- [x] DB 設定
+- [ ] GORM 設定
+- [ ] マイグレーションツールの設定
+- [ ] フォーマットとか lint 系の設定
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
 - [ ] READ 機能の実装
 - [ ] CREATE 機能の実装
