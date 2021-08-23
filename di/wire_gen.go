@@ -34,13 +34,13 @@ func InitializeImportanceRepository() *infrastructure.ImportanceRepository {
 
 func InitializeImportanceRepositoryInterface() repository_interface.Importance {
 	db := InitializeDB()
-	importanceRepositoryInterface := repository_interface.NewImportance(db)
-	return importanceRepositoryInterface
+	importance := repository_interface.NewImportance(db)
+	return importance
 }
 
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
 	zapLogger := middleware.NewZapLogger()
-	importanceRepositoryInterface := InitializeImportanceRepositoryInterface()
-	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, importanceRepositoryInterface)
+	importance := InitializeImportanceRepositoryInterface()
+	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, importance)
 	return taskServiceServer
 }
