@@ -2,7 +2,6 @@ package presentation
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -10,50 +9,25 @@ import (
 
 	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/middleware"
-	repository_interface "github.com/Tiratom/gin-study/repository_interface"
+	"github.com/Tiratom/gin-study/usecase"
 	"github.com/google/uuid"
 )
 
 type TaskServiceServer struct {
 	log *middleware.ZapLogger
-	ir  repository_interface.Importance
+	gtu *usecase.GetTask
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
 
 	tss.log.Info(ctx, "HOGEHOGE")
 
-	// TODO 後で消す　とりあえずDB接続と値取得のテスト
-	piyo := tss.ir.GetAll()
-	fmt.Println(piyo)
-
-	id, err := uuid.NewRandom()
+	allTasks, err := tss.gtu.GetAllTasks()
 	if err != nil {
 		return nil, err
 	}
 
-	tokyo, err := time.LoadLocation("Asia/Tokyo")
-	if err != nil {
-		return nil, err
-	}
-
-	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
-
-	tss.log.Info(ctx, "HUGAHUGA")
-
-	return &gr.Tasks{
-		Tasks: []*gr.Task{
-			{
-				Id:           id.String(),
-				Name:         "ダミー",
-				Details:      "詳細",
-				Importance:   gr.Importance_HIGH,
-				RegisteredAt: nowTimestamp,
-				Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
-				UpdatedAt:    nowTimestamp,
-			},
-		},
-	}, nil
+	return allTasks, nil
 }
 
 func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByConditionRequestParam) (*gr.Tasks, error) {
@@ -161,6 +135,6 @@ func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTa
 	return &emptypb.Empty{}, nil
 }
 
-func NewTaskServiceServer(log *middleware.ZapLogger, ir repository_interface.Importance) *TaskServiceServer {
-	return &TaskServiceServer{log, ir}
+func NewTaskServiceServer(log *middleware.ZapLogger, gtu *usecase.GetTask) *TaskServiceServer {
+	return &TaskServiceServer{log, gtu}
 }

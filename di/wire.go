@@ -4,10 +4,11 @@ package di
 
 import (
 	"github.com/Tiratom/gin-study/config"
-	"github.com/Tiratom/gin-study/infrastructure"
+	infrastructure "github.com/Tiratom/gin-study/infrastructure/repository"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
 	"github.com/Tiratom/gin-study/repository_interface"
+	"github.com/Tiratom/gin-study/usecase"
 	"github.com/google/wire"
 )
 
@@ -31,7 +32,17 @@ func InitializeImportanceRepositoryInterface() repository_interface.Importance {
 	return nil
 }
 
+func InitializeTaskRepositoryInterface() repository_interface.Task {
+	wire.Build(repository_interface.NewTask, InitializeDB)
+	return nil
+}
+
+func InitializeGetTaskUsecase() *usecase.GetTask {
+	wire.Build(usecase.NewGetTask, InitializeTaskRepositoryInterface)
+	return nil
+}
+
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
-	wire.Build(presentation.NewTaskServiceServer, middleware.NewZapLogger, InitializeImportanceRepositoryInterface)
+	wire.Build(presentation.NewTaskServiceServer, middleware.NewZapLogger, InitializeGetTaskUsecase)
 	return nil
 }

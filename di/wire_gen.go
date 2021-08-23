@@ -7,10 +7,11 @@ package di
 
 import (
 	"github.com/Tiratom/gin-study/config"
-	"github.com/Tiratom/gin-study/infrastructure"
+	"github.com/Tiratom/gin-study/infrastructure/repository"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
 	"github.com/Tiratom/gin-study/repository_interface"
+	"github.com/Tiratom/gin-study/usecase"
 )
 
 // Injectors from wire.go:
@@ -38,9 +39,21 @@ func InitializeImportanceRepositoryInterface() repository_interface.Importance {
 	return importance
 }
 
+func InitializeTaskRepositoryInterface() repository_interface.Task {
+	db := InitializeDB()
+	task := repository_interface.NewTask(db)
+	return task
+}
+
+func InitializeGetTaskUsecase() *usecase.GetTask {
+	task := InitializeTaskRepositoryInterface()
+	getTask := usecase.NewGetTask(task)
+	return getTask
+}
+
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
 	zapLogger := middleware.NewZapLogger()
-	importance := InitializeImportanceRepositoryInterface()
-	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, importance)
+	getTask := InitializeGetTaskUsecase()
+	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, getTask)
 	return taskServiceServer
 }
