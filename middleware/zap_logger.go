@@ -59,7 +59,7 @@ func GetZapLoggerUnaryInterceptor() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 		requestID := config.CreateNewRequestID()
 
-		newCtx := context.WithValue(ctx, config.CONTEXT_KEY_FOR_REQUEST_ID, requestID)
+		newCtx := context.WithValue(ctx, config.CONTEXT_KEY_FOR_REQUEST_ID, requestID.Value)
 		zap.L().Info("[REQUEST_START]", zap.String(config.LOG_KEY_NAME_FOR_REQUEST_ID, requestID.Value))
 
 		resp, err := handler(newCtx, req)
