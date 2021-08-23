@@ -5,21 +5,17 @@ import (
 	"github.com/Tiratom/gin-study/domain"
 )
 
-type ImportanceRepository interface {
-	GetAll() *[]domain.Importance
-}
-
-type importanceRepository struct {
+type ImportanceRepository struct {
 	db *config.DB
 }
 
-func (i *importanceRepository) GetAll() *[]domain.Importance {
+func (i *ImportanceRepository) GetAll() *[]domain.Importance {
 	result := &[]domain.Importance{}
 	i.db.Gdb.Find(&result)
 
 	return result
 }
 
-func NewImportanceRepository(db *config.DB) *importanceRepository {
-	return &importanceRepository{db}
+func NewImportanceRepository(db *config.DB) *ImportanceRepository {
+	return &ImportanceRepository{db}
 }

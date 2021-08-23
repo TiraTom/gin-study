@@ -9,14 +9,14 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gr "github.com/Tiratom/gin-study/grpc"
-	"github.com/Tiratom/gin-study/infrastructure"
 	"github.com/Tiratom/gin-study/middleware"
+	repository_interface "github.com/Tiratom/gin-study/repository_interface"
 	"github.com/google/uuid"
 )
 
 type TaskServiceServer struct {
 	log *middleware.ZapLogger
-	i   infrastructure.ImportanceRepository
+	ir  repository_interface.Importance
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
@@ -24,7 +24,7 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 	tss.log.Info(ctx, "HOGEHOGE")
 
 	// TODO 後で消す　とりあえずDB接続と値取得のテスト
-	piyo := tss.i.GetAll()
+	piyo := tss.ir.GetAll()
 	fmt.Println(piyo)
 
 	id, err := uuid.NewRandom()
@@ -161,6 +161,6 @@ func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTa
 	return &emptypb.Empty{}, nil
 }
 
-func NewTaskServiceServer(log *middleware.ZapLogger, i infrastructure.ImportanceRepository) *TaskServiceServer {
-	return &TaskServiceServer{log, i}
+func NewTaskServiceServer(log *middleware.ZapLogger, ir repository_interface.Importance) *TaskServiceServer {
+	return &TaskServiceServer{log, ir}
 }

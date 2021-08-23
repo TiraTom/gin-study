@@ -6,14 +6,41 @@
 package di
 
 import (
+	"github.com/Tiratom/gin-study/config"
+	"github.com/Tiratom/gin-study/infrastructure"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
+	"github.com/Tiratom/gin-study/repository_interface"
 )
 
 // Injectors from wire.go:
 
+func InitializeEnvironment() *config.Environment {
+	environment := config.NewEnvironment()
+	return environment
+}
+
+func InitializeDB() *config.DB {
+	environment := config.NewEnvironment()
+	db := config.NewDB(environment)
+	return db
+}
+
+func InitializeImportanceRepository() *infrastructure.ImportanceRepository {
+	db := InitializeDB()
+	importanceRepository := infrastructure.NewImportanceRepository(db)
+	return importanceRepository
+}
+
+func InitializeImportanceRepositoryInterface() repository_interface.Importance {
+	db := InitializeDB()
+	importanceRepositoryInterface := repository_interface.NewImportance(db)
+	return importanceRepositoryInterface
+}
+
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
 	zapLogger := middleware.NewZapLogger()
-	taskServiceServer := presentation.NewTaskServiceServer(zapLogger)
+	importanceRepositoryInterface := InitializeImportanceRepositoryInterface()
+	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, importanceRepositoryInterface)
 	return taskServiceServer
 }
