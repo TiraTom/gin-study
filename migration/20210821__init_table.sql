@@ -25,5 +25,9 @@ CREATE TABLE gin_study.tasks (
 	registered_at datetime NOT NULL COMMENT '登録日時',
 	deadline datetime NOT NULL COMMENT '期限日時',
 	updated_at datetime NOT NULL COMMENT '更新日時',
+	version uint NOT NULL DEFAULT 1 COMMENT 'バージョン',
 	CONSTRAINT fk_importance FOREIGN KEY (importance_id) REFERENCES importances (id) ON UPDATE CASCADE
 ) COMMENT 'タスク';
+
+-- ダミーデータ（日時周り不確か）
+INSERT INTO tasks VALUE ('1', 'taskName', 2, 'details', '2021-08-23T00:00:01', '2021-08-23T00:00:02', '2021-08-23T00:00:03', '1');

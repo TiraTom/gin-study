@@ -20,12 +20,13 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] DI 設定　参考：<https://christina04.hatenablog.com/entry/google-wire>
 - [x] 環境変数の読み込み設定
 - [x] DB 設定
-- [ ] GORM 設定
+- [x] GORM 設定
 - [ ] マイグレーションツールの設定
 - [ ] フォーマットとか lint 系の設定
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
-- [ ] READ 機能の実装
+- [x] READ 機能の実装（全取得）
 - [ ] CREATE 機能の実装
+- [ ] updatedAt あたりが取得できてないので確認
 - [ ] UPDATE 機能の実装
 - [ ] DELETE 機能の実装
 - [ ] 検索機能の実装
