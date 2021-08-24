@@ -20,4 +20,7 @@ hello2:
 di: FORCE
 	wire di/wire.go
 
+lint:
+	golangci-lint run
+
 FORCE:

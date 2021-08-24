@@ -21,9 +21,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] 環境変数の読み込み設定
 - [x] DB 設定
 - [x] GORM 設定
-- [ ] マイグレーションツールの設定
-- [ ] フォーマットとか lint 系の設定
-- [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
+- [x] フォーマットとか lint 系の設定（golangci-lint）
 - [x] READ 機能の実装（全取得）
 - [ ] CREATE 機能の実装
 - [ ] updatedAt あたりが取得できてないので確認
@@ -31,6 +29,8 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [ ] DELETE 機能の実装
 - [ ] 検索機能の実装
 - [ ] 例外処理（grpc_recovery のミドルウェア使いつつ）
+- [ ] マイグレーションツールの設定
+- [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
 - [ ] フロントエンドの実装（別レポジトリ）
 - [ ] Lint か何かで英単語と日本語の間にスペースが入るようになってしまってるので直す
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）

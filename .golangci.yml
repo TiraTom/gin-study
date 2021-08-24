@@ -1,0 +1,7 @@
+run:
+  skip-dirs:
+    - migration
+    - log
+    - docker
+    - doc
+    - .vscode
