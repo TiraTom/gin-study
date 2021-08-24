@@ -1,4 +1,4 @@
-package domain
+package domain_obj
 
 import (
 	"fmt"
@@ -31,7 +31,7 @@ func (i *Importance) ToDto() (gr.Importance, error) {
 	}
 }
 
-func NewImportance(ir *infrastructure.ImportanceRecord) *Importance {
+func NewImportance(ir *infrastructure.Importance) *Importance {
 	return &Importance{
 		Name:  ir.Name,
 		Level: ir.Level,

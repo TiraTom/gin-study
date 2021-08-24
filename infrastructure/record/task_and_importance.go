@@ -1,10 +1,10 @@
-package infrastructure
+package record
 
 import (
 	"time"
 )
 
-type TaskAndImportanceRecord struct {
+type TaskAndImportance struct {
 	Id              string
 	Name            string
 	Details         string
@@ -14,4 +14,5 @@ type TaskAndImportanceRecord struct {
 	RegisteredAt    time.Time
 	Deadline        time.Time
 	UpdatedAt       time.Time
+	Version         uint
 }

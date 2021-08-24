@@ -1,4 +1,4 @@
-package domain
+package domain_obj
 
 import (
 	"time"
@@ -16,6 +16,7 @@ type Task struct {
 	RegisteredAt time.Time `gorm:"createdAt"`
 	Deadline     time.Time
 	UpdatedAt    time.Time
+	Version      uint
 }
 
 func (t *Task) ToDto() (*gr.Task, error) {
@@ -35,7 +36,7 @@ func (t *Task) ToDto() (*gr.Task, error) {
 	}, nil
 }
 
-func NewTask(tr *infrastructure.TaskAndImportanceRecord) *Task {
+func NewTask(tr *infrastructure.TaskAndImportance) *Task {
 	return &Task{
 		Id:      tr.Id,
 		Name:    tr.Name,

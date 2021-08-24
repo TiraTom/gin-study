@@ -7,10 +7,10 @@ package di
 
 import (
 	"github.com/Tiratom/gin-study/config"
-	"github.com/Tiratom/gin-study/infrastructure/repository"
+	"github.com/Tiratom/gin-study/domain/repository_interface"
+	"github.com/Tiratom/gin-study/infrastructure/repository_impl"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
-	"github.com/Tiratom/gin-study/repository_interface"
 	"github.com/Tiratom/gin-study/usecase"
 )
 
@@ -27,10 +27,10 @@ func InitializeDB() *config.DB {
 	return db
 }
 
-func InitializeImportanceRepository() *infrastructure.ImportanceRepository {
+func InitializeImportanceRepository() *repository_impl.Importance {
 	db := InitializeDB()
-	importanceRepository := infrastructure.NewImportanceRepository(db)
-	return importanceRepository
+	importance := repository_impl.NewImportance(db)
+	return importance
 }
 
 func InitializeImportanceRepositoryInterface() repository_interface.Importance {

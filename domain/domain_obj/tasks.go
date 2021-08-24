@@ -1,4 +1,4 @@
-package domain
+package domain_obj
 
 import (
 	gr "github.com/Tiratom/gin-study/grpc"

@@ -4,10 +4,10 @@ package di
 
 import (
 	"github.com/Tiratom/gin-study/config"
-	infrastructure "github.com/Tiratom/gin-study/infrastructure/repository"
+	"github.com/Tiratom/gin-study/domain/repository_interface"
+	"github.com/Tiratom/gin-study/infrastructure/repository_impl"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
-	"github.com/Tiratom/gin-study/repository_interface"
 	"github.com/Tiratom/gin-study/usecase"
 	"github.com/google/wire"
 )
@@ -22,8 +22,8 @@ func InitializeDB() *config.DB {
 	return nil
 }
 
-func InitializeImportanceRepository() *infrastructure.ImportanceRepository {
-	wire.Build(infrastructure.NewImportanceRepository, InitializeDB)
+func InitializeImportanceRepository() *repository_impl.Importance {
+	wire.Build(repository_impl.NewImportance, InitializeDB)
 	return nil
 }
 

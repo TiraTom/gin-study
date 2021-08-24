@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"github.com/Tiratom/gin-study/domain"
+	"github.com/Tiratom/gin-study/domain/domain_obj"
+	"github.com/Tiratom/gin-study/domain/repository_interface"
 	gr "github.com/Tiratom/gin-study/grpc"
-	"github.com/Tiratom/gin-study/repository_interface"
 )
 
 type GetTask struct {
@@ -12,7 +12,7 @@ type GetTask struct {
 
 func (gt *GetTask) GetAllTasks() (*gr.Tasks, error) {
 	allTasks := gt.tr.GetAll()
-	return (&domain.Tasks{Value: allTasks}).ToDto()
+	return (&domain_obj.Tasks{Value: allTasks}).ToDto()
 }
 
 func NewGetTask(tr repository_interface.Task) *GetTask {

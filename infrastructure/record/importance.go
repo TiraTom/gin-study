@@ -1,6 +1,6 @@
-package infrastructure
+package record
 
-type ImportanceRecord struct {
+type Importance struct {
 	Id int
 	// 重要度ラベル
 	Name string
