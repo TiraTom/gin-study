@@ -29,8 +29,7 @@ func (t *Task) Create(p *domain_obj.Task) error {
 		Id int64
 	}
 	var i *iID
-
-	t.db.Gdb.Table("importances").Select("importances.id").Where("name = ?", p.ImportanceName).Find(&i)
+	t.db.Gdb.Table("importances").Where("name = ?", p.ImportanceName).Find(&i)
 
 	taskToCreate := p.ToRecord(i.Id)
 	result := t.db.Gdb.Create(taskToCreate)
