@@ -61,7 +61,7 @@ message Task {
   string name = 2;
   string details = 3;
   // 重要度
-  Importance importance = 4;
+	string importanceName = 4;
   // 登録日時（タイムスタンプ）
   google.protobuf.Timestamp registered_at = 5;
   // 期限日時（タイムスタンプ）
@@ -82,7 +82,7 @@ message GetTaskByConditionRequestParam {
   string name = 1;
   string details = 2;
   // 重要度
-  Importance importance = 3;
+	string importanceName = 3;
 
   // 登録日時（タイムスタンプ）
   google.protobuf.Timestamp registered_at = 4;
@@ -100,14 +100,7 @@ message GetTaskByConditionRequestParam {
 message CreateTaskRequestParam {
   string name = 1;
   string details = 2;
-  enum Importance {
-    MEDIUM = 0;
-    VERY_HIGH = 1;
-    HIGH = 2;
-    LOW = 3;
-  }
-  // 重要度
-  Importance importance = 3;
+	string importanceName = 3;
   // 期限日時（タイムスタンプ）
   google.protobuf.Timestamp deadline = 4;
 }
@@ -116,8 +109,7 @@ message UpdateTaskRequestParam {
   string id = 1;
   string name = 2;
   string details = 3;
-  // 重要度
-  Importance importance = 4;
+	string importanceName = 4;
   // 期限日時（タイムスタンプ）
   google.protobuf.Timestamp deadline = 5;
 }
@@ -126,11 +118,9 @@ message DeleteTaskRequestParam {
   string id = 1;
 }
 
-enum Importance {
-  MEDIUM = 0;
-  VERY_HIGH = 1;
-  HIGH = 2;
-  LOW = 3;
+message Importance {
+	string Name = 1;
+	uint32 Level = 2;
 }
 
 enum TimestampCompareBy {

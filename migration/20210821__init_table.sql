@@ -18,7 +18,7 @@ INSERT INTO gin_study.importances
 
 
 CREATE TABLE gin_study.tasks (
-  id CHAR(32) PRIMARY KEY COMMENT 'タスクID',
+  id CHAR(36) PRIMARY KEY COMMENT 'タスクID',
 	name CHAR(255) NOT NULL COMMENT 'タスク名',
 	importance_id int NOT NULL COMMENT '重要度ID',
 	details VARCHAR(1000) COMMENT 'タスク詳細',

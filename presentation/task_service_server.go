@@ -16,6 +16,7 @@ import (
 type TaskServiceServer struct {
 	log *middleware.ZapLogger
 	gtu *usecase.GetTask
+	ctu *usecase.CreateTask
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
@@ -46,13 +47,13 @@ func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByC
 	return &gr.Tasks{
 		Tasks: []*gr.Task{
 			{
-				Id:           id.String(),
-				Name:         "ダミー",
-				Details:      "詳細",
-				Importance:   gr.Importance_HIGH,
-				RegisteredAt: nowTimestamp,
-				Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
-				UpdatedAt:    nowTimestamp,
+				Id:             id.String(),
+				Name:           "ダミー",
+				Details:        "詳細",
+				ImportanceName: "HIGH",
+				RegisteredAt:   nowTimestamp,
+				Deadline:       &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
+				UpdatedAt:      nowTimestamp,
 			},
 		},
 	}, nil
@@ -73,38 +74,18 @@ func (tss *TaskServiceServer) GetTask(ctx context.Context, param *gr.GetTaskById
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
 	return &gr.Task{
-		Id:           id.String(),
-		Name:         "ダミー",
-		Details:      "詳細",
-		Importance:   gr.Importance_HIGH,
-		RegisteredAt: nowTimestamp,
-		Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
-		UpdatedAt:    nowTimestamp,
+		Id:             id.String(),
+		Name:           "ダミー",
+		Details:        "詳細",
+		ImportanceName: "HIGH",
+		RegisteredAt:   nowTimestamp,
+		Deadline:       &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
+		UpdatedAt:      nowTimestamp,
 	}, nil
 }
 
 func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *gr.CreateTaskRequestParam) (*gr.Task, error) {
-	id, err := uuid.NewRandom()
-	if err != nil {
-		return nil, err
-	}
-
-	tokyo, err := time.LoadLocation("Asia/Tokyo")
-	if err != nil {
-		return nil, err
-	}
-
-	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
-
-	return &gr.Task{
-		Id:           id.String(),
-		Name:         "ダミー",
-		Details:      "詳細",
-		Importance:   gr.Importance_HIGH,
-		RegisteredAt: nowTimestamp,
-		Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
-		UpdatedAt:    nowTimestamp,
-	}, nil
+	return tss.ctu.Do(param)
 }
 
 func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTaskRequestParam) (*gr.Task, error) {
@@ -121,13 +102,13 @@ func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTa
 	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
 
 	return &gr.Task{
-		Id:           id.String(),
-		Name:         "ダミー",
-		Details:      "詳細",
-		Importance:   gr.Importance_HIGH,
-		RegisteredAt: nowTimestamp,
-		Deadline:     &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
-		UpdatedAt:    nowTimestamp,
+		Id:             id.String(),
+		Name:           "ダミー",
+		Details:        "詳細",
+		ImportanceName: "HIGH",
+		RegisteredAt:   nowTimestamp,
+		Deadline:       &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
+		UpdatedAt:      nowTimestamp,
 	}, nil
 }
 
@@ -135,6 +116,6 @@ func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTa
 	return &emptypb.Empty{}, nil
 }
 
-func NewTaskServiceServer(log *middleware.ZapLogger, gtu *usecase.GetTask) *TaskServiceServer {
-	return &TaskServiceServer{log, gtu}
+func NewTaskServiceServer(log *middleware.ZapLogger, gtu *usecase.GetTask, ctu *usecase.CreateTask) *TaskServiceServer {
+	return &TaskServiceServer{log, gtu, ctu}
 }

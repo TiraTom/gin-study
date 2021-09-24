@@ -24,6 +24,20 @@ func (t *Task) GetAll() []*domain_obj.Task {
 	return result
 }
 
+func (t *Task) Create(p *domain_obj.Task) error {
+	type iID struct {
+		Id int64
+	}
+	var i *iID
+
+	t.db.Gdb.Table("importances").Select("importances.id").Where("name = ?", p.ImportanceName).Find(&i)
+
+	taskToCreate := p.ToRecord(i.Id)
+	result := t.db.Gdb.Create(taskToCreate)
+
+	return result.Error
+}
+
 func NewTask(db *config.DB) *Task {
 	return &Task{db}
 }

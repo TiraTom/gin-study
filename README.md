@@ -23,7 +23,9 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] GORM 設定
 - [x] フォーマットとか lint 系の設定（golangci-lint）
 - [x] READ 機能の実装（全取得）
-- [ ] CREATE 機能の実装
+- [x] CREATE 機能の実装
+- [ ] バリデーション実装する
+- [ ] gorm の time の警告対応
 - [ ] updatedAt あたりが取得できてないので確認
 - [ ] UPDATE 機能の実装
 - [ ] DELETE 機能の実装

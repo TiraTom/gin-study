@@ -8,6 +8,7 @@ import (
 
 type Task interface {
 	GetAll() []*domain_obj.Task
+	Create(*domain_obj.Task) error
 }
 
 func NewTask(db *config.DB) Task {
