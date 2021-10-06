@@ -12,10 +12,10 @@ type CreateTask struct {
 	tr repository_interface.Task
 }
 
-func (c *CreateTask) Do(param *gr.CreateTaskRequestParam) (*gr.Task, error) {
+func (c *CreateTask) Do(p *gr.CreateTaskRequestParam) (*gr.Task, error) {
 	// TODO バリデーション
 
-	newTask, err := domain_obj.NewTaskToCreate(param)
+	newTask, err := domain_obj.NewTaskToCreate(p)
 	if err != nil {
 		return nil, err
 	}
