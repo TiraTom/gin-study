@@ -1,6 +1,6 @@
 # .protoファイルをコンパイル
 grpc: FORCE
-	protoc --go_out=plugins=grpc:./gRPC --go_opt=module=github.com/Tiratom/gin-study/grpc ./gRPC/gin-study.proto
+	protoc --proto_path=${GOPATH}/src --proto_path=:./grpc --go_out=plugins=grpc:./grpc --go_opt=module=github.com/Tiratom/gin-study/grpc --govalidators_out=paths=source_relative:./grpc ./grpc/gin-study.proto
 
 grpcDoc: FORCE
 	protoc --doc_out=./doc --doc_opt=markdown,api.md ./gRPC/gin-study.proto
