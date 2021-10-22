@@ -74,6 +74,15 @@ func (this *GetTaskByConditionRequestParam) Validate() error {
 	return nil
 }
 func (this *CreateTaskRequestParam) Validate() error {
+	if !(len(this.Name) > 1) {
+		return github_com_mwitkow_go_proto_validators.FieldError("Name", fmt.Errorf(`value '%v' must have a length greater than '1'`, this.Name))
+	}
+	if !(len(this.Details) > 1) {
+		return github_com_mwitkow_go_proto_validators.FieldError("Details", fmt.Errorf(`value '%v' must have a length greater than '1'`, this.Details))
+	}
+	if !(len(this.ImportanceName) > 1) {
+		return github_com_mwitkow_go_proto_validators.FieldError("ImportanceName", fmt.Errorf(`value '%v' must have a length greater than '1'`, this.ImportanceName))
+	}
 	if nil == this.Deadline {
 		return github_com_mwitkow_go_proto_validators.FieldError("Deadline", fmt.Errorf("message must exist"))
 	}

@@ -100,9 +100,9 @@ message GetTaskByConditionRequestParam {
 }
 
 message CreateTaskRequestParam {
-  string name = 1 [(validator.field) = {msg_exists : true}];
-  string details = 2 [(validator.field) = {msg_exists : true}];
-	string importanceName = 3 [(validator.field) = {msg_exists : true}];
+  string name = 1 [(validator.field) = {msg_exists : true, length_gt : 1}];
+  string details = 2 [(validator.field) = {msg_exists : true, length_gt : 1}];
+	string importanceName = 3 [(validator.field) = {msg_exists : true, length_gt : 1}];
   // 期限日時（タイムスタンプ）
   google.protobuf.Timestamp deadline = 4 [(validator.field) = {msg_exists : true}];
 }

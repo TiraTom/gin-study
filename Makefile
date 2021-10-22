@@ -14,13 +14,15 @@ grpc-list:
 
 # gRPCサーバーにお試しリクエストを送る（main.go内でリフレクションサービスを有効にしていない版）
 hello1:
-	grpcurl -plaintext -import-path . -proto ./gRPC/gin-study.proto localhost:8081 TaskService/GetAllTasks
+	grpcurl -plaintext -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto localhost:8081 TaskService/GetAllTasks
 # gRPCサーバーにお試しリクエストを送る（main.go内でリフレクションサービスを有効にしている版）
+# ※go-proto-validator利用時はリフレクションサービスが使えないので-import-path, -protoを指定している。参考：<https://qiita.com/gold-kou/items/4e17f98976b43433fa8d>
 getAllTasks:
-	grpcurl -plaintext localhost:8081 TaskService/GetAllTasks
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext localhost:8081 TaskService/GetAllTasks
 # gRPCサーバーにお試しリクエストを送る
 createATask:
-	grpcurl -plaintext -d '{"name": "TestTask1", "details": "TestDetails1", "importanceName": "LOW", "deadline": "2021-09-23T14:30:00+09:00"}' localhost:8081 TaskService/CreateTask
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"name": "TestDetails1", "importanceName": "LOW", "deadline": "2021-09-23T14:30:00+09:00"}' localhost:8081 TaskService/CreateTask
+#	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"name": "TestTask1", "details": "TestDetails1", "importanceName": "LOW", "deadline": "2021-09-23T14:30:00+09:00"}' localhost:8081 TaskService/CreateTask
 
 # DI用ファイル作成
 di: FORCE
