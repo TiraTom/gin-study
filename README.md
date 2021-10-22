@@ -24,16 +24,17 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] フォーマットとか lint 系の設定（golangci-lint）
 - [x] READ 機能の実装（全取得）
 - [x] CREATE 機能の実装
-- [ ] バリデーション実装する
+- [x] バリデーション実装する（まずはCreate分）
 - [ ] gorm の time の警告対応
 - [ ] updatedAt あたりが取得できてないので確認
-- [ ] UPDATE 機能の実装
-- [ ] DELETE 機能の実装
+- [ ] UPDATE 機能の実装（バリデーション含む）
+- [ ] DELETE 機能の実装（バリデーション含む）
 - [ ] 検索機能の実装
 - [ ] 例外処理（grpc_recovery のミドルウェア使いつつ）
 - [ ] マイグレーションツールの設定
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
 - [ ] フロントエンドの実装（別レポジトリ）
+- [ ] GitHubActionでpush後自動でテスト実施
 - [ ] Lint か何かで英単語と日本語の間にスペースが入るようになってしまってるので直す
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）
 - [ ] AWS にデプロイして動かす（CloudFormation 等利用）
