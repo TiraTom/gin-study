@@ -12,7 +12,7 @@ type DB struct {
 }
 
 func NewDB(env *Environment) *DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/gin_study", env.DB_USER, env.DB_PASSWORD, env.DB_ADDRESS)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/gin_study?parseTime=true", env.DB_USER, env.DB_PASSWORD, env.DB_ADDRESS)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
