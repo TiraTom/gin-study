@@ -13,8 +13,6 @@ type CreateTask struct {
 }
 
 func (c *CreateTask) Do(p *gr.CreateTaskRequestParam) (*gr.Task, error) {
-	// TODO バリデーション
-
 	newTask, err := domain_obj.NewTaskToCreate(p)
 	if err != nil {
 		return nil, err
