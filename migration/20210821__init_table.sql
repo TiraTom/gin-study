@@ -29,5 +29,5 @@ CREATE TABLE gin_study.tasks (
 	CONSTRAINT fk_importance FOREIGN KEY (importance_id) REFERENCES importances (id) ON UPDATE CASCADE
 ) COMMENT 'タスク';
 
--- ダミーデータ（日時周り不確か）
-INSERT INTO tasks VALUE ('1', 'taskName', 2, 'details', '2021-08-23T00:00:01', '2021-08-23T00:00:02', '2021-08-23T00:00:03', '1');
+-- ダミーデータ
+INSERT INTO tasks VALUE ('1', 'taskName', 2, 'details', '2021-08-23T00:00:01Z', '2021-08-23T00:00:02Z', '2021-08-23T00:00:03Z', '1');
