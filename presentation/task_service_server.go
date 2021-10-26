@@ -2,6 +2,7 @@ package presentation
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -14,16 +15,17 @@ import (
 )
 
 type TaskServiceServer struct {
-	log *middleware.ZapLogger
-	gtu *usecase.GetTask
-	ctu *usecase.CreateTask
+	log        *middleware.ZapLogger
+	getTask    *usecase.GetTask
+	createTask *usecase.CreateTask
+	updateTask *usecase.UpdateTask
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
 
 	tss.log.Info(ctx, "HOGEHOGE")
 
-	allTasks, err := tss.gtu.GetAllTasks()
+	allTasks, err := tss.getTask.GetAllTasks()
 	if err != nil {
 		return nil, err
 	}
@@ -85,37 +87,30 @@ func (tss *TaskServiceServer) GetTask(ctx context.Context, param *gr.GetTaskById
 }
 
 func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *gr.CreateTaskRequestParam) (*gr.Task, error) {
-	return tss.ctu.Do(param)
+	return tss.createTask.Do(param)
 }
 
 func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTaskRequestParam) (*gr.Task, error) {
-	id, err := uuid.NewRandom()
+	// ※idと更新内容のパラメーターを別の変数として渡してもらおうと思ったが、protoファイルの定義上引数は１つにするのが定石っぽく（変更に強くするための模様）paramの中にidも変更内容も持たせてある
+
+	t, err := tss.updateTask.Do(param)
 	if err != nil {
 		return nil, err
 	}
 
-	tokyo, err := time.LoadLocation("Asia/Tokyo")
+	// memo: 返却用データに詰め替えるのをどこでやるべきかは悩み中、、
+	updatedTask, err := t.ToDto()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("データ更新成功後、内部エラーが発生しました %w", err)
 	}
 
-	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
-
-	return &gr.Task{
-		Id:             id.String(),
-		Name:           "ダミー",
-		Details:        "詳細",
-		ImportanceName: "HIGH",
-		RegisteredAt:   nowTimestamp,
-		Deadline:       &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
-		UpdatedAt:      nowTimestamp,
-	}, nil
+	return updatedTask, nil
 }
 
 func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTaskRequestParam) (*emptypb.Empty, error) {
 	return &emptypb.Empty{}, nil
 }
 
-func NewTaskServiceServer(log *middleware.ZapLogger, gtu *usecase.GetTask, ctu *usecase.CreateTask) *TaskServiceServer {
-	return &TaskServiceServer{log, gtu, ctu}
+func NewTaskServiceServer(log *middleware.ZapLogger, gtu *usecase.GetTask, ctu *usecase.CreateTask, utu *usecase.UpdateTask) *TaskServiceServer {
+	return &TaskServiceServer{log, gtu, ctu, utu}
 }

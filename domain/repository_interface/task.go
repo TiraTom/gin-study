@@ -8,7 +8,9 @@ import (
 
 type Task interface {
 	GetAll() []*domain_obj.Task
+	GetById(id string) (*domain_obj.Task, error)
 	Create(*domain_obj.Task) error
+	Update(*domain_obj.Task) (*domain_obj.Task, error)
 }
 
 func NewTask(db *config.DB) Task {

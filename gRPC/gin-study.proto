@@ -108,7 +108,7 @@ message CreateTaskRequestParam {
 }
 
 message UpdateTaskRequestParam {
-  string id = 1;
+	string id = 1;
   string name = 2;
   string details = 3;
 	string importanceName = 4;
@@ -121,8 +121,8 @@ message DeleteTaskRequestParam {
 }
 
 message Importance {
-	string Name = 1;
-	uint32 Level = 2;
+	string name = 1;
+	uint32 level = 2;
 }
 
 enum TimestampCompareBy {

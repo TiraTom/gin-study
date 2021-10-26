@@ -57,10 +57,17 @@ func InitializeCreateTaskUsecase() *usecase.CreateTask {
 	return createTask
 }
 
+func InitializeUpdateTaskUsecase() *usecase.UpdateTask {
+	task := InitializeTaskRepositoryInterface()
+	updateTask := usecase.NewUpdateTask(task)
+	return updateTask
+}
+
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
 	zapLogger := middleware.NewZapLogger()
 	getTask := InitializeGetTaskUsecase()
 	createTask := InitializeCreateTaskUsecase()
-	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, getTask, createTask)
+	updateTask := InitializeUpdateTaskUsecase()
+	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, getTask, createTask, updateTask)
 	return taskServiceServer
 }

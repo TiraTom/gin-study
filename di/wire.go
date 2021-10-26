@@ -47,7 +47,12 @@ func InitializeCreateTaskUsecase() *usecase.CreateTask {
 	return nil
 }
 
+func InitializeUpdateTaskUsecase() *usecase.UpdateTask {
+	wire.Build(usecase.NewUpdateTask, InitializeTaskRepositoryInterface)
+	return nil
+}
+
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
-	wire.Build(presentation.NewTaskServiceServer, middleware.NewZapLogger, InitializeGetTaskUsecase, InitializeCreateTaskUsecase)
+	wire.Build(presentation.NewTaskServiceServer, middleware.NewZapLogger, InitializeGetTaskUsecase, InitializeCreateTaskUsecase, InitializeUpdateTaskUsecase)
 	return nil
 }
