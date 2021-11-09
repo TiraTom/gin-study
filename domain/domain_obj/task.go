@@ -14,9 +14,9 @@ type Task struct {
 	Name           string
 	Details        string
 	ImportanceName string
-	RegisteredAt   time.Time `gorm:"autoCreateTime"`
+	RegisteredAt   time.Time
 	Deadline       time.Time
-	UpdatedAt      time.Time `gorm:"autoUpdateTime"`
+	UpdatedAt      time.Time
 	Version        uint
 }
 
@@ -76,7 +76,7 @@ func NewTaskToCreate(p *gr.CreateTaskRequestParam) (*Task, error) {
 
 // NewTaskToUpdate　リクエストパラムから更新保存したいタスクの定義を用意する。
 func NewTaskToUpdate(o *Task, p *gr.UpdateTaskRequestParam) (*Task, error) {
-	now := time.Now()
+	now := time.Now().UTC()
 
 	var newName string
 	if p.Name != "" {
@@ -113,8 +113,7 @@ func NewTaskToUpdate(o *Task, p *gr.UpdateTaskRequestParam) (*Task, error) {
 		ImportanceName: newImportanceName,
 		RegisteredAt:   o.RegisteredAt,
 		Deadline:       newDeadline,
-		// memo: gormで設定してるのでupdatedAtは自動更新かも
-		UpdatedAt: now,
-		Version:   o.Version + 1,
+		UpdatedAt:      now,
+		Version:        o.Version + 1,
 	}, nil
 }

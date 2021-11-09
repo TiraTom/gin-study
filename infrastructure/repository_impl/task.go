@@ -62,6 +62,9 @@ func (t *Task) Update(p *domain_obj.Task) (*domain_obj.Task, error) {
 	if result.Error != nil {
 		return nil, fmt.Errorf("タスク更新処理に失敗しました　%w", result.Error)
 	}
+	if result.RowsAffected != 1 {
+		return nil, fmt.Errorf("タスクは更新されていません")
+	}
 
 	// memo: ORMによっては更新後の内容がUpdateメソッドの戻り値で得られる場合もありDB周りの実装をインフラ層に閉じ込めるため、
 	// また更新処理後は更新後の内容を返すのがRESTapiでの定石だと思うので、更新後のタスクを取得し直して返却している
