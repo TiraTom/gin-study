@@ -108,7 +108,7 @@ message CreateTaskRequestParam {
 }
 
 message UpdateTaskRequestParam {
-	string id = 1;
+	string id = 1 [(validator.field) = {length_gt : 0}];
   string name = 2;
   string details = 3;
 	string importanceName = 4;
