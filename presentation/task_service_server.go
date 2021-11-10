@@ -19,6 +19,7 @@ type TaskServiceServer struct {
 	getTask    *usecase.GetTask
 	createTask *usecase.CreateTask
 	updateTask *usecase.UpdateTask
+	deleteTask *usecase.DeleteTask
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
@@ -108,9 +109,9 @@ func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTa
 }
 
 func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTaskRequestParam) (*emptypb.Empty, error) {
-	return &emptypb.Empty{}, nil
+	return &emptypb.Empty{}, tss.deleteTask.Do(param)
 }
 
-func NewTaskServiceServer(log *middleware.ZapLogger, gtu *usecase.GetTask, ctu *usecase.CreateTask, utu *usecase.UpdateTask) *TaskServiceServer {
-	return &TaskServiceServer{log, gtu, ctu, utu}
+func NewTaskServiceServer(log *middleware.ZapLogger, gtu *usecase.GetTask, ctu *usecase.CreateTask, utu *usecase.UpdateTask, dtu *usecase.DeleteTask) *TaskServiceServer {
+	return &TaskServiceServer{log, gtu, ctu, utu, dtu}
 }

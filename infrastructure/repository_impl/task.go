@@ -77,6 +77,11 @@ func (t *Task) Update(p *domain_obj.Task) (*domain_obj.Task, error) {
 	return updatedTask, result.Error
 }
 
+func (t *Task) Delete(id string) error {
+	// TODO 実装
+	return fmt.Errorf("not yet implemnted")
+}
+
 func NewTask(db *config.DB) *Task {
 	return &Task{db}
 }
