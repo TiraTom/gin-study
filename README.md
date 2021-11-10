@@ -27,7 +27,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] バリデーション実装する（まずは Create 分）
 - [x] gorm の time の警告対応：<https://github.com/go-sql-driver/mysql#timetime-support>に書いてある
 - [x] UPDATE 機能の実装（バリデーション含む）
-- [ ] DELETE 機能の実装（バリデーション含む）
+- [x] DELETE 機能の実装（バリデーション含む）
 - [ ] 検索機能の実装
 - [ ] 例外処理（grpc_recovery のミドルウェア使いつつ）
 - [ ] マイグレーションツールの設定
