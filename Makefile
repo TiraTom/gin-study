@@ -25,7 +25,9 @@ createATask:
 # gRPCサーバーにタスク更新のお試しリクエストを送る
 updateATask:
 	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "1", "importanceName": "HIGH"}' localhost:8081 TaskService/UpdateTask
-# grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "1", "name": "TestTask1ver3", "deadline": "2021-11-10T00:00:00+09:00"}' localhost:8081 TaskService/UpdateTask
+# gRPCサーバーにタスク削除のお試しリクエストを送る
+deleteATask:
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "1"}' localhost:8081 TaskService/DeleteTask
 
 # DI用ファイル作成
 di: FORCE

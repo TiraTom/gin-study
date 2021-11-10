@@ -78,8 +78,17 @@ func (t *Task) Update(p *domain_obj.Task) (*domain_obj.Task, error) {
 }
 
 func (t *Task) Delete(id string) error {
-	// TODO 実装
-	return fmt.Errorf("not yet implemnted")
+	result := t.db.Gdb.Where("id = ?", id).Delete(&Task{})
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected != 1 {
+		return fmt.Errorf("削除対象のタスク（id=%s）は存在しません ", id)
+	}
+
+	return nil
 }
 
 func NewTask(db *config.DB) *Task {

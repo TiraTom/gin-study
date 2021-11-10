@@ -11,7 +11,6 @@ type DeleteTask struct {
 }
 
 func (d *DeleteTask) Do(p *gr.DeleteTaskRequestParam) error {
-	// TODO: 実装
 	return d.tr.Delete(p.Id)
 }
 

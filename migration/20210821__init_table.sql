@@ -1,4 +1,4 @@
-GRANT SELECT,UPDATE ON gin_study.* to 'docker'@'%';
+GRANT SELECT,UPDATE,DELETE ON gin_study.* to 'docker'@'%';
 
 CREATE DATABASE gin_study;
 
