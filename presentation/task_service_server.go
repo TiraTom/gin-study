@@ -23,7 +23,7 @@ type TaskServiceServer struct {
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
-	allTasks, err := tss.getTask.GetAllTasks()
+	allTasks, err := tss.getTask.DoAll()
 	if err != nil {
 		return nil, err
 	}
@@ -60,28 +60,7 @@ func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByC
 }
 
 func (tss *TaskServiceServer) GetTask(ctx context.Context, param *gr.GetTaskByIdRequestParam) (*gr.Task, error) {
-
-	id, err := uuid.NewRandom()
-	if err != nil {
-		return nil, err
-	}
-
-	tokyo, err := time.LoadLocation("Asia/Tokyo")
-	if err != nil {
-		return nil, err
-	}
-
-	nowTimestamp := &timestamppb.Timestamp{Seconds: time.Now().Unix()}
-
-	return &gr.Task{
-		Id:             id.String(),
-		Name:           "ダミー",
-		Details:        "詳細",
-		ImportanceName: "HIGH",
-		RegisteredAt:   nowTimestamp,
-		Deadline:       &timestamppb.Timestamp{Seconds: time.Date(2021, 8, 6, 12, 0, 0, 0, tokyo).Unix()},
-		UpdatedAt:      nowTimestamp,
-	}, nil
+	return tss.getTask.DoById(param.Id)
 }
 
 func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *gr.CreateTaskRequestParam) (*gr.Task, error) {

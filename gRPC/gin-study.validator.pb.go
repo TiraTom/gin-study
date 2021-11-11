@@ -53,6 +53,9 @@ func (this *Tasks) Validate() error {
 	return nil
 }
 func (this *GetTaskByIdRequestParam) Validate() error {
+	if !(len(this.Id) > 0) {
+		return github_com_mwitkow_go_proto_validators.FieldError("Id", fmt.Errorf(`value '%v' must have a length greater than '0'`, this.Id))
+	}
 	return nil
 }
 func (this *GetTaskByConditionRequestParam) Validate() error {

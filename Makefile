@@ -27,7 +27,12 @@ updateATask:
 	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "1", "importanceName": "HIGH"}' localhost:8081 TaskService/UpdateTask
 # gRPCサーバーにタスク削除のお試しリクエストを送る
 deleteATask:
-	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "1"}' localhost:8081 TaskService/DeleteTask
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "2"}' localhost:8081 TaskService/DeleteTask
+# gRPCサーバーにタスク取得のお試しリクエストを送る
+getTask:
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "be037713-03ed-4db5-a4f1-55c55c99b95e"}' localhost:8081 TaskService/GetTask
+#grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "dummy"}' localhost:8081 TaskService/GetTask
+
 
 # DI用ファイル作成
 di: FORCE

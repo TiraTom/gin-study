@@ -10,9 +10,17 @@ type GetTask struct {
 	tr repository_interface.Task
 }
 
-func (gt *GetTask) GetAllTasks() (*gr.Tasks, error) {
+func (gt *GetTask) DoAll() (*gr.Tasks, error) {
 	allTasks := gt.tr.GetAll()
 	return (&domain_obj.Tasks{Value: allTasks}).ToDto()
+}
+
+func (gt *GetTask) DoById(id string) (*gr.Task, error) {
+	task, err := gt.tr.GetById(id)
+	if err != nil {
+		return nil, err
+	}
+	return task.ToDto()
 }
 
 func NewGetTask(tr repository_interface.Task) *GetTask {

@@ -77,7 +77,7 @@ message Tasks {
 }
 
 message GetTaskByIdRequestParam {
-  string id = 1 [(validator.field) = {msg_exists : true}];
+  string id = 1 [(validator.field) = {length_gt : 0}];
 }
 
 message GetTaskByConditionRequestParam {

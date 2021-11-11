@@ -28,6 +28,8 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] gorm の time の警告対応：<https://github.com/go-sql-driver/mysql#timetime-support>に書いてある
 - [x] UPDATE 機能の実装（バリデーション含む）
 - [x] DELETE 機能の実装（バリデーション含む）
+- [x] ID によるタスク取得機能の実装
+- [ ] タスク作成時の RegisterdAt, updatedAt の時刻が ms まで入ってる。秒だけで十分なので直す。
 - [ ] 検索機能の実装
 - [ ] 例外処理（grpc_recovery のミドルウェア使いつつ）
 - [ ] マイグレーションツールの設定
