@@ -69,12 +69,19 @@ func InitializeDeleteTaskUsercase() *usecase.DeleteTask {
 	return deleteTask
 }
 
+func InitializeSearchTaskUsercase() *usecase.SearchTask {
+	task := InitializeTaskRepositoryInterface()
+	searchTask := usecase.NewSearchTask(task)
+	return searchTask
+}
+
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
 	zapLogger := middleware.NewZapLogger()
 	getTask := InitializeGetTaskUsecase()
 	createTask := InitializeCreateTaskUsecase()
 	updateTask := InitializeUpdateTaskUsecase()
 	deleteTask := InitializeDeleteTaskUsercase()
-	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, getTask, createTask, updateTask, deleteTask)
+	searchTask := InitializeSearchTaskUsercase()
+	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, getTask, createTask, updateTask, deleteTask, searchTask)
 	return taskServiceServer
 }

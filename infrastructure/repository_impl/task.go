@@ -5,6 +5,7 @@ import (
 
 	"github.com/Tiratom/gin-study/config"
 	"github.com/Tiratom/gin-study/domain/domain_obj"
+	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/infrastructure/record"
 )
 
@@ -98,6 +99,11 @@ func (t *Task) Delete(id string) error {
 	}
 
 	return nil
+}
+
+func (t *Task) Search(*gr.GetTaskByConditionRequestParam) ([]*domain_obj.Task, error) {
+	// TODO インフラ層にgrが入り込んでもいいものか・・・？とはいえ特にロジックが入り込むわけじゃないから値をドメインオブジェクトに詰め替えても本当にただ詰め替えるだけになる
+	return nil, fmt.Errorf("not yet implemneted")
 }
 
 func NewTask(db *config.DB) *Task {

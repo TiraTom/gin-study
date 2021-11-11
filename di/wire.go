@@ -57,7 +57,12 @@ func InitializeDeleteTaskUsercase() *usecase.DeleteTask {
 	return nil
 }
 
+func InitializeSearchTaskUsercase() *usecase.SearchTask {
+	wire.Build(usecase.NewSearchTask, InitializeTaskRepositoryInterface)
+	return nil
+}
+
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
-	wire.Build(presentation.NewTaskServiceServer, middleware.NewZapLogger, InitializeGetTaskUsecase, InitializeCreateTaskUsecase, InitializeUpdateTaskUsecase, InitializeDeleteTaskUsercase)
+	wire.Build(presentation.NewTaskServiceServer, middleware.NewZapLogger, InitializeGetTaskUsecase, InitializeCreateTaskUsecase, InitializeUpdateTaskUsecase, InitializeDeleteTaskUsercase, InitializeSearchTaskUsercase)
 	return nil
 }
