@@ -23,9 +23,6 @@ type TaskServiceServer struct {
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
-
-	tss.log.Info(ctx, "HOGEHOGE")
-
 	allTasks, err := tss.getTask.GetAllTasks()
 	if err != nil {
 		return nil, err
