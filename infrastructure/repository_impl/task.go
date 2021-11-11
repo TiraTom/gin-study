@@ -37,7 +37,7 @@ func (t *Task) GetById(id string) (*domain_obj.Task, error) {
 	return domain_obj.NewTask(foundTask), nil
 }
 
-func (t *Task) Create(p *domain_obj.Task) error {
+func (t *Task) Create(p *domain_obj.Task) (*domain_obj.Task, error) {
 	type iID struct {
 		Id int64
 	}
@@ -47,7 +47,16 @@ func (t *Task) Create(p *domain_obj.Task) error {
 	taskToCreate := p.ToRecord(iid.Id)
 	result := t.db.Gdb.Create(taskToCreate)
 
-	return result.Error
+	if result.Error != nil {
+		return nil, fmt.Errorf("タスク作成処理に失敗しました　%w", result.Error)
+	}
+
+	createdTask, err := t.GetById(p.Id)
+	if err != nil {
+		return nil, fmt.Errorf("作成処理成功後、作成内容取得に失敗しました　%w", err)
+	}
+
+	return createdTask, result.Error
 }
 
 func (t *Task) Update(p *domain_obj.Task) (*domain_obj.Task, error) {

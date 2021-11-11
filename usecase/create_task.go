@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"fmt"
-
 	"github.com/Tiratom/gin-study/domain/domain_obj"
 	"github.com/Tiratom/gin-study/domain/repository_interface"
 	gr "github.com/Tiratom/gin-study/grpc"
@@ -18,17 +16,12 @@ func (c *CreateTask) Do(p *gr.CreateTaskRequestParam) (*gr.Task, error) {
 		return nil, err
 	}
 
-	err = c.tr.Create(newTask)
+	createdTask, err := c.tr.Create(newTask)
 	if err != nil {
 		return nil, err
 	}
 
-	createdTask, err := newTask.ToDto()
-	if err != nil {
-		return nil, fmt.Errorf("データ登録成功後、内部エラーが発生しました %w", err)
-	}
-
-	return createdTask, nil
+	return createdTask.ToDto()
 }
 
 func NewCreateTask(tr repository_interface.Task) *CreateTask {

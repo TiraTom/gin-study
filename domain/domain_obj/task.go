@@ -60,7 +60,7 @@ func NewTask(tr *record.TaskAndImportance) *Task {
 
 // NewTaskToCreate　リクエストパラムから新規作成するタスクの定義を用意する。
 func NewTaskToCreate(p *gr.CreateTaskRequestParam) (*Task, error) {
-	now := time.Now()
+	now := time.Now().UTC()
 
 	return &Task{
 		Id:             uuid.New().String(),
