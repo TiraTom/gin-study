@@ -24,13 +24,17 @@ createATask:
 	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"name": "TestTask1", "details": "TestDetails1", "importanceName": "LOW", "deadline": "2021-09-23T14:30:00+09:00"}' localhost:8081 TaskService/CreateTask
 # gRPCサーバーにタスク更新のお試しリクエストを送る
 updateATask:
-	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "12fa684e-f203-413b-8889-60025d7a0e8f", "importanceName": "HIGH", "deadline": "2021-10-23T14:30:00+09:00"}' localhost:8081 TaskService/UpdateTask
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "1dd2a403-5193-41b4-8462-ab9a4a9385e6", "importanceName": "HIGH", "deadline": "2021-10-23T14:30:00+09:00"}' localhost:8081 TaskService/UpdateTask
 # gRPCサーバーにタスク削除のお試しリクエストを送る
 deleteATask:
 	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "2"}' localhost:8081 TaskService/DeleteTask
 # gRPCサーバーにタスク取得のお試しリクエストを送る
 getTask:
 	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "12fa684e-f203-413b-8889-60025d7a0e8f"}' localhost:8081 TaskService/GetTask
+# gRPCサーバーにタスク検索のお試しリクエストを送る
+getTasks:
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"details": "details"}' localhost:8081 TaskService/GetTasks
+#	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"name": "TestTask1", "details": "TestDetails1", "importanceName": "LOW"}' localhost:8081 TaskService/GetTasks
 
 
 # DI用ファイル作成

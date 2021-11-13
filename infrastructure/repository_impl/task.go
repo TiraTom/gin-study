@@ -101,9 +101,37 @@ func (t *Task) Delete(id string) error {
 	return nil
 }
 
-func (t *Task) Search(*gr.GetTaskByConditionRequestParam) ([]*domain_obj.Task, error) {
+func (t *Task) Search(p *gr.GetTaskByConditionRequestParam) ([]*domain_obj.Task, error) {
+	var tasks []*domain_obj.Task
+
 	// TODO インフラ層にgrが入り込んでもいいものか・・・？とはいえ特にロジックが入り込むわけじゃないから値をドメインオブジェクトに詰め替えても本当にただ詰め替えるだけになる
-	return nil, fmt.Errorf("not yet implemneted")
+	c := &domain_obj.Task{
+		Name:           p.Name,
+		Details:        p.Details,
+		ImportanceName: p.ImportanceName,
+		RegisteredAt:   nil,
+		UpdatedAt:      nil,
+		Deadline:       nil,
+	}
+
+	result := t.db.Gdb.Table("tasks").Where(&c).Find(&tasks)
+
+	return tasks, result.Error
+
+	// TODO 期限日時のorderBy条件についての記述
+
+	// switch p.SearchTypeForDeadline {
+	// case gr.TimestampCompareBy_BEFORE:
+
+	// case gr.TimestampCompareBy_SAME:
+
+	// case gr.TimestampCompareBy_AFTER:
+
+	// default:
+
+	// }
+
+	// return nil, fmt.Errorf("not yet implemneted")
 }
 
 func NewTask(db *config.DB) *Task {

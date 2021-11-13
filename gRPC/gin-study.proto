@@ -86,17 +86,9 @@ message GetTaskByConditionRequestParam {
   // 重要度
 	string importanceName = 3;
 
-  // 登録日時（タイムスタンプ）
-  google.protobuf.Timestamp registered_at = 4;
-  TimestampCompareBy serachTypeForRegisterdAt = 5;
-
   // 期限日時（タイムスタンプ）
-  google.protobuf.Timestamp deadline = 6;
-  TimestampCompareBy serachTypeForDeadline = 7;
-
-  // 更新日時（タイムスタンプ）
-  google.protobuf.Timestamp updated_at = 8;
-  TimestampCompareBy serachTypeForUpdatedAt = 9;
+  google.protobuf.Timestamp deadline = 4;
+  TimestampCompareBy searchTypeForDeadline = 5;
 }
 
 message CreateTaskRequestParam {

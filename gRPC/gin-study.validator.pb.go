@@ -59,19 +59,9 @@ func (this *GetTaskByIdRequestParam) Validate() error {
 	return nil
 }
 func (this *GetTaskByConditionRequestParam) Validate() error {
-	if this.RegisteredAt != nil {
-		if err := github_com_mwitkow_go_proto_validators.CallValidatorIfExists(this.RegisteredAt); err != nil {
-			return github_com_mwitkow_go_proto_validators.FieldError("RegisteredAt", err)
-		}
-	}
 	if this.Deadline != nil {
 		if err := github_com_mwitkow_go_proto_validators.CallValidatorIfExists(this.Deadline); err != nil {
 			return github_com_mwitkow_go_proto_validators.FieldError("Deadline", err)
-		}
-	}
-	if this.UpdatedAt != nil {
-		if err := github_com_mwitkow_go_proto_validators.CallValidatorIfExists(this.UpdatedAt); err != nil {
-			return github_com_mwitkow_go_proto_validators.FieldError("UpdatedAt", err)
 		}
 	}
 	return nil

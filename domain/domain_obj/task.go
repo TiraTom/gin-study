@@ -14,9 +14,9 @@ type Task struct {
 	Name           string
 	Details        string
 	ImportanceName string
-	RegisteredAt   time.Time
-	Deadline       time.Time
-	UpdatedAt      time.Time
+	RegisteredAt   *time.Time
+	Deadline       *time.Time
+	UpdatedAt      *time.Time
 	Version        uint
 }
 
@@ -26,9 +26,9 @@ func (t *Task) ToDto() (*gr.Task, error) {
 		Name:           t.Name,
 		Details:        t.Details,
 		ImportanceName: t.ImportanceName,
-		RegisteredAt:   timestamppb.New(t.RegisteredAt),
-		Deadline:       timestamppb.New(t.Deadline),
-		UpdatedAt:      timestamppb.New(t.UpdatedAt),
+		RegisteredAt:   timestamppb.New(*t.RegisteredAt),
+		Deadline:       timestamppb.New(*t.Deadline),
+		UpdatedAt:      timestamppb.New(*t.UpdatedAt),
 	}, nil
 }
 
@@ -38,9 +38,9 @@ func (t *Task) ToRecord(i int64) *record.Task {
 		Name:         t.Name,
 		Details:      t.Details,
 		ImportanceId: i,
-		RegisteredAt: t.RegisteredAt,
-		Deadline:     t.Deadline,
-		UpdatedAt:    t.UpdatedAt,
+		RegisteredAt: *t.RegisteredAt,
+		Deadline:     *t.Deadline,
+		UpdatedAt:    *t.UpdatedAt,
 		Version:      t.Version,
 	}
 }
@@ -51,9 +51,9 @@ func NewTask(tr *record.TaskAndImportance) *Task {
 		Name:           tr.Name,
 		Details:        tr.Details,
 		ImportanceName: tr.ImportanceName,
-		RegisteredAt:   tr.RegisteredAt,
-		Deadline:       tr.Deadline,
-		UpdatedAt:      tr.UpdatedAt,
+		RegisteredAt:   &tr.RegisteredAt,
+		Deadline:       &tr.Deadline,
+		UpdatedAt:      &tr.UpdatedAt,
 		Version:        tr.Version,
 	}
 }
@@ -62,14 +62,16 @@ func NewTask(tr *record.TaskAndImportance) *Task {
 func NewTaskToCreate(p *gr.CreateTaskRequestParam) (*Task, error) {
 	now := time.Now().UTC()
 
+	newDeadline := p.Deadline.AsTime()
+
 	return &Task{
 		Id:             uuid.New().String(),
 		Name:           p.Name,
 		Details:        p.Details,
 		ImportanceName: p.ImportanceName,
-		RegisteredAt:   now,
-		Deadline:       p.Deadline.AsTime(),
-		UpdatedAt:      now,
+		RegisteredAt:   &now,
+		Deadline:       &newDeadline,
+		UpdatedAt:      &now,
 		Version:        1,
 	}, nil
 }
@@ -103,7 +105,7 @@ func NewTaskToUpdate(o *Task, p *gr.UpdateTaskRequestParam) (*Task, error) {
 	if p.Deadline != nil {
 		newDeadline = p.Deadline.AsTime()
 	} else {
-		newDeadline = o.Deadline
+		newDeadline = *o.Deadline
 	}
 
 	return &Task{
@@ -112,8 +114,8 @@ func NewTaskToUpdate(o *Task, p *gr.UpdateTaskRequestParam) (*Task, error) {
 		Details:        newDetails,
 		ImportanceName: newImportanceName,
 		RegisteredAt:   o.RegisteredAt,
-		Deadline:       newDeadline,
-		UpdatedAt:      now,
+		Deadline:       &newDeadline,
+		UpdatedAt:      &now,
 		Version:        o.Version + 1,
 	}, nil
 }

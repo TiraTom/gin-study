@@ -25,6 +25,7 @@ func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empt
 }
 
 func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByConditionRequestParam) (*gr.Tasks, error) {
+	// TODO ageとかゼロ値がありうる項目も検索する場合にも問題ないようにポインタでparamも設定すべきか？
 	return tss.searchTask.Do(param)
 }
 
