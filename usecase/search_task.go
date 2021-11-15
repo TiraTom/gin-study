@@ -11,7 +11,8 @@ type SearchTask struct {
 }
 
 func (s *SearchTask) Do(p *gr.GetTaskByConditionRequestParam) (*gr.Tasks, error) {
-	tasks, err := s.tr.Search(p)
+	c := domain_obj.NewTaskSearchCondition(p)
+	tasks, err := s.tr.Search(c)
 	if err != nil {
 		return nil, err
 	}

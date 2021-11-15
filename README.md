@@ -30,7 +30,10 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] DELETE 機能の実装（バリデーション含む）
 - [x] ID によるタスク取得機能の実装
 - [x] タスク作成時の RegisterdAt, updatedAt の時刻が ms まで入ってる。秒だけで十分なので直す。
-- [ ] 検索機能の実装
+- [x] タスク名での検索
+- [ ] 重要度での検索
+- [ ] 検索結果の戻り値に ImportanceName がないので修正
+- [ ] 検索機能の実装（全般的な動作確認含む）
 - [ ] 例外処理（grpc_recovery のミドルウェア使いつつ）
 - [ ] マイグレーションツールの設定
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる

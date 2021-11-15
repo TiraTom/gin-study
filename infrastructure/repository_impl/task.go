@@ -5,7 +5,6 @@ import (
 
 	"github.com/Tiratom/gin-study/config"
 	"github.com/Tiratom/gin-study/domain/domain_obj"
-	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/infrastructure/record"
 )
 
@@ -61,10 +60,7 @@ func (t *Task) Create(p *domain_obj.Task) (*domain_obj.Task, error) {
 }
 
 func (t *Task) Update(p *domain_obj.Task) (*domain_obj.Task, error) {
-	type iID struct {
-		Id int64
-	}
-	var iid *iID
+	var iid *domain_obj.ImportanceID
 	t.db.Gdb.Table("importances").Where("name = ?", p.ImportanceName).Find(&iid)
 
 	taskToUpdate := p.ToRecord(iid.Id)
@@ -101,23 +97,27 @@ func (t *Task) Delete(id string) error {
 	return nil
 }
 
-func (t *Task) Search(p *gr.GetTaskByConditionRequestParam) ([]*domain_obj.Task, error) {
+func (t *Task) Search(p *domain_obj.TaskSearchCondition) ([]*domain_obj.Task, error) {
 	var tasks []*domain_obj.Task
 
-	// TODO インフラ層にgrが入り込んでもいいものか・・・？とはいえ特にロジックが入り込むわけじゃないから値をドメインオブジェクトに詰め替えても本当にただ詰め替えるだけになる
-	c := &domain_obj.Task{
-		Name:           p.Name,
-		Details:        p.Details,
-		ImportanceName: p.ImportanceName,
-		RegisteredAt:   nil,
-		UpdatedAt:      nil,
-		Deadline:       nil,
+	var iid *domain_obj.ImportanceID
+	t.db.Gdb.Table("importances").Where("name = ?", p.ImportanceName).Find(&iid)
+	if iid.Id == 0 {
+		return nil, fmt.Errorf("該当の重要度ラベル(%s)は存在しません", p.ImportanceName)
+	}
+
+	c := &record.Task{
+		Name:         p.Name,
+		Details:      p.Details,
+		ImportanceId: iid.Id,
 	}
 
 	result := t.db.Gdb.Table("tasks").Where(&c).Find(&tasks)
 
 	return tasks, result.Error
 
+	// TODO 重要度検索できてるか確認
+	// TODO DBアクセスがimpotance, taskの各テーブル１回ずつ発生しているので、１回で済むようにする
 	// TODO 期限日時のorderBy条件についての記述
 
 	// switch p.SearchTypeForDeadline {
