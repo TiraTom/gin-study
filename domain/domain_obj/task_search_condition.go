@@ -1,6 +1,7 @@
 package domain_obj
 
 import (
+	"fmt"
 	"time"
 
 	gr "github.com/Tiratom/gin-study/grpc"
@@ -16,6 +17,19 @@ type TaskSearchCondition struct {
 
 func (t *TaskSearchCondition) IsDeadlineIncludedInCondition() bool {
 	return t.SearchTypeForDeadline != nil
+}
+
+func (t *TaskSearchCondition) AsDeadlineConditionSentence() (string, error) {
+	switch t.SearchTypeForDeadline.Number() {
+	case gr.TimestampCompareBy_BEFORE.Number():
+		return "tasks.deadline < ?", nil
+	case gr.TimestampCompareBy_SAME.Number():
+		return "tasks.deadline = ?", nil
+	case gr.TimestampCompareBy_AFTER.Number():
+		return "tasks.deadline > ?", nil
+	default:
+		return "", fmt.Errorf("期限日時の比較条件設定として使えない値です %s", t.SearchTypeForDeadline)
+	}
 }
 
 func (t *TaskSearchCondition) AsSelectConditionMap() map[string]interface{} {

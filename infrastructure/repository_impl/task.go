@@ -6,6 +6,7 @@ import (
 	"github.com/Tiratom/gin-study/config"
 	"github.com/Tiratom/gin-study/domain/domain_obj"
 	"github.com/Tiratom/gin-study/infrastructure/record"
+	"gorm.io/gorm"
 )
 
 type Task struct {
@@ -92,7 +93,16 @@ func (t *Task) Delete(id string) error {
 func (t *Task) Search(p *domain_obj.TaskSearchCondition) (*domain_obj.Tasks, error) {
 	var foundTasks []*record.TaskAndImportance
 
-	result := t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Where(p.AsSelectConditionMap()).Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Find(&foundTasks)
+	var result *gorm.DB
+	if p.IsDeadlineIncludedInCondition() {
+		dcs, err := p.AsDeadlineConditionSentence()
+		if err != nil {
+			return nil, err
+		}
+		result = t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Where(p.AsSelectConditionMap()).Where(dcs, p.Deadline).Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Find(&foundTasks)
+	} else {
+		result = t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Where(p.AsSelectConditionMap()).Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Find(&foundTasks)
+	}
 
 	return domain_obj.NewTasks(foundTasks), result.Error
 
