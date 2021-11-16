@@ -12,18 +12,13 @@ type Task struct {
 	db *config.DB
 }
 
-func (t *Task) GetAll() []*domain_obj.Task {
+func (t *Task) GetAll() *domain_obj.Tasks {
 	var records []*record.TaskAndImportance
 	// TODO この書き方だとimportance系の値を入れてくれない理由がわからない（selectの並び順に決まりがある？）
 	// t.db.Gdb.Table("tasks").Select("tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at", "importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level").Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Scan(&records)
 	t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Scan(&records)
 
-	result := make([]*domain_obj.Task, len(records))
-	for i, v := range records {
-		result[i] = domain_obj.NewTask(v)
-	}
-
-	return result
+	return domain_obj.NewTasks(records)
 }
 
 func (t *Task) GetById(id string) (*domain_obj.Task, error) {
@@ -38,10 +33,7 @@ func (t *Task) GetById(id string) (*domain_obj.Task, error) {
 }
 
 func (t *Task) Create(p *domain_obj.Task) (*domain_obj.Task, error) {
-	type iID struct {
-		Id int64
-	}
-	var iid *iID
+	var iid *domain_obj.ImportanceID
 	t.db.Gdb.Table("importances").Where("name = ?", p.ImportanceName).Find(&iid)
 
 	taskToCreate := p.ToRecord(iid.Id)
@@ -97,27 +89,13 @@ func (t *Task) Delete(id string) error {
 	return nil
 }
 
-func (t *Task) Search(p *domain_obj.TaskSearchCondition) ([]*domain_obj.Task, error) {
-	var tasks []*domain_obj.Task
+func (t *Task) Search(p *domain_obj.TaskSearchCondition) (*domain_obj.Tasks, error) {
+	var foundTasks []*record.TaskAndImportance
 
-	var iid *domain_obj.ImportanceID
-	t.db.Gdb.Table("importances").Where("name = ?", p.ImportanceName).Find(&iid)
-	if iid.Id == 0 {
-		return nil, fmt.Errorf("該当の重要度ラベル(%s)は存在しません", p.ImportanceName)
-	}
+	result := t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Where(p.AsSelectConditionMap()).Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Find(&foundTasks)
 
-	c := &record.Task{
-		Name:         p.Name,
-		Details:      p.Details,
-		ImportanceId: iid.Id,
-	}
+	return domain_obj.NewTasks(foundTasks), result.Error
 
-	result := t.db.Gdb.Table("tasks").Where(&c).Find(&tasks)
-
-	return tasks, result.Error
-
-	// TODO 重要度検索できてるか確認
-	// TODO DBアクセスがimpotance, taskの各テーブル１回ずつ発生しているので、１回で済むようにする
 	// TODO 期限日時のorderBy条件についての記述
 
 	// switch p.SearchTypeForDeadline {

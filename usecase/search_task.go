@@ -16,7 +16,7 @@ func (s *SearchTask) Do(p *gr.GetTaskByConditionRequestParam) (*gr.Tasks, error)
 	if err != nil {
 		return nil, err
 	}
-	return (&domain_obj.Tasks{Value: tasks}).ToDto()
+	return tasks.ToDto()
 }
 
 func NewSearchTask(tr repository_interface.Task) *SearchTask {

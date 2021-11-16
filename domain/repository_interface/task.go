@@ -7,12 +7,12 @@ import (
 )
 
 type Task interface {
-	GetAll() []*domain_obj.Task
+	GetAll() *domain_obj.Tasks
 	GetById(id string) (*domain_obj.Task, error)
 	Create(*domain_obj.Task) (*domain_obj.Task, error)
 	Update(*domain_obj.Task) (*domain_obj.Task, error)
 	Delete(id string) error
-	Search(*domain_obj.TaskSearchCondition) ([]*domain_obj.Task, error)
+	Search(*domain_obj.TaskSearchCondition) (*domain_obj.Tasks, error)
 }
 
 func NewTask(db *config.DB) Task {
