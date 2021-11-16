@@ -33,9 +33,7 @@ getTask:
 	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"id": "1dd2a403-5193-41b4-8462-ab9a4a9385e6"}' localhost:8081 TaskService/GetTask
 # gRPCサーバーにタスク検索のお試しリクエストを送る
 getTasks:
-	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"deadline": "2021-08-23T00:00:02Z", "searchTypeForDeadline": "AFTER", "importanceName": "HIGH"}' localhost:8081 TaskService/GetTasks
-#	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"name": "TestTask1"}' localhost:8081 TaskService/GetTasks
-#	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"name": "TestTask1", "details": "TestDetails1", "importanceName": "LOW"}' localhost:8081 TaskService/GetTasks
+	grpcurl -import-path . -proto ./grpc/gin-study.proto -import-path ${GOPATH}/src -proto github.com/mwitkow/go-proto-validators/validator.proto -plaintext -d '{"importanceName":"LOW","deadline": "2021-08-20T09:25:53Z", "searchTypeForDeadline": "BEFORE"}' localhost:8081 TaskService/GetTasks
 
 # DI用ファイル作成
 di: FORCE

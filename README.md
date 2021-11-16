@@ -34,7 +34,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] 重要度での検索
 - [x] 検索結果の戻り値に ImportanceName がないので修正
 - [x] 検索条件に期限日時が使えるようにする
-- [ ] 検索機能の全般的な動作確認
+- [x] 検索機能の全般的な動作確認
 - [ ] 例外処理（grpc_recovery のミドルウェア使いつつ）
 - [ ] マイグレーションツールの設定
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
