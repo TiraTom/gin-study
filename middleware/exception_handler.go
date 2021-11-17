@@ -1,9 +1,14 @@
 package middleware
 
-import "fmt"
+import (
+	"fmt"
+
+	"go.uber.org/zap"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+)
 
 func HandlePanic(p interface{}) error {
-	// TODO 実装
-	fmt.Println("Handled!")
-	return nil
+	zap.L().Error(fmt.Sprintf("%+v\n", p))
+	return status.Errorf(codes.Internal, "Unexpected error")
 }

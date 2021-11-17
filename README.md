@@ -36,7 +36,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] 検索条件に期限日時が使えるようにする
 - [x] 検索機能の全般的な動作確認
 - [x] ~~Lint か何かで英単語と日本語の間にスペースが入るようになってしまってるので直す~~ →Prettier のデフォルト設定だしで一旦スルーすることにする
-- [ ] 例外処理（grpc_recovery のミドルウェア使いつつ）
+- [x] 例外処理（grpc_recovery のミドルウェア使いつつ）
 - [ ] マイグレーションツールの設定
 - [ ] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる
 - [ ] GitHubAction で push 後自動でテスト実施
