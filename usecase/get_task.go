@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"fmt"
+
 	"github.com/Tiratom/gin-study/domain/repository_interface"
 	gr "github.com/Tiratom/gin-study/grpc"
 )
@@ -11,6 +13,10 @@ type GetTask struct {
 
 func (gt *GetTask) DoAll() (*gr.Tasks, error) {
 	allTasks := gt.tr.GetAll()
+
+	// TODO 例外処理の実装が終わったら削除する
+	panic(fmt.Errorf("recoveryのテスト"))
+
 	return allTasks.ToDto()
 }
 

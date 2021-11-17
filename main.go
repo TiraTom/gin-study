@@ -10,6 +10,7 @@ import (
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -30,6 +31,11 @@ func main() {
 			grpc_middleware.ChainUnaryServer(
 				middleware.GetZapLoggerUnaryInterceptor(),
 				grpc_validator.UnaryServerInterceptor(),
+				grpc_recovery.UnaryServerInterceptor(
+					[]grpc_recovery.Option{
+						grpc_recovery.WithRecoveryHandler(middleware.HandlePanic),
+					}...,
+				),
 			),
 		),
 	)
