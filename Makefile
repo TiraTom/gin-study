@@ -46,4 +46,11 @@ lint:
 local-db:
 	docker compose up
 
+show-migrate-ver:
+	migrate -source file://migrations/definitions -database mysql://docker:docker@/gin_study version
+
+# migrate時にエラーによりdirtyになった場合に、マイグレーションファイル修正後に指定VerでDirty状態を解除するためのコマンドメモ（VERSIONを適宜書き換えること）
+migrate-force:
+	migrate -path ./migrations/definitions -database mysql://docker:docker@/gin_study force 【VERSION】
+
 FORCE:
