@@ -1,12 +1,7 @@
 package config
 
 import (
-	"database/sql"
-	"fmt"
-
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/golang-migrate/migrate/v4"
-	mm "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 
 	"gorm.io/driver/mysql"
@@ -19,38 +14,8 @@ type DB struct {
 }
 
 func NewDB(env *Environment) *DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/gin_study?parseTime=true", env.DB_USER, env.DB_PASSWORD, env.DB_ADDRESS)
-	gdb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		// デバッグ用のログレベル設定中。環境変数読み込みにできるといいかも
-		Logger: logger.Default.LogMode(logger.Info),
-	})
+	gdb, err := gorm.Open(mysql.Open(env.DB_DNS), getGormConf(env))
 	if err != nil {
-		panic(err)
-	}
-
-	// マイグレーション設定
-
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s)/gin_study?parseTime=true&multiStatements=true", env.DB_USER, env.DB_PASSWORD, env.DB_ADDRESS))
-	if err != nil {
-		panic(err)
-	}
-
-	driver, err := mm.WithInstance(db, &mm.Config{})
-	if err != nil {
-		panic(err)
-	}
-
-	m, err := migrate.NewWithDatabaseInstance(
-		"file://migrations/definitions",
-		"mysql",
-		driver,
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	err = m.Up()
-	if err != nil && err != migrate.ErrNoChange {
 		panic(err)
 	}
 
@@ -65,4 +30,18 @@ func NewDB(env *Environment) *DB {
 	sqlDB.SetConnMaxIdleTime(env.DB_CONNECTION_MAX_IDLE_TIME)
 
 	return &DB{gdb}
+}
+
+func getGormConf(env *Environment) *gorm.Config {
+	var gormConf *gorm.Config
+	if env.IsDebugEnv() {
+		// デバッグ用のログレベル設定中。環境変数読み込みにできるといいかも
+		gormConf = &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Info),
+		}
+	} else {
+		gormConf = &gorm.Config{}
+	}
+
+	return gormConf
 }
