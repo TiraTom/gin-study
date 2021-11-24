@@ -46,6 +46,9 @@ lint:
 local-db:
 	docker compose up
 
+insert-dummyData:
+	cat ./dummyData/dummyData.sql | read x; docker exec -it db mysql -uroot -h 127.0.0.1 -p -Dgin_study -e $x -p
+
 show-migrate-ver:
 	migrate -source file://migrations/definitions -database mysql://docker:docker@/gin_study version
 

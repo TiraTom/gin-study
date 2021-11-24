@@ -51,7 +51,7 @@ func main() {
 	env := config.NewEnvironment()
 
 	// マイグレーション
-	err := config.DoMigrate(env.DB_DNS, env.IsDebugEnv())
+	err := config.DoMigrate(env.DB_DNS)
 	if err != nil {
 		panic(err)
 	}

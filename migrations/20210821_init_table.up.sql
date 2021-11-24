@@ -9,12 +9,12 @@ CREATE TABLE IF NOT EXISTS importances (
 ) COMMENT '重要度';
 
 INSERT INTO importances
-	(name, level)
+	(id, name, level)
 	VALUES
-	("MEDIUM", 1),
-	("VERY_HIGH", 4),
-	("HIGH", 3),
-	("LOW", 2);
+	(1, "MEDIUM", 2),
+	(2, "VERY_HIGH", 4),
+	(3, "HIGH", 3),
+	(4, "LOW", 1);
 
 CREATE TABLE IF NOT EXISTS tasks (
   id CHAR(36) PRIMARY KEY COMMENT 'タスクID',
