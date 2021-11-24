@@ -51,7 +51,10 @@ func main() {
 	env := config.NewEnvironment()
 
 	// マイグレーション
-	config.DoMigrate(env.DB_DNS)
+	err := config.DoMigrate(env.DB_DNS, env.IsDebugEnv())
+	if err != nil {
+		panic(err)
+	}
 
 	// gRPCサーバーの起動設定
 	listenPort, err := net.Listen("tcp", fmt.Sprintf(":%s", env.APP_PORT_NUM))
