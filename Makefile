@@ -57,4 +57,8 @@ show-migrate-ver:
 migrate-force:
 	migrate -path ./migrations/definitions -database mysql://docker:docker@/gin_study force 【VERSION】
 
+# schemaspyによるDBスキーマの作成
+schema:
+	docker run --rm --network=host -v "$$(PWD)/schemaspy/output:/output" -v "$$(PWD)/schemaspy/schemaspy.properties:/schemaspy.properties" -v "$$(PWD)/schemaspy/drivers:/drivers" schemaspy/schemaspy:latest -debug -connprops "useSSL\=false;allowPublicKeyRetrieval\=true"
+
 FORCE:
