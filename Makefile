@@ -51,11 +51,11 @@ insert-dummyData:
 	docker exec -it db mysql -uroot -p -h 127.0.0.1 -p -Dgin_study -e "$$QUERY" -p
 
 show-migrate-ver:
-	migrate -source file://migrations/definitions -database mysql://docker:docker@/gin_study version
+	migrate -source file://migrations -database mysql://docker:docker@/gin_study version
 
 # migrate時にエラーによりdirtyになった場合に、マイグレーションファイル修正後に指定VerでDirty状態を解除するためのコマンドメモ（VERSIONを適宜書き換えること）
 migrate-force:
-	migrate -path ./migrations/definitions -database mysql://docker:docker@/gin_study force 【VERSION】
+	migrate -path ./migrations -database mysql://docker:docker@/gin_study force 20210821
 
 # schemaspyによるDBスキーマの作成
 schema:

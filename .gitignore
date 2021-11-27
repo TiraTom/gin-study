@@ -19,3 +19,5 @@
 docker/mysql/
 
 log/
+
+schemaspy/output

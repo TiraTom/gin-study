@@ -41,7 +41,8 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] ~~環境に応じてダミーデータを投入したりしなかったりできるようにする~~ → ダミーデータは make ファイルで適宜入れさせるようにした
 - [x] ダミーデータを複数行書いても問題なく投入できるようにする
 - [x] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる → schemaspyUser(pass: schemaspyPass)は SELECT 権限のみ付与、mysql_native_password 方式で認証させるようにして useSSL=false・allowPublicKeyRetrieval=true の設定を追加（ローカル実行だし）、schemaspy のイメージに用意されている JDBC ドライバは MySQL6 系なので 8 用の jar ファイルを落としてきてマウントして使わせる　等の作業がいろいろ必要だった・・・。
-- [ ] DB 定義変更を試してみる
+- [x] DB 定義変更を試してみる
+- [ ] err 処理をどうするのがいいか検討（今の書き方だとスタックトレース十分に取れない？）
 - [ ] GitHubAction で push 後自動でテスト実施
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）
 - [ ] ~~AWS にデプロイして動かす（CloudFormation 等利用）~~ 別でやる
