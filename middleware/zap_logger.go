@@ -13,6 +13,10 @@ import (
 type ZapLogger struct {
 }
 
+func (l ZapLogger) Debug(ctx context.Context, msg string) {
+	zap.L().Debug(msg, zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
+}
+
 func (l ZapLogger) Info(ctx context.Context, msg string) {
 	zap.L().Info(msg, zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
 }

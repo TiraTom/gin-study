@@ -21,20 +21,40 @@ type TaskServiceServer struct {
 }
 
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
-	return tss.getTask.DoAll()
+	tasks, err := tss.getTask.DoAll()
+	if err != nil {
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err.Error()))
+	}
+
+	return tasks, err
 }
 
 func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByConditionRequestParam) (*gr.Tasks, error) {
 	// TODO ageとかゼロ値がありうる項目も検索する場合にも問題ないようにポインタでparamも設定すべきか？
-	return tss.searchTask.Do(param)
+	tasks, err := tss.searchTask.Do(param)
+	if err != nil {
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
+	}
+
+	return tasks, err
 }
 
 func (tss *TaskServiceServer) GetTask(ctx context.Context, param *gr.GetTaskByIdRequestParam) (*gr.Task, error) {
-	return tss.getTask.DoById(param.Id)
+	task, err := tss.getTask.DoById(param.Id)
+	if err != nil {
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
+	}
+
+	return task, err
 }
 
 func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *gr.CreateTaskRequestParam) (*gr.Task, error) {
-	return tss.createTask.Do(param)
+	task, err := tss.createTask.Do(param)
+	if err != nil {
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
+	}
+
+	return task, err
 }
 
 func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTaskRequestParam) (*gr.Task, error) {
@@ -42,13 +62,14 @@ func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTa
 
 	t, err := tss.updateTask.Do(param)
 	if err != nil {
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
 		return nil, err
 	}
 
 	// memo: 返却用データに詰め替えるのをどこでやるべきかは悩み中、、
 	updatedTask, err := t.ToDto()
 	if err != nil {
-		return nil, fmt.Errorf("データ更新成功後、内部エラーが発生しました %w", err)
+		tss.log.Warn(ctx, fmt.Sprint("データ更新成功後、内部エラーが発生しました;", err))
 	}
 
 	return updatedTask, nil

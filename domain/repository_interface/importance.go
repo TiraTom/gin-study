@@ -7,7 +7,7 @@ import (
 )
 
 type Importance interface {
-	GetAll() []*domain_obj.Importance
+	GetAll() ([]*domain_obj.Importance, error)
 }
 
 func NewImportance(db *config.DB) Importance {

@@ -13,13 +13,13 @@ type Task struct {
 	db *config.DB
 }
 
-func (t *Task) GetAll() *domain_obj.Tasks {
+func (t *Task) GetAll() (*domain_obj.Tasks, error) {
 	var records []*record.TaskAndImportance
 	// TODO この書き方だとimportance系の値を入れてくれない理由がわからない（selectの並び順に決まりがある？）
 	// t.db.Gdb.Table("tasks").Select("tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at", "importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level").Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Scan(&records)
-	t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Scan(&records)
+	result := t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Scan(&records)
 
-	return domain_obj.NewTasks(records)
+	return domain_obj.NewTasks(records), result.Error
 }
 
 func (t *Task) GetById(id string) (*domain_obj.Task, error) {
@@ -27,7 +27,7 @@ func (t *Task) GetById(id string) (*domain_obj.Task, error) {
 	result := t.db.Gdb.Table("tasks").Select("importances.id as importance_id", "importances.name as importance_name", "importances.level as importance_level", "tasks.version as version", "tasks.id as id", "tasks.name as name", "tasks.details as details", "tasks.registered_at as registered_at", "tasks.deadline as deadline", "tasks.updated_at as updated_at").Joins("LEFT JOIN importances ON tasks.importance_id = importances.id").Where("tasks.id = ?", id).First(&foundTask)
 
 	if result.Error != nil {
-		return nil, fmt.Errorf("該当のタスクは存在しません")
+		return nil, fmt.Errorf("該当のタスクは存在しません %w", result.Error)
 	}
 
 	return domain_obj.NewTask(foundTask), nil
@@ -80,7 +80,7 @@ func (t *Task) Delete(id string) error {
 	result := t.db.Gdb.Where("id = ?", id).Delete(&Task{})
 
 	if result.Error != nil {
-		return result.Error
+		return fmt.Errorf("削除対象のTask検索でエラーが発生しました %w", result.Error)
 	}
 
 	if result.RowsAffected != 1 {
@@ -105,21 +105,6 @@ func (t *Task) Search(p *domain_obj.TaskSearchCondition) (*domain_obj.Tasks, err
 	}
 
 	return domain_obj.NewTasks(foundTasks), result.Error
-
-	// TODO 期限日時のorderBy条件についての記述
-
-	// switch p.SearchTypeForDeadline {
-	// case gr.TimestampCompareBy_BEFORE:
-
-	// case gr.TimestampCompareBy_SAME:
-
-	// case gr.TimestampCompareBy_AFTER:
-
-	// default:
-
-	// }
-
-	// return nil, fmt.Errorf("not yet implemneted")
 }
 
 func NewTask(db *config.DB) *Task {

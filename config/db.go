@@ -35,7 +35,6 @@ func NewDB(env *Environment) *DB {
 func getGormConf(env *Environment) *gorm.Config {
 	var gormConf *gorm.Config
 	if env.IsDebugEnv() {
-		// デバッグ用のログレベル設定中。環境変数読み込みにできるといいかも
 		gormConf = &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info),
 		}

@@ -10,16 +10,16 @@ type Importance struct {
 	db *config.DB
 }
 
-func (i *Importance) GetAll() []*domain_obj.Importance {
+func (i *Importance) GetAll() ([]*domain_obj.Importance, error) {
 	var records []*record.Importance
-	i.db.Gdb.Table("importances").Find(&records)
+	result := i.db.Gdb.Table("importances").Find(&records)
 
-	result := make([]*domain_obj.Importance, len(records))
+	importances := make([]*domain_obj.Importance, len(records))
 	for i, v := range records {
-		result[i] = domain_obj.NewImportance(v)
+		importances[i] = domain_obj.NewImportance(v)
 	}
 
-	return result
+	return importances, result.Error
 }
 
 func NewImportance(db *config.DB) *Importance {

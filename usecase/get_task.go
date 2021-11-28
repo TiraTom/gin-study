@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"fmt"
+
 	"github.com/Tiratom/gin-study/domain/repository_interface"
 	gr "github.com/Tiratom/gin-study/grpc"
 )
@@ -10,7 +12,10 @@ type GetTask struct {
 }
 
 func (gt *GetTask) DoAll() (*gr.Tasks, error) {
-	allTasks := gt.tr.GetAll()
+	allTasks, err := gt.tr.GetAll()
+	if err != nil {
+		return nil, fmt.Errorf("タスク取得においてエラーが発生しました %w", err)
+	}
 	return allTasks.ToDto()
 }
 

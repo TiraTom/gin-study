@@ -7,7 +7,7 @@ import (
 )
 
 type Task interface {
-	GetAll() *domain_obj.Tasks
+	GetAll() (*domain_obj.Tasks, error)
 	GetById(id string) (*domain_obj.Task, error)
 	Create(*domain_obj.Task) (*domain_obj.Task, error)
 	Update(*domain_obj.Task) (*domain_obj.Task, error)
