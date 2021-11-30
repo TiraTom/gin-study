@@ -118,7 +118,8 @@ message Importance {
 }
 
 enum TimestampCompareBy {
-  SAME = 0;
-  BEFORE = 1;
-  AFTER = 2;
+	NONE = 0;
+  SAME = 1;
+  BEFORE = 2;
+  AFTER = 3;
 }

@@ -49,13 +49,26 @@ func (t *TaskSearchCondition) AsSelectConditionMap() map[string]interface{} {
 }
 
 func NewTaskSearchCondition(p *gr.GetTaskByConditionRequestParam) *TaskSearchCondition {
-	dl := p.Deadline.AsTime()
+	var dl *time.Time
+	if p.Deadline != nil {
+		t := p.Deadline.AsTime()
+		dl = &t
+	} else {
+		dl = nil
+	}
+
+	var st *gr.TimestampCompareBy
+	if p.SearchTypeForDeadline != gr.TimestampCompareBy_NONE {
+		st = &p.SearchTypeForDeadline
+	} else {
+		st = nil
+	}
 
 	return &TaskSearchCondition{
 		Name:                  p.Name,
 		Details:               p.Details,
 		ImportanceName:        p.ImportanceName,
-		Deadline:              &dl,
-		SearchTypeForDeadline: &p.SearchTypeForDeadline,
+		Deadline:              dl,
+		SearchTypeForDeadline: st,
 	}
 }

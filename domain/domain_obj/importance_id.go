@@ -5,5 +5,5 @@ type ImportanceID struct {
 }
 
 func (i *ImportanceID) IsValid() bool {
-	return i.Id != 0
+	return i.Id > 0
 }
