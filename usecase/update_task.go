@@ -18,6 +18,11 @@ func (u *UpdateTask) Do(p *gr.UpdateTaskRequestParam) (*domain_obj.Task, error) 
 		return nil, err
 	}
 
+	if !targetTask.IsNeededToUpdate(p) {
+		// 更新項目なしなので早期リターン
+		return targetTask, nil
+	}
+
 	newTaskToUpdate, err := domain_obj.NewTaskToUpdate(targetTask, p)
 	if err != nil {
 		return nil, err

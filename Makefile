@@ -9,6 +9,9 @@ grpcDoc: FORCE
 run:
 	ENV=local go run main.go
 
+test:
+	go test -v ./...
+
 grpc-list:
 	grpcurl -plaintext localhost:8081 list
 
