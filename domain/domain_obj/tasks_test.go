@@ -3,7 +3,6 @@ package domain_obj
 import (
 	"reflect"
 	"testing"
-	"time"
 
 	gr "github.com/Tiratom/gin-study/grpc"
 	infrastructure "github.com/Tiratom/gin-study/infrastructure/record"
@@ -15,20 +14,7 @@ func TestTasks_ToDto(t *testing.T) {
 		Value []*Task
 	}
 
-	dummyTime1, err := time.Parse("2006/01/02 15:04:05", "2021/11/29 00:11:12")
-	if err != nil {
-		t.Errorf("時刻の変換処理でエラー発生 %w", err)
-	}
-	// 2021/11/29 00:11:12(UTC)
-	dummyTimeStampSec1 := int64(1638144672)
-
-	// 2021/11/30 00:11:12(UTC)
-	dummyTime2 := dummyTime1.AddDate(0, 0, 1)
-	dummyTimeStampSec2 := int64(1638231072)
-
-	// 2021/11/30 00:11:12(UTC)
-	dummyTime3 := dummyTime2.AddDate(0, 0, 1)
-	dummyTimeStampSec3 := int64(1638317472)
+	testVs := getDummyValues(t)
 
 	tests := []struct {
 		name    string
@@ -45,9 +31,9 @@ func TestTasks_ToDto(t *testing.T) {
 						Name:           "DUMMY_NAME1",
 						Details:        "DUMMY_DETAILS1",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME1",
-						RegisteredAt:   &dummyTime1,
-						Deadline:       &dummyTime2,
-						UpdatedAt:      &dummyTime3,
+						RegisteredAt:   &testVs.dummyTime1,
+						Deadline:       &testVs.dummyTime2,
+						UpdatedAt:      &testVs.dummyTime3,
 						Version:        2,
 					},
 					{
@@ -55,9 +41,9 @@ func TestTasks_ToDto(t *testing.T) {
 						Name:           "DUMMY_NAME2",
 						Details:        "DUMMY_DETAILS2",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME2",
-						RegisteredAt:   &dummyTime1,
-						Deadline:       &dummyTime2,
-						UpdatedAt:      &dummyTime3,
+						RegisteredAt:   &testVs.dummyTime1,
+						Deadline:       &testVs.dummyTime2,
+						UpdatedAt:      &testVs.dummyTime3,
 						Version:        3,
 					},
 				},
@@ -70,13 +56,13 @@ func TestTasks_ToDto(t *testing.T) {
 						Details:        "DUMMY_DETAILS1",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME1",
 						RegisteredAt: &timestamppb.Timestamp{
-							Seconds: dummyTimeStampSec1,
+							Seconds: testVs.dummyTimestampSec1,
 						},
 						Deadline: &timestamppb.Timestamp{
-							Seconds: dummyTimeStampSec2,
+							Seconds: testVs.dummyTimestampSec2,
 						},
 						UpdatedAt: &timestamppb.Timestamp{
-							Seconds: dummyTimeStampSec3,
+							Seconds: testVs.dummyTimestampSec3,
 						},
 					},
 					{
@@ -85,13 +71,13 @@ func TestTasks_ToDto(t *testing.T) {
 						Details:        "DUMMY_DETAILS2",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME2",
 						RegisteredAt: &timestamppb.Timestamp{
-							Seconds: dummyTimeStampSec1,
+							Seconds: testVs.dummyTimestampSec1,
 						},
 						Deadline: &timestamppb.Timestamp{
-							Seconds: dummyTimeStampSec2,
+							Seconds: testVs.dummyTimestampSec2,
 						},
 						UpdatedAt: &timestamppb.Timestamp{
-							Seconds: dummyTimeStampSec3,
+							Seconds: testVs.dummyTimestampSec3,
 						},
 					},
 				},
@@ -152,15 +138,7 @@ func TestNewTasks(t *testing.T) {
 		records []*infrastructure.TaskAndImportance
 	}
 
-	// 2021/11/29 00:11:12(UTC)
-	dummyTime1, err := time.Parse("2006/01/02 15:04:05", "2021/11/29 00:11:12")
-	if err != nil {
-		t.Errorf("時刻の変換処理でエラー発生 %w", err)
-	}
-	// 2021/11/30 00:11:12(UTC)
-	dummyTime2 := dummyTime1.AddDate(0, 0, 1)
-	// 2021/11/30 00:11:12(UTC)
-	dummyTime3 := dummyTime2.AddDate(0, 0, 1)
+	testVs := getDummyValues(t)
 
 	tests := []struct {
 		name string
@@ -178,9 +156,9 @@ func TestNewTasks(t *testing.T) {
 						ImportanceId:    2,
 						ImportanceName:  "DUMMY_IMPORTANCE_NAME1",
 						ImportanceLevel: 3,
-						RegisteredAt:    dummyTime1,
-						Deadline:        dummyTime2,
-						UpdatedAt:       dummyTime3,
+						RegisteredAt:    testVs.dummyTime1,
+						Deadline:        testVs.dummyTime2,
+						UpdatedAt:       testVs.dummyTime3,
 						Version:         4,
 					},
 					{
@@ -190,9 +168,9 @@ func TestNewTasks(t *testing.T) {
 						ImportanceId:    12,
 						ImportanceName:  "DUMMY_IMPORTANCE_NAME2",
 						ImportanceLevel: 13,
-						RegisteredAt:    dummyTime1,
-						Deadline:        dummyTime2,
-						UpdatedAt:       dummyTime3,
+						RegisteredAt:    testVs.dummyTime1,
+						Deadline:        testVs.dummyTime2,
+						UpdatedAt:       testVs.dummyTime3,
 						Version:         14,
 					},
 				},
@@ -204,9 +182,9 @@ func TestNewTasks(t *testing.T) {
 						Name:           "DUMMY_NAME1",
 						Details:        "DUMMY_DETAILS1",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME1",
-						RegisteredAt:   &dummyTime1,
-						Deadline:       &dummyTime2,
-						UpdatedAt:      &dummyTime3,
+						RegisteredAt:   &testVs.dummyTime1,
+						Deadline:       &testVs.dummyTime2,
+						UpdatedAt:      &testVs.dummyTime3,
 						Version:        4,
 					},
 					{
@@ -214,9 +192,9 @@ func TestNewTasks(t *testing.T) {
 						Name:           "DUMMY_NAME2",
 						Details:        "DUMMY_DETAILS2",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME2",
-						RegisteredAt:   &dummyTime1,
-						Deadline:       &dummyTime2,
-						UpdatedAt:      &dummyTime3,
+						RegisteredAt:   &testVs.dummyTime1,
+						Deadline:       &testVs.dummyTime2,
+						UpdatedAt:      &testVs.dummyTime3,
 						Version:        14,
 					},
 				},
