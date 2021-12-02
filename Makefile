@@ -10,7 +10,7 @@ run:
 	ENV=local go run main.go
 
 test:
-	go test -v ./...
+	ENV=test go test -v ./...
 
 grpc-list:
 	grpcurl -plaintext localhost:8081 list
@@ -45,7 +45,7 @@ di: FORCE
 lint:
 	golangci-lint run
 
-# ローカル開発用mysqlの立ち上げ
+# ローカル開発用mysqlの立ち上げ（テスト用DB含む）
 local-db:
 	docker compose up
 
@@ -54,11 +54,11 @@ insert-dummyData:
 	docker exec -it db mysql -uroot -p -h 127.0.0.1 -p -Dgin_study -e "$$QUERY" -p
 
 show-migrate-ver:
-	migrate -source file://migrations -database mysql://docker:docker@/gin_study version
+	migrate -source file://migrations -database "mysql://docker:docker@tcp(localhost:3306)/gin_study" version
 
 # migrate時にエラーによりdirtyになった場合に、マイグレーションファイル修正後に指定VerでDirty状態を解除するためのコマンドメモ（VERSIONを適宜書き換えること）
 migrate-force:
-	migrate -path ./migrations -database mysql://docker:docker@/gin_study force 20210821
+	migrate -path ./migrations -database "mysql://docker:docker@tcp(localhost:3306)/gin_study" force 【VERSION】
 
 # schemaspyによるDBスキーマの作成
 schema:

@@ -2,7 +2,7 @@ version: "3"
 services:
   db:
     image: mysql:8.0.26
-    container_name: db
+    container_name: go-study-db
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
       - ./docker/mysql/data:/var/lib/mysql
