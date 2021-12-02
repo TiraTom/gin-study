@@ -23,7 +23,7 @@ type Environment struct {
 
 // IsDebugEnvは、ローカル開発環境や検証環境などの非本番環境の場合にtrueを返す
 func (e *Environment) IsDebugEnv() bool {
-	if e.ENV == "local" {
+	if e.ENV == "local" || e.ENV == "test" {
 		return true
 	}
 
