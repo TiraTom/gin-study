@@ -296,7 +296,7 @@ func TestNewTaskToCreate(t *testing.T) {
 	newUuidFunc = func() uuid.UUID {
 		id, err := uuid.Parse(dummyUuidStr)
 		if err != nil {
-			t.Errorf("テスト用に書き換えたuuid発行処理でエラー %w", err)
+			t.Errorf("テスト用に書き換えたuuid発行処理でエラー %v", err)
 		}
 		return id
 	}
@@ -359,7 +359,7 @@ func TestNewTaskToUpdate(t *testing.T) {
 	newDeadlineTimestamp := int64(1638251468)
 	newDeadline, err := time.Parse("2006/01/02 15:04:05", "2021/11/30 05:51:08")
 	if err != nil {
-		t.Errorf("時刻の変換処理でエラー発生 %w", err)
+		t.Errorf("時刻の変換処理でエラー発生 %s", err)
 	}
 
 	dummyNowTime := time.Date(2021, 8, 26, 14, 16, 18, 0, time.UTC)
@@ -763,7 +763,7 @@ func getDummyValues(t *testing.T) *TestValuesSet {
 	// 2021/11/29 00:11:12(UTC)
 	dummyTime1, err := time.Parse("2006/01/02 15:04:05", "2021/11/29 00:11:12")
 	if err != nil {
-		t.Errorf("時刻の変換処理でエラー発生 %w", err)
+		t.Errorf("時刻の変換処理でエラー発生 %s", err)
 	}
 	dummyTimestampSec1 := int64(1638144672)
 

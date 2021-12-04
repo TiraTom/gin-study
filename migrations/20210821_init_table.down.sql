@@ -1,2 +1,2 @@
-DROP DATABASE IF EXISTS gin_study;
-
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS importances;

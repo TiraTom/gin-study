@@ -51,7 +51,7 @@ local-db:
 
 insert-dummyData:
 	QUERY="$$(cat ./dummyData/dummyData.sql | tr -d '\n')"; \
-	docker exec -it db mysql -uroot -p -h 127.0.0.1 -p -Dgin_study -e "$$QUERY" -p
+	docker exec -it 【コンテナ名】 mysql -uroot -p -h 127.0.0.1 -Dgin_study -e "$$QUERY" -p
 
 show-migrate-ver:
 	migrate -source file://migrations -database "mysql://docker:docker@tcp(localhost:3306)/gin_study" version

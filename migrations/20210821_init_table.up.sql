@@ -1,6 +1,6 @@
+-- 以下のDB用意のクエリはマイグレーション対象外（マイグレーション用のDB接続でDB not existsなどのエラーになることを防ぐため）
+-- CREATE DATABASE IF NOT EXISTS gin_study;
 -- GRANT CREATE,INSERT,SELECT,UPDATE,DELETE,DROP,REFERENCES,ALTER ON gin_study.* to 'docker'@'%';
-
-CREATE DATABASE IF NOT EXISTS gin_study;
 
 CREATE TABLE IF NOT EXISTS importances (
 	id int PRIMARY KEY AUTO_INCREMENT COMMENT '重要度ID',

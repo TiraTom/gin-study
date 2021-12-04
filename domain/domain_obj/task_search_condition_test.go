@@ -208,7 +208,7 @@ func TestNewTaskSearchCondition(t *testing.T) {
 	dummyTimeStampSec := int64(1638144672)
 	dummyTime, err := time.Parse("2006/01/02 15:04:05", "2021/11/29 00:11:12")
 	if err != nil {
-		t.Errorf("時刻の返還処理でエラー発生 %w", err)
+		t.Errorf("時刻の返還処理でエラー発生 %v", err)
 	}
 
 	dummySearchTypeForDeadline := gr.TimestampCompareBy_AFTER
