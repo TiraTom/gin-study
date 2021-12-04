@@ -1,6 +1,8 @@
 package domain_obj
 
 import (
+	"fmt"
+
 	infrastructure "github.com/Tiratom/gin-study/infrastructure/record"
 )
 
@@ -9,6 +11,10 @@ type Importance struct {
 	Name string
 	// 重要度
 	Level int
+}
+
+func (i *Importance) String() string {
+	return fmt.Sprintf("Name=%s&Level=%d", i.Name, i.Level)
 }
 
 func NewImportance(ir *infrastructure.Importance) *Importance {

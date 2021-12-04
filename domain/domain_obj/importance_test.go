@@ -39,3 +39,35 @@ func TestNewImportance(t *testing.T) {
 		})
 	}
 }
+
+func TestImportance_String(t *testing.T) {
+	type fields struct {
+		Name  string
+		Level int
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+		{
+			name: "通常パターン",
+			fields: fields{
+				Name:  "HOGE",
+				Level: 3,
+			},
+			want: "Name=HOGE&Level=3",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &Importance{
+				Name:  tt.fields.Name,
+				Level: tt.fields.Level,
+			}
+			if got := i.String(); got != tt.want {
+				t.Errorf("Importance.ToString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
