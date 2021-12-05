@@ -791,3 +791,53 @@ func getDummyValues(t *testing.T) *TestValuesSet {
 		dummyNowTime:       dummyNowTime,
 	}
 }
+
+func TestTask_String(t *testing.T) {
+	type fields struct {
+		Id             string
+		Name           string
+		Details        string
+		ImportanceName string
+		Deadline       *time.Time
+		RegisteredAt   *time.Time
+		UpdatedAt      *time.Time
+		Version        uint
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+		{
+			name: "通常パターン",
+			fields: fields{
+				Id:             "DUMMY_ID1",
+				Name:           "DUMMY_NAME1",
+				Details:        "DUMMY_DETAILS1",
+				ImportanceName: "DUMMY_IMPORTANCE_NAME1",
+				Deadline:       &time20210823000001,
+				RegisteredAt:   &time20210823000002,
+				UpdatedAt:      &time20210823000003,
+				Version:        1,
+			},
+			want: "Id:DUMMY_ID1 Name:DUMMY_NAME1 Details:DUMMY_DETAILS1 ImportanceName:DUMMY_IMPORTANCE_NAME1 Deadline:2021-08-23 00:00:01 +0000 UTC RegisteredAt:2021-08-23 00:00:02 +0000 UTC UpdatedAt:2021-08-23 00:00:03 +0000 UTC Version:1",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tr := &Task{
+				Id:             tt.fields.Id,
+				Name:           tt.fields.Name,
+				Details:        tt.fields.Details,
+				ImportanceName: tt.fields.ImportanceName,
+				RegisteredAt:   tt.fields.RegisteredAt,
+				Deadline:       tt.fields.Deadline,
+				UpdatedAt:      tt.fields.UpdatedAt,
+				Version:        tt.fields.Version,
+			}
+			if got := tr.String(); got != tt.want {
+				t.Errorf("Task.String() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

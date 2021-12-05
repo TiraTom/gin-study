@@ -1,6 +1,7 @@
 package domain_obj
 
 import (
+	"fmt"
 	"time"
 
 	gr "github.com/Tiratom/gin-study/grpc"
@@ -14,8 +15,8 @@ type Task struct {
 	Name           string
 	Details        string
 	ImportanceName string
-	RegisteredAt   *time.Time
 	Deadline       *time.Time
+	RegisteredAt   *time.Time
 	UpdatedAt      *time.Time
 	Version        uint
 }
@@ -180,4 +181,8 @@ func (t *Task) IsNeededToUpdate(p *gr.UpdateTaskRequestParam) bool {
 	}
 
 	return p.Name != t.Name || p.Details != t.Details || p.ImportanceName != t.ImportanceName || *deadlineP != *t.Deadline
+}
+
+func (t *Task) String() string {
+	return fmt.Sprintf("Id:%v Name:%v Details:%v ImportanceName:%v Deadline:%v RegisteredAt:%v UpdatedAt:%v Version:%v", t.Id, t.Name, t.Details, t.ImportanceName, t.Deadline, t.RegisteredAt, t.UpdatedAt, t.Version)
 }
