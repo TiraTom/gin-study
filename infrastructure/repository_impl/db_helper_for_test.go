@@ -7,8 +7,8 @@ import (
 	"github.com/Tiratom/gin-study/config"
 )
 
-// SetUpForDBTestはDB接続テストをするに当たっての前提となる共通処理を実施する
-// テスト記述部分をシンプルにするため、このメソッド内でエラーが起きた場合はそこでテストを失敗させている
+// SetUpForDBTestはDB接続テストをするに当たっての前提となる共通処理を実施する。
+// テスト記述部分をシンプルにするため、このメソッド内でエラーが起きた場合はそこでテストを失敗させている。
 func SetUpForDBTest(t *testing.T) (*config.Environment, *config.DB) {
 	err := os.Setenv("ENV", "test")
 	if err != nil {
@@ -21,8 +21,8 @@ func SetUpForDBTest(t *testing.T) (*config.Environment, *config.DB) {
 	return conf, config.NewDB(conf)
 }
 
-// BeforeEachForDBTestはテスト用DBを初期状態にする
-// テスト記述部分をシンプルにするため、このメソッド内でエラーが起きた場合はそこでテストを失敗させている
+// BeforeEachForDBTestはテスト用DBを初期状態にする。
+// テスト記述部分をシンプルにするため、このメソッド内でエラーが起きた場合はそこでテストを失敗させている。
 func BeforeEachForDBTest(t *testing.T, conf *config.Environment, db *config.DB) {
 	err := config.ResetMigrate(conf.DB_DNS, true)
 	if err != nil {
