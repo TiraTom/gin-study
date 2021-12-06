@@ -1,2 +1,2 @@
-INSERT INTO gin_study.tasks (id,name,importance_id,details,registered_at,deadline,updated_at,version) VALUES ('1', 'taskName', 2, 'details', '2021-08-23 00:00:01', '2021-08-23 00:00:02', '2021-08-23 00:00:03', '1');
-INSERT INTO gin_study.tasks (id,name,importance_id,details,registered_at,deadline,updated_at,version) VALUES ('2', 'taskName2', 3, 'details', '2021-08-23 00:00:01', '2021-08-23 00:00:02', '2021-08-23 00:00:03', '1');
+INSERT INTO gin_study.tasks (id,name,importance_id,details,deadline,registered_time,updated_time,version) VALUES ('1', 'taskName', 2, 'details', '2021-08-23 00:00:01', '2021-08-23 00:00:02', '2021-08-23 00:00:03', '1');
+INSERT INTO gin_study.tasks (id,name,importance_id,details,deadline,registered_time,updated_time,version) VALUES ('2', 'taskName2', 3, 'details', '2021-08-23 00:00:01', '2021-08-23 00:00:02', '2021-08-23 00:00:03', '1');

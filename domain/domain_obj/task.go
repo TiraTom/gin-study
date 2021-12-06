@@ -80,14 +80,14 @@ func (t *Task) ToRecord(i int64) *record.Task {
 	}
 
 	return &record.Task{
-		Id:           t.Id,
-		Name:         t.Name,
-		Details:      t.Details,
-		ImportanceId: i,
-		RegisteredAt: ra,
-		Deadline:     dl,
-		UpdatedAt:    ua,
-		Version:      t.Version,
+		Id:             t.Id,
+		Name:           t.Name,
+		Details:        t.Details,
+		ImportanceId:   i,
+		RegisteredTime: ra,
+		Deadline:       dl,
+		UpdatedTime:    ua,
+		Version:        t.Version,
 	}
 }
 
@@ -97,9 +97,9 @@ func NewTask(tr *record.TaskAndImportance) *Task {
 		Name:           tr.Name,
 		Details:        tr.Details,
 		ImportanceName: tr.ImportanceName,
-		RegisteredAt:   &tr.RegisteredAt,
+		RegisteredAt:   &tr.RegisteredTime,
 		Deadline:       &tr.Deadline,
-		UpdatedAt:      &tr.UpdatedAt,
+		UpdatedAt:      &tr.UpdatedTime,
 		Version:        tr.Version,
 	}
 }

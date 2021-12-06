@@ -1,0 +1,1 @@
+ALTER TABLE tasks RENAME COLUMN registered_time TO registered_at;

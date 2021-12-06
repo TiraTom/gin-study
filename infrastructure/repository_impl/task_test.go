@@ -173,3 +173,296 @@ func TestTask_GetById(t *testing.T) {
 		})
 	}
 }
+
+func TestTask_Create(t *testing.T) {
+	type fields struct {
+		db *config.DB
+	}
+	type args struct {
+		p *domain_obj.Task
+	}
+
+	conf, db := SetUpForDBTest(t)
+
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *domain_obj.Task
+		wantErr bool
+		setUp   func(*config.DB) error // 各テストパターンの前処理
+	}{
+		{
+			name:   "重要度ラベルがDBにない値の場合",
+			fields: fields{db},
+			args: args{
+				p: &domain_obj.Task{
+					Id:             "1",
+					Name:           "DUMMY_NAME",
+					Details:        "DUMMY_DETAILS",
+					ImportanceName: "NOT_EXIST_NAME",
+					Deadline:       &time20210823000001,
+					RegisteredAt:   &time20210823000002,
+					UpdatedAt:      &time20210823000003,
+					Version:        1,
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:   "通常パターン",
+			fields: fields{db},
+			args: args{
+				p: &domain_obj.Task{
+					Id:             "123",
+					Name:           "DUMMY_NAME",
+					Details:        "DUMMY_DETAILS",
+					ImportanceName: "HIGH",
+					Deadline:       &time20210823000001,
+					RegisteredAt:   &time20210823000002,
+					UpdatedAt:      &time20210823000003,
+					Version:        1,
+				},
+			},
+			want: &domain_obj.Task{
+				Id:             "123",
+				Name:           "DUMMY_NAME",
+				Details:        "DUMMY_DETAILS",
+				ImportanceName: "HIGH",
+				Deadline:       &time20210823000001,
+				RegisteredAt:   &time20210823000002,
+				UpdatedAt:      &time20210823000003,
+				Version:        1,
+			},
+			wantErr: false,
+		},
+		{
+			name:   "作成に失敗した場合_ID重複パターン",
+			fields: fields{db},
+			args: args{
+				p: &domain_obj.Task{
+					Id:             "123",
+					Name:           "DUMMY_NAME",
+					Details:        "DUMMY_DETAILS",
+					ImportanceName: "HIGH",
+					Deadline:       &time20210823000001,
+					RegisteredAt:   &time20210823000002,
+					UpdatedAt:      &time20210823000003,
+					Version:        1,
+				},
+			},
+			setUp:   setUp_Create_DuplicateId,
+			want:    nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		BeforeEachForDBTest(t, conf, tt.fields.db)
+
+		if tt.setUp != nil {
+			err := tt.setUp(db)
+			if err != nil {
+				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+				t.FailNow()
+			}
+		}
+
+		t.Run(tt.name, func(t *testing.T) {
+			tr := &Task{
+				db: tt.fields.db,
+			}
+			got, err := tr.Create(tt.args.p)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Task.Create() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Task.Create() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTask_Update(t *testing.T) {
+	type fields struct {
+		db *config.DB
+	}
+	type args struct {
+		p *domain_obj.Task
+	}
+
+	conf, db := SetUpForDBTest(t)
+
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *domain_obj.Task
+		wantErr bool
+		setUp   func(*config.DB) error // 各テストパターンの前処理
+	}{
+		{
+			name:   "更新対象のデータがDBに存在しない場合",
+			fields: fields{db},
+			args: args{
+				p: &domain_obj.Task{
+					Id:             "NOT_EXIST",
+					Name:           "DUMMY_NAME",
+					Details:        "DUMMY_DETAILS",
+					ImportanceName: "HIGH",
+					Deadline:       &time20210823000001,
+					RegisteredAt:   &time20210823000002,
+					UpdatedAt:      &time20210823000003,
+					Version:        1,
+				},
+			},
+			want:    nil,
+			wantErr: true,
+			setUp:   nil,
+		},
+		{
+			name:   "重要度ラベルがDBに存在しない値の場合",
+			fields: fields{db},
+			args: args{
+				p: &domain_obj.Task{
+					Id:             "2",
+					Name:           "DUMMY_NAME",
+					Details:        "DUMMY_DETAILS",
+					ImportanceName: "NOT_EXIST",
+					Deadline:       &time20210823000001,
+					RegisteredAt:   &time20210823000002,
+					UpdatedAt:      &time20210823000003,
+					Version:        1,
+				},
+			},
+			want:    nil,
+			wantErr: true,
+			setUp:   setUp_Update_TaskExist,
+		},
+		{
+			name:   "通常パターン_全項目で更新",
+			fields: fields{db},
+			args: args{
+				p: &domain_obj.Task{
+					Id:             "2",
+					Name:           "NEW_NAME",
+					Details:        "NEW_DETAILS",
+					ImportanceName: "LOW",
+					Deadline:       &time20210923000001,
+					RegisteredAt:   &time20210923000002,
+					UpdatedAt:      &time20210923000003,
+					Version:        2,
+				},
+			},
+			want: &domain_obj.Task{
+				Id:             "2",
+				Name:           "NEW_NAME",
+				Details:        "NEW_DETAILS",
+				ImportanceName: "LOW",
+				Deadline:       &time20210923000001,
+				RegisteredAt:   &time20210923000002,
+				UpdatedAt:      &time20210923000003,
+				Version:        2,
+			},
+			wantErr: false,
+			setUp:   setUp_Update_TaskExist,
+		},
+		{
+			name:   "更新項目なし",
+			fields: fields{db},
+			args: args{
+				p: &domain_obj.Task{
+					Id:             "2",
+					Name:           "taskName1",
+					Details:        "details",
+					ImportanceName: "HIGH",
+					Deadline:       &time20210823000001,
+					RegisteredAt:   &time20210823000002,
+					UpdatedAt:      &time20210823000003,
+					Version:        1,
+				},
+			},
+			want: &domain_obj.Task{
+				Id:             "2",
+				Name:           "taskName1",
+				Details:        "details",
+				ImportanceName: "HIGH",
+				Deadline:       &time20210823000001,
+				RegisteredAt:   &time20210823000002,
+				UpdatedAt:      &time20210823000003,
+				Version:        1,
+			},
+			wantErr: false,
+			setUp:   setUp_Update_TaskExist,
+		},
+	}
+	for _, tt := range tests {
+		BeforeEachForDBTest(t, conf, tt.fields.db)
+
+		if tt.setUp != nil {
+			err := tt.setUp(db)
+			if err != nil {
+				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+				t.FailNow()
+			}
+		}
+
+		t.Run(tt.name, func(t *testing.T) {
+			tr := &Task{
+				db: tt.fields.db,
+			}
+			got, err := tr.Update(tt.args.p)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Task.Update() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Task.Update() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+
+// setUp_GetAllTasks_MultipleTasksは、GetAllTasksのテスト用に複数タスクDBに存在する状態を用意する。
+func setUp_GetAllTasks_MultipleTasks(db *config.DB) error {
+	return db.Gdb.Exec(
+		`INSERT INTO gin_study.tasks
+		(id,name,importance_id,details,registered_time,deadline,isDone,updated_time,version)
+		VALUES
+		('1', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1'),
+		('2', 'taskName2', 3, 'details2', '2021-09-23 00:00:01', '2021-09-23 00:00:02', false, '2021-09-23 00:00:03', '2');
+	`).Error
+}
+
+// setUp_GetById_TaskExistは、GetByIdのテスト用に検索対象タスクがDBに存在する状態を用意する。
+func setUp_GetById_TaskExist(db *config.DB) error {
+	return db.Gdb.Exec(
+		`INSERT INTO gin_study.tasks
+		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
+		VALUES
+		('1', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1'),
+		('2', 'taskName2', 3, 'details2', '2021-09-23 00:00:01', '2021-09-23 00:00:02', false, '2021-09-23 00:00:03', '2');
+	`).Error
+}
+
+// setUp_Create_DuplicateIdは、Createのテスト用にこれから作成したいタスクと同じIDが既にDBに存在する状態を用意する。
+func setUp_Create_DuplicateId(db *config.DB) error {
+	return db.Gdb.Exec(
+		`INSERT INTO gin_study.tasks
+		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
+		VALUES
+		('123', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1');
+	`).Error
+}
+
+// setUp_Update_TaskExistは、Updateのテスト用に更新対象タスクがDBに存在する状態を用意する。
+func setUp_Update_TaskExist(db *config.DB) error {
+	return db.Gdb.Exec(
+		`INSERT INTO gin_study.tasks
+		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
+		VALUES
+		('2', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1');
+	`).Error
+}

@@ -1,0 +1,1 @@
+ALTER TABLE tasks RENAME COLUMN updated_time TO updated_at;

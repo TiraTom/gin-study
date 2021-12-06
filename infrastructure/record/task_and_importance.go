@@ -11,8 +11,8 @@ type TaskAndImportance struct {
 	ImportanceId    int
 	ImportanceName  string
 	ImportanceLevel int
-	RegisteredAt    time.Time
+	RegisteredTime  time.Time
 	Deadline        time.Time
-	UpdatedAt       time.Time
+	UpdatedTime     time.Time
 	Version         uint
 }
