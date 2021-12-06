@@ -6,6 +6,7 @@ import (
 
 	"github.com/Tiratom/gin-study/config"
 	"github.com/Tiratom/gin-study/domain/domain_obj"
+	"github.com/Tiratom/gin-study/infrastructure/record"
 )
 
 func TestTask_GetAll(t *testing.T) {
@@ -424,6 +425,78 @@ func TestTask_Update(t *testing.T) {
 	}
 }
 
+func TestTask_Delete(t *testing.T) {
+	type fields struct {
+		db *config.DB
+	}
+	type args struct {
+		id string
+	}
+
+	conf, db := SetUpForDBTest(t)
+
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		wantErr                  bool
+		setUp                    func(*config.DB) error // 各テストパターンの前処理
+		doesExistTaskAfterDelete bool                   // 追加チェック項目：削除テスト実施後に対象タスクがDBに存在するかどうか
+	}{
+		{
+			name:   "削除対象が存在しない場合",
+			fields: fields{db},
+			args: args{
+				id: "NOT_EXIST",
+			},
+			wantErr:                  true,
+			setUp:                    nil,
+			doesExistTaskAfterDelete: false,
+		},
+		{
+			name:   "削除対象が存在する場合",
+			fields: fields{db},
+			args: args{
+				id: "2",
+			},
+			wantErr:                  false,
+			setUp:                    setUp_Delete_TaskExist,
+			doesExistTaskAfterDelete: false,
+		},
+	}
+	for _, tt := range tests {
+		BeforeEachForDBTest(t, conf, tt.fields.db)
+
+		if tt.setUp != nil {
+			err := tt.setUp(db)
+			if err != nil {
+				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+				t.FailNow()
+			}
+		}
+
+		t.Run(tt.name, func(t *testing.T) {
+			tr := &Task{
+				db: tt.fields.db,
+			}
+			err := tr.Delete(tt.args.id)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Task.Delete() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			var taskAfterTest *record.Task
+			result := tt.fields.db.Gdb.Raw("SELECT * FROM gin_study.tasks WHERE id = ?;", tt.args.id).Scan(&taskAfterTest)
+			if result.Error != nil {
+				t.Errorf("削除処理実施後のデータ存在チェックテストにおいてエラー発生: %v", result.Error)
+			}
+
+			if (taskAfterTest != nil) != tt.doesExistTaskAfterDelete {
+				t.Errorf("削除処理実施後のデータ存在チェックに失敗 expected=%v actual=%v", tt.doesExistTaskAfterDelete, taskAfterTest != nil)
+			}
+		})
+	}
+}
+
 
 // setUp_GetAllTasks_MultipleTasksは、GetAllTasksのテスト用に複数タスクDBに存在する状態を用意する。
 func setUp_GetAllTasks_MultipleTasks(db *config.DB) error {
@@ -459,6 +532,16 @@ func setUp_Create_DuplicateId(db *config.DB) error {
 
 // setUp_Update_TaskExistは、Updateのテスト用に更新対象タスクがDBに存在する状態を用意する。
 func setUp_Update_TaskExist(db *config.DB) error {
+	return db.Gdb.Exec(
+		`INSERT INTO gin_study.tasks
+		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
+		VALUES
+		('2', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1');
+	`).Error
+}
+
+// setUp_Delete_TaskExistは、Deleteのテスト用に更新対象タスクがDBに存在する状態を用意する。
+func setUp_Delete_TaskExist(db *config.DB) error {
 	return db.Gdb.Exec(
 		`INSERT INTO gin_study.tasks
 		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
