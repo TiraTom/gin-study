@@ -42,7 +42,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] ダミーデータを複数行書いても問題なく投入できるようにする
 - [x] ER 図自動生成の設定(SchemaSpy) <https://dev.classmethod.jp/articles/schemaspy-doc/>あたりを参考にしてみる → schemaspyUser(pass: schemaspyPass)は SELECT 権限のみ付与、mysql_native_password 方式で認証させるようにして useSSL=false・allowPublicKeyRetrieval=true の設定を追加（ローカル実行だし）、schemaspy のイメージに用意されている JDBC ドライバは MySQL6 系なので 8 用の jar ファイルを落としてきてマウントして使わせる　等の作業がいろいろ必要だった・・・。
 - [x] DB 定義変更を試してみる
-- [ ] DB 周辺のテスト記述
+- [x] DB 周辺のテスト記述
 - [ ] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
 - [ ] presentation のテスト記述
 - [ ] GitHubAction で push 後自動でテスト実施
