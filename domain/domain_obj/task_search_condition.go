@@ -16,7 +16,7 @@ type TaskSearchCondition struct {
 }
 
 func (t *TaskSearchCondition) IsDeadlineIncludedInCondition() bool {
-	return t.SearchTypeForDeadline != nil
+	return t.SearchTypeForDeadline != nil && *t.SearchTypeForDeadline != gr.TimestampCompareBy_NONE
 }
 
 func (t *TaskSearchCondition) AsDeadlineConditionSentence() (string, error) {

@@ -19,7 +19,10 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 	}
 
 	dummyTime := time.Now()
-	dummySearchType := gr.TimestampCompareBy_AFTER
+	searchTypeAfter := gr.TimestampCompareBy_AFTER
+	searchTypeBefore := gr.TimestampCompareBy_BEFORE
+	searchTypeSame := gr.TimestampCompareBy_SAME
+	searchTypeNone := gr.TimestampCompareBy_NONE
 
 	tests := []struct {
 		name   string
@@ -33,18 +36,51 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 				Details:               "DETAILS",
 				ImportanceName:        "IMPORTANCE_NAME",
 				Deadline:              &dummyTime,
-				SearchTypeForDeadline: &dummySearchType,
+				SearchTypeForDeadline: &searchTypeAfter,
 			},
 			want: true,
 		},
 		{
-			name: "検索条件に期限日時が含まれていない場合",
+			name: "検索条件に期限日時が含まれている場合",
+			fields: fields{
+				Name:                  "NAME",
+				Details:               "DETAILS",
+				ImportanceName:        "IMPORTANCE_NAME",
+				Deadline:              &dummyTime,
+				SearchTypeForDeadline: &searchTypeBefore,
+			},
+			want: true,
+		},
+		{
+			name: "検索条件に期限日時が含まれている場合",
+			fields: fields{
+				Name:                  "NAME",
+				Details:               "DETAILS",
+				ImportanceName:        "IMPORTANCE_NAME",
+				Deadline:              &dummyTime,
+				SearchTypeForDeadline: &searchTypeSame,
+			},
+			want: true,
+		},
+		{
+			name: "検索条件に期限日時が含まれていない場合_未指定の場合",
 			fields: fields{
 				Name:                  "NAME",
 				Details:               "DETAILS",
 				ImportanceName:        "IMPORTANCE_NAME",
 				Deadline:              &dummyTime,
 				SearchTypeForDeadline: nil,
+			},
+			want: false,
+		},
+		{
+			name: "検索条件に期限日時が含まれていない場合_ゼロ値の場合",
+			fields: fields{
+				Name:                  "NAME",
+				Details:               "DETAILS",
+				ImportanceName:        "IMPORTANCE_NAME",
+				Deadline:              &dummyTime,
+				SearchTypeForDeadline: &searchTypeNone,
 			},
 			want: false,
 		},
