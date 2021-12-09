@@ -66,17 +66,17 @@ func TestTask_GetAll(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		BeforeEachForDBTest(t, conf, tt.fields.db)
-
-		if tt.setUp != nil {
-			err := tt.setUp(db)
-			if err != nil {
-				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
-				t.FailNow()
-			}
-		}
-
 		t.Run(tt.name, func(t *testing.T) {
+			BeforeEachForDBTest(t, conf, tt.fields.db)
+
+			if tt.setUp != nil {
+				err := tt.setUp(db)
+				if err != nil {
+					t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+					t.FailNow()
+				}
+			}
+
 			tr := &Task{
 				db: tt.fields.db,
 			}
@@ -151,17 +151,17 @@ func TestTask_GetById(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		BeforeEachForDBTest(t, conf, tt.fields.db)
-
-		if tt.setUp != nil {
-			err := tt.setUp(db)
-			if err != nil {
-				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
-				t.FailNow()
-			}
-		}
-
 		t.Run(tt.name, func(t *testing.T) {
+			BeforeEachForDBTest(t, conf, tt.fields.db)
+
+			if tt.setUp != nil {
+				err := tt.setUp(db)
+				if err != nil {
+					t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+					t.FailNow()
+				}
+			}
+
 			tr := &Task{
 				db: tt.fields.db,
 			}
@@ -261,17 +261,17 @@ func TestTask_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		BeforeEachForDBTest(t, conf, tt.fields.db)
-
-		if tt.setUp != nil {
-			err := tt.setUp(db)
-			if err != nil {
-				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
-				t.FailNow()
-			}
-		}
-
 		t.Run(tt.name, func(t *testing.T) {
+			BeforeEachForDBTest(t, conf, tt.fields.db)
+
+			if tt.setUp != nil {
+				err := tt.setUp(db)
+				if err != nil {
+					t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+					t.FailNow()
+				}
+			}
+
 			tr := &Task{
 				db: tt.fields.db,
 			}
@@ -401,17 +401,17 @@ func TestTask_Update(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		BeforeEachForDBTest(t, conf, tt.fields.db)
-
-		if tt.setUp != nil {
-			err := tt.setUp(db)
-			if err != nil {
-				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
-				t.FailNow()
-			}
-		}
-
 		t.Run(tt.name, func(t *testing.T) {
+			BeforeEachForDBTest(t, conf, tt.fields.db)
+
+			if tt.setUp != nil {
+				err := tt.setUp(db)
+				if err != nil {
+					t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+					t.FailNow()
+				}
+			}
+
 			tr := &Task{
 				db: tt.fields.db,
 			}
@@ -467,17 +467,17 @@ func TestTask_Delete(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		BeforeEachForDBTest(t, conf, tt.fields.db)
-
-		if tt.setUp != nil {
-			err := tt.setUp(db)
-			if err != nil {
-				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
-				t.FailNow()
-			}
-		}
-
 		t.Run(tt.name, func(t *testing.T) {
+			BeforeEachForDBTest(t, conf, tt.fields.db)
+
+			if tt.setUp != nil {
+				err := tt.setUp(db)
+				if err != nil {
+					t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+					t.FailNow()
+				}
+			}
+
 			tr := &Task{
 				db: tt.fields.db,
 			}
@@ -708,17 +708,17 @@ func TestTask_Search(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		BeforeEachForDBTest(t, conf, tt.fields.db)
-
-		if tt.setUp != nil {
-			err := tt.setUp(db)
-			if err != nil {
-				t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
-				t.FailNow()
-			}
-		}
-
 		t.Run(tt.name, func(t *testing.T) {
+			BeforeEachForDBTest(t, conf, tt.fields.db)
+
+			if tt.setUp != nil {
+				err := tt.setUp(db)
+				if err != nil {
+					t.Errorf("テスト用前処理でエラーが発生しました: %v", err)
+					t.FailNow()
+				}
+			}
+
 			tr := &Task{
 				db: tt.fields.db,
 			}

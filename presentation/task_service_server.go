@@ -23,7 +23,7 @@ type TaskServiceServer struct {
 func (tss *TaskServiceServer) GetAllTasks(ctx context.Context, emp *emptypb.Empty) (*gr.Tasks, error) {
 	tasks, err := tss.getTask.DoAll()
 	if err != nil {
-		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err.Error()))
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました: %w", err.Error()))
 	}
 
 	return tasks, err
@@ -33,7 +33,7 @@ func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByC
 	// TODO ageとかゼロ値がありうる項目も検索する場合にも問題ないようにポインタでparamも設定すべきか？
 	tasks, err := tss.searchTask.Do(param)
 	if err != nil {
-		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました: %w", err))
 	}
 
 	return tasks, err
@@ -42,7 +42,7 @@ func (tss *TaskServiceServer) GetTasks(ctx context.Context, param *gr.GetTaskByC
 func (tss *TaskServiceServer) GetTask(ctx context.Context, param *gr.GetTaskByIdRequestParam) (*gr.Task, error) {
 	task, err := tss.getTask.DoById(param.Id)
 	if err != nil {
-		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました: %w", err))
 	}
 
 	return task, err
@@ -51,7 +51,7 @@ func (tss *TaskServiceServer) GetTask(ctx context.Context, param *gr.GetTaskById
 func (tss *TaskServiceServer) CreateTask(ctx context.Context, param *gr.CreateTaskRequestParam) (*gr.Task, error) {
 	task, err := tss.createTask.Do(param)
 	if err != nil {
-		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました: %w", err))
 	}
 
 	return task, err
@@ -62,17 +62,13 @@ func (tss *TaskServiceServer) UpdateTask(ctx context.Context, param *gr.UpdateTa
 
 	t, err := tss.updateTask.Do(param)
 	if err != nil {
-		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました;", err))
+		tss.log.Warn(ctx, fmt.Sprint("処理中にエラーが発生しました: %w", err))
 		return nil, err
 	}
 
-	// memo: 返却用データに詰め替えるのをどこでやるべきかは悩み中、、
-	updatedTask, err := t.ToDto()
-	if err != nil {
-		tss.log.Warn(ctx, fmt.Sprint("データ更新成功後、内部エラーが発生しました;", err))
-	}
+	// TODO: 返却用データに詰め替えるのをどこでやるべきかは悩み中、、
 
-	return updatedTask, nil
+	return t, nil
 }
 
 func (tss *TaskServiceServer) DeleteTask(ctx context.Context, param *gr.DeleteTaskRequestParam) (*emptypb.Empty, error) {
