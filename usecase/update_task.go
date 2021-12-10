@@ -12,7 +12,7 @@ type UpdateTask struct {
 	tr repository_interface.Task
 }
 
-func (u *UpdateTask) Do(p *gr.UpdateTaskRequestParam) (*gr.Task, error) {
+func (u *UpdateTask) Do(p *gr.UpdateTaskRequestParam) (*domain_obj.Task, error) {
 	// memo: RESTapiだとidと更新内容のパラメーターは別変数でもらうだろうから、この引数の書き方だとpresentation層の実装の影響をusecaseが受けてしまうような気もする、、
 
 	targetTask, err := u.tr.GetById(p.Id)
@@ -22,11 +22,7 @@ func (u *UpdateTask) Do(p *gr.UpdateTaskRequestParam) (*gr.Task, error) {
 
 	if !targetTask.IsNeededToUpdate(p) {
 		// 更新項目なしなので早期リターン
-		tt, err := targetTask.ToDto()
-		if err != nil {
-			return nil, fmt.Errorf("タスク更新は不要でしたが結果の変換処理においてエラーが発生しました(%v)):%w", tt, err)
-		}
-		return tt, err
+		return targetTask, nil
 	}
 
 	newTaskToUpdate, err := domain_obj.NewTaskToUpdate(targetTask, p)
@@ -39,12 +35,7 @@ func (u *UpdateTask) Do(p *gr.UpdateTaskRequestParam) (*gr.Task, error) {
 		return nil, fmt.Errorf("タスク更新においてエラーが発生しました({Id=%v Name=%v Details=%v ImportanceName=%v Deadline=%v}):%w", p.Id, p.Name, p.Details, p.ImportanceName, p.Deadline, err)
 	}
 
-	t, err := updateResult.ToDto()
-	if err != nil {
-		return nil, fmt.Errorf("タスク更新結果の変換処理においてエラーが発生しました(%v)):%w", updateResult, err)
-	}
-
-	return t, err
+	return updateResult, err
 }
 
 func NewUpdateTask(tr repository_interface.Task) *UpdateTask {

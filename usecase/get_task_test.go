@@ -31,7 +31,6 @@ func TestGetTask_DoAll(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ctrl := gomock.NewController(t)
-			// defer ctrl.Finish()
 			mTask := mock_repository_interface.NewMockTask(ctrl)
 			mTask.EXPECT().GetAll().DoAndReturn(func() (*domain_obj.Tasks, error) {
 				return nil, fmt.Errorf("not yet implemented")
