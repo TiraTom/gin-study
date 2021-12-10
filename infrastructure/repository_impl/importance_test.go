@@ -46,9 +46,9 @@ func TestImportance_GetAll(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		BeforeEachForDBTest(t, conf, tt.fields.db)
-
 		t.Run(tt.name, func(t *testing.T) {
+			BeforeEachForDBTest(t, conf, tt.fields.db)
+
 			i := &Importance{
 				db: tt.fields.db,
 			}

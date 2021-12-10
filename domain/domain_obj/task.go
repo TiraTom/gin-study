@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/infrastructure/record"
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
+
+	gr "github.com/Tiratom/gin-study/grpc"
 )
 
 type Task struct {
