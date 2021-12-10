@@ -3,22 +3,22 @@ on: [push]
 jobs:
   setup:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:8.0.26
+        ports:
+          - 13306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USER: docker
+          MYSQL_PASSWORD: docker
+          TZ: "Asia/Tokyo"
     steps:
-      - uses: actions/checkout@master
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.4
         with:
           go-version: '1.16'
       - run: go version
-  test:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: test
-        run: |
-          make local-db
-          go test ./... -v
   lint:
     needs: setup
     runs-on: ubuntu-latest
@@ -27,4 +27,11 @@ jobs:
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v2.5.2
         with:
-          version: v1.29
+          version: latest
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test
+        run: go test ./... -v
