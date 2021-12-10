@@ -1,3 +1,4 @@
+//go:generate mockgen -source=importance.go -destination=../../mock/mock_repository_interface/importance.go
 package repository_interface
 
 import (

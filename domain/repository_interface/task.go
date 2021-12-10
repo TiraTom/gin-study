@@ -1,3 +1,4 @@
+//go:generate mockgen -source=task.go -destination=../../mock/mock_repository_interface/task.go
 package repository_interface
 
 import (
