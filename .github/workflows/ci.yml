@@ -1,0 +1,30 @@
+name: ci
+on: [push]
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.1.4
+        with:
+          go-version: '1.16'
+      - run: go version
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test
+        run: |
+          make local-db
+          go test ./... -v
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v2.5.2
+        with:
+          version: v1.29
