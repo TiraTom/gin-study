@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="gin_study" schema="gin_study" type="MySQL - 8.0.26">
+   <tables>
+      <table catalog="gin_study" name="importances" numRows="4" remarks="重要度" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="重要度ID" size="10" type="INT" typeCode="4">
+            <child catalog="gin_study" column="importance_id" foreignKey="fk_importance" implied="false" onDeleteCascade="false" table="tasks"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="重要度ラベル" size="255" type="CHAR" typeCode="1"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="level" nullable="false" remarks="重要度" size="10" type="INT" typeCode="4"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table catalog="gin_study" name="schema_migrations" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="version" nullable="false" remarks="" size="19" type="BIGINT" typeCode="-5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="dirty" nullable="false" remarks="" size="1" type="BIT" typeCode="-7"/>
+         <primaryKey column="version" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="version"/>
+         </index>
+      </table>
+      <table catalog="gin_study" name="tasks" numRows="0" remarks="タスク" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="タスクID" size="36" type="CHAR" typeCode="1"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="タスク名" size="255" type="CHAR" typeCode="1"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="importance_id" nullable="false" remarks="重要度ID" size="10" type="INT" typeCode="4">
+            <parent catalog="gin_study" column="id" foreignKey="fk_importance" implied="false" onDeleteCascade="false" table="importances"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="details" nullable="true" remarks="タスク詳細" size="1000" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="registered_at" nullable="false" remarks="登録日時" size="19" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="deadline" nullable="false" remarks="期限日時" size="19" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="6" name="isDone" nullable="false" remarks="" size="1" type="BIT" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_at" nullable="false" remarks="更新日時" size="19" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="1" digits="0" id="8" name="version" nullable="false" remarks="バージョン" size="10" type="INT UNSIGNED" typeCode="4"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="fk_importance" unique="false">
+            <column ascending="true" name="importance_id"/>
+         </index>
+      </table>
+   </tables>
+</database>

@@ -3,19 +3,18 @@
 
 ## Table of Contents
 
-- [gRPC/gin-study.proto](#gRPC/gin-study.proto)
+- [gin-study.proto](#gin-study.proto)
     - [CreateTaskRequestParam](#.CreateTaskRequestParam)
     - [DeleteTaskRequestParam](#.DeleteTaskRequestParam)
     - [GetMyCatMessage](#.GetMyCatMessage)
     - [GetTaskByConditionRequestParam](#.GetTaskByConditionRequestParam)
     - [GetTaskByIdRequestParam](#.GetTaskByIdRequestParam)
+    - [Importance](#.Importance)
     - [MyCatResponse](#.MyCatResponse)
     - [Task](#.Task)
     - [Tasks](#.Tasks)
     - [UpdateTaskRequestParam](#.UpdateTaskRequestParam)
   
-    - [CreateTaskRequestParam.Importance](#.CreateTaskRequestParam.Importance)
-    - [Importance](#.Importance)
     - [TimestampCompareBy](#.TimestampCompareBy)
   
     - [CatService](#.CatService)
@@ -25,10 +24,10 @@
 
 
 
-<a name="gRPC/gin-study.proto"></a>
+<a name="gin-study.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## gRPC/gin-study.proto
+## gin-study.proto
 
 
 
@@ -42,7 +41,7 @@
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
 | details | [string](#string) |  |  |
-| importance | [CreateTaskRequestParam.Importance](#CreateTaskRequestParam.Importance) |  | 重要度 |
+| importanceName | [string](#string) |  |  |
 | deadline | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 期限日時（タイムスタンプ） |
 
 
@@ -90,13 +89,9 @@
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
 | details | [string](#string) |  |  |
-| importance | [Importance](#Importance) |  | 重要度 |
-| registered_at | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 登録日時（タイムスタンプ） |
-| serachTypeForRegisterdAt | [TimestampCompareBy](#TimestampCompareBy) |  |  |
+| importanceName | [string](#string) |  | 重要度 |
 | deadline | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 期限日時（タイムスタンプ） |
-| serachTypeForDeadline | [TimestampCompareBy](#TimestampCompareBy) |  |  |
-| updated_at | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 更新日時（タイムスタンプ） |
-| serachTypeForUpdatedAt | [TimestampCompareBy](#TimestampCompareBy) |  |  |
+| searchTypeForDeadline | [TimestampCompareBy](#TimestampCompareBy) |  |  |
 
 
 
@@ -112,6 +107,22 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name=".Importance"></a>
+
+### Importance
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  |  |
+| level | [uint32](#uint32) |  |  |
 
 
 
@@ -145,7 +156,7 @@
 | id | [string](#string) |  |  |
 | name | [string](#string) |  |  |
 | details | [string](#string) |  |  |
-| importance | [Importance](#Importance) |  | 重要度 |
+| importanceName | [string](#string) |  | 重要度 |
 | registered_at | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 登録日時（タイムスタンプ） |
 | deadline | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 期限日時（タイムスタンプ） |
 | updated_at | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 更新日時（タイムスタンプ） |
@@ -181,7 +192,7 @@
 | id | [string](#string) |  |  |
 | name | [string](#string) |  |  |
 | details | [string](#string) |  |  |
-| importance | [Importance](#Importance) |  | 重要度 |
+| importanceName | [string](#string) |  |  |
 | deadline | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  | 期限日時（タイムスタンプ） |
 
 
@@ -191,34 +202,6 @@
  
 
 
-<a name=".CreateTaskRequestParam.Importance"></a>
-
-### CreateTaskRequestParam.Importance
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| MEDIUM | 0 |  |
-| VERY_HIGH | 1 |  |
-| HIGH | 2 |  |
-| LOW | 3 |  |
-
-
-
-<a name=".Importance"></a>
-
-### Importance
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| MEDIUM | 0 |  |
-| VERY_HIGH | 1 |  |
-| HIGH | 2 |  |
-| LOW | 3 |  |
-
-
-
 <a name=".TimestampCompareBy"></a>
 
 ### TimestampCompareBy
@@ -226,9 +209,10 @@
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| SAME | 0 |  |
-| BEFORE | 1 |  |
-| AFTER | 2 |  |
+| NONE | 0 |  |
+| SAME | 1 |  |
+| BEFORE | 2 |  |
+| AFTER | 3 |  |
 
 
  
@@ -239,7 +223,7 @@
 <a name=".CatService"></a>
 
 ### CatService
-
+お試し用
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
