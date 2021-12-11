@@ -13,8 +13,6 @@ import (
 )
 
 func TestGetTask_DoAll(t *testing.T) {
-	hoge := "aaf"
-
 	tests := []struct {
 		name            string
 		want            *gr.Tasks

@@ -44,7 +44,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] DB 定義変更を試してみる
 - [x] DB 周辺のテスト記述
 - [x] toDTO()は presentation 部分で呼び出した方が、grpc でない時にも presentation 層だけで対応できるしいい気がする
-- [ ] GitHubAction で push 後自動でテスト実施
+- [x] GitHubAction で push 後自動でテスト実施
 - [ ] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
 - [ ] presentation のテスト記述
 - [ ] .env.test ファイルをプロジェクトルートに移動（repository_impl のテストでの env ファイル読み込みでエラーが起きないようにパス設定をあれこれ直す必要あり）
