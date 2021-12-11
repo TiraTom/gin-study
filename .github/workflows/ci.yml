@@ -29,6 +29,8 @@ jobs:
         uses: golangci/golangci-lint-action@v2.5.2
         with:
           version: latest
+      - name: go version
+        run: go version
   test:
     # needs: setup
     runs-on: ubuntu-latest
