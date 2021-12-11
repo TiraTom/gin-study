@@ -4,6 +4,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.1.4
+        with:
+          go-version: '1.16'
       - uses: actions/checkout@v2
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v2.5.2
@@ -23,10 +27,10 @@ jobs:
           MYSQL_PASSWORD: docker
           TZ: "Asia/Tokyo"
     steps:
-      # - name: Setup Go environment
-      #   uses: actions/setup-go@v2.1.4
-      #   with:
-      #     go-version: '1.16'
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.1.4
+        with:
+          go-version: '1.16'
       - run: go version
       - uses: actions/checkout@v2
       - name: test
