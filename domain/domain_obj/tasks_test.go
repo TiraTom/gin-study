@@ -14,8 +14,6 @@ func TestTasks_ToDto(t *testing.T) {
 		Value []*Task
 	}
 
-	testVs := getDummyValues(t)
-
 	tests := []struct {
 		name    string
 		fields  fields
@@ -31,9 +29,9 @@ func TestTasks_ToDto(t *testing.T) {
 						Name:           "DUMMY_NAME1",
 						Details:        "DUMMY_DETAILS1",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME1",
-						RegisteredAt:   &testVs.dummyTime1,
-						Deadline:       &testVs.dummyTime2,
-						UpdatedAt:      &testVs.dummyTime3,
+						RegisteredAt:   &time20210823000001,
+						Deadline:       &time20210823000002,
+						UpdatedAt:      &time20210823000003,
 						Version:        2,
 					},
 					{
@@ -41,9 +39,9 @@ func TestTasks_ToDto(t *testing.T) {
 						Name:           "DUMMY_NAME2",
 						Details:        "DUMMY_DETAILS2",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME2",
-						RegisteredAt:   &testVs.dummyTime1,
-						Deadline:       &testVs.dummyTime2,
-						UpdatedAt:      &testVs.dummyTime3,
+						RegisteredAt:   &time20210823000001,
+						Deadline:       &time20210823000002,
+						UpdatedAt:      &time20210823000003,
 						Version:        3,
 					},
 				},
@@ -56,13 +54,13 @@ func TestTasks_ToDto(t *testing.T) {
 						Details:        "DUMMY_DETAILS1",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME1",
 						RegisteredAt: &timestamppb.Timestamp{
-							Seconds: testVs.dummyTimestampSec1,
+							Seconds: timestamp20210823000001,
 						},
 						Deadline: &timestamppb.Timestamp{
-							Seconds: testVs.dummyTimestampSec2,
+							Seconds: timestamp20210823000002,
 						},
 						UpdatedAt: &timestamppb.Timestamp{
-							Seconds: testVs.dummyTimestampSec3,
+							Seconds: timestamp20210823000003,
 						},
 					},
 					{
@@ -71,13 +69,13 @@ func TestTasks_ToDto(t *testing.T) {
 						Details:        "DUMMY_DETAILS2",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME2",
 						RegisteredAt: &timestamppb.Timestamp{
-							Seconds: testVs.dummyTimestampSec1,
+							Seconds: timestamp20210823000001,
 						},
 						Deadline: &timestamppb.Timestamp{
-							Seconds: testVs.dummyTimestampSec2,
+							Seconds: timestamp20210823000002,
 						},
 						UpdatedAt: &timestamppb.Timestamp{
-							Seconds: testVs.dummyTimestampSec3,
+							Seconds: timestamp20210823000003,
 						},
 					},
 				},
@@ -138,8 +136,6 @@ func TestNewTasks(t *testing.T) {
 		records []*infrastructure.TaskAndImportance
 	}
 
-	testVs := getDummyValues(t)
-
 	tests := []struct {
 		name string
 		args args
@@ -156,9 +152,9 @@ func TestNewTasks(t *testing.T) {
 						ImportanceId:    2,
 						ImportanceName:  "DUMMY_IMPORTANCE_NAME1",
 						ImportanceLevel: 3,
-						RegisteredTime:  testVs.dummyTime1,
-						Deadline:        testVs.dummyTime2,
-						UpdatedTime:     testVs.dummyTime3,
+						RegisteredTime:  time20210823000001,
+						Deadline:        time20210823000002,
+						UpdatedTime:     time20210823000003,
 						Version:         4,
 					},
 					{
@@ -168,9 +164,9 @@ func TestNewTasks(t *testing.T) {
 						ImportanceId:    12,
 						ImportanceName:  "DUMMY_IMPORTANCE_NAME2",
 						ImportanceLevel: 13,
-						RegisteredTime:  testVs.dummyTime1,
-						Deadline:        testVs.dummyTime2,
-						UpdatedTime:     testVs.dummyTime3,
+						RegisteredTime:  time20210823000001,
+						Deadline:        time20210823000002,
+						UpdatedTime:     time20210823000003,
 						Version:         14,
 					},
 				},
@@ -182,9 +178,9 @@ func TestNewTasks(t *testing.T) {
 						Name:           "DUMMY_NAME1",
 						Details:        "DUMMY_DETAILS1",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME1",
-						RegisteredAt:   &testVs.dummyTime1,
-						Deadline:       &testVs.dummyTime2,
-						UpdatedAt:      &testVs.dummyTime3,
+						RegisteredAt:   &time20210823000001,
+						Deadline:       &time20210823000002,
+						UpdatedAt:      &time20210823000003,
 						Version:        4,
 					},
 					{
@@ -192,9 +188,9 @@ func TestNewTasks(t *testing.T) {
 						Name:           "DUMMY_NAME2",
 						Details:        "DUMMY_DETAILS2",
 						ImportanceName: "DUMMY_IMPORTANCE_NAME2",
-						RegisteredAt:   &testVs.dummyTime1,
-						Deadline:       &testVs.dummyTime2,
-						UpdatedAt:      &testVs.dummyTime3,
+						RegisteredAt:   &time20210823000001,
+						Deadline:       &time20210823000002,
+						UpdatedAt:      &time20210823000003,
 						Version:        14,
 					},
 				},
