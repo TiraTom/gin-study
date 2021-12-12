@@ -18,7 +18,6 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 		SearchTypeForDeadline *gr.TimestampCompareBy
 	}
 
-	dummyTime := time.Now()
 	searchTypeAfter := gr.TimestampCompareBy_AFTER
 	searchTypeBefore := gr.TimestampCompareBy_BEFORE
 	searchTypeSame := gr.TimestampCompareBy_SAME
@@ -35,7 +34,7 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 				Name:                  "NAME",
 				Details:               "DETAILS",
 				ImportanceName:        "IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &searchTypeAfter,
 			},
 			want: true,
@@ -46,7 +45,7 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 				Name:                  "NAME",
 				Details:               "DETAILS",
 				ImportanceName:        "IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &searchTypeBefore,
 			},
 			want: true,
@@ -57,7 +56,7 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 				Name:                  "NAME",
 				Details:               "DETAILS",
 				ImportanceName:        "IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &searchTypeSame,
 			},
 			want: true,
@@ -68,7 +67,7 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 				Name:                  "NAME",
 				Details:               "DETAILS",
 				ImportanceName:        "IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: nil,
 			},
 			want: false,
@@ -79,7 +78,7 @@ func TestTaskSearchCondition_IsDeadlineIncludedInCondition(t *testing.T) {
 				Name:                  "NAME",
 				Details:               "DETAILS",
 				ImportanceName:        "IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &searchTypeNone,
 			},
 			want: false,
@@ -110,7 +109,6 @@ func TestTaskSearchCondition_AsDeadlineConditionSentence(t *testing.T) {
 		SearchTypeForDeadline *gr.TimestampCompareBy
 	}
 
-	dummyTime := time.Now()
 	searchTypeAfter := gr.TimestampCompareBy_AFTER
 	searchTypeBefore := gr.TimestampCompareBy_BEFORE
 	searchTypeSame := gr.TimestampCompareBy_SAME
@@ -127,7 +125,7 @@ func TestTaskSearchCondition_AsDeadlineConditionSentence(t *testing.T) {
 				Name:                  "DUMMY_NAME",
 				Details:               "DUMMY_DETAILS",
 				ImportanceName:        "DUMMY_IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &searchTypeBefore,
 			},
 			want:    "tasks.deadline < ?",
@@ -139,7 +137,7 @@ func TestTaskSearchCondition_AsDeadlineConditionSentence(t *testing.T) {
 				Name:                  "DUMMY_NAME",
 				Details:               "DUMMY_DETAILS",
 				ImportanceName:        "DUMMY_IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &searchTypeAfter,
 			},
 			want:    "tasks.deadline > ?",
@@ -151,7 +149,7 @@ func TestTaskSearchCondition_AsDeadlineConditionSentence(t *testing.T) {
 				Name:                  "DUMMY_NAME",
 				Details:               "DUMMY_DETAILS",
 				ImportanceName:        "DUMMY_IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &searchTypeSame,
 			},
 			want:    "tasks.deadline = ?",
@@ -240,13 +238,6 @@ func TestNewTaskSearchCondition(t *testing.T) {
 		p *gr.GetTaskByConditionRequestParam
 	}
 
-	// 2021/11/29 00:11:12(UTC) のタイムスタンプ
-	dummyTimeStampSec := int64(1638144672)
-	dummyTime, err := time.Parse("2006/01/02 15:04:05", "2021/11/29 00:11:12")
-	if err != nil {
-		t.Errorf("時刻の返還処理でエラー発生 %v", err)
-	}
-
 	dummySearchTypeForDeadline := gr.TimestampCompareBy_AFTER
 
 	tests := []struct {
@@ -262,7 +253,7 @@ func TestNewTaskSearchCondition(t *testing.T) {
 					Details:        "DUMMY_DETAILS",
 					ImportanceName: "DUMMY_IMPORTANCE_NAME",
 					Deadline: &timestamppb.Timestamp{
-						Seconds: dummyTimeStampSec,
+						Seconds: timestamp20210823000001,
 					},
 					SearchTypeForDeadline: dummySearchTypeForDeadline,
 				},
@@ -271,7 +262,7 @@ func TestNewTaskSearchCondition(t *testing.T) {
 				Name:                  "DUMMY_NAME",
 				Details:               "DUMMY_DETAILS",
 				ImportanceName:        "DUMMY_IMPORTANCE_NAME",
-				Deadline:              &dummyTime,
+				Deadline:              &time20210823000001,
 				SearchTypeForDeadline: &dummySearchTypeForDeadline,
 			},
 		},
