@@ -4,10 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	"path/filepath"
+	"runtime"
 
 	"github.com/golang-migrate/migrate/v4"
 	mm "github.com/golang-migrate/migrate/v4/database/mysql"
+	"go.uber.org/zap"
 )
+
+const migrationFolderName = "migrations"
 
 // DoMigrateはDBのマイグレーションを実施する。
 func DoMigrate(dsn string, isTest bool) error {
@@ -81,9 +85,14 @@ func connectToDB(dsn string, isTest bool) (*migrate.Migrate, error) {
 // テスト（go testによるユニットテスト）かどうかで現在位置のディレクトリが異なるので、引数で判断してパスを設定している。
 func getDBDefinitionFolderPath(isTest bool) (string, error) {
 	if isTest {
-		// プロジェクトルート配下のinfrastructure/repository_implからの呼び出しを想定しているためこのパスを設定している
-		return filepath.Abs("../../migrations")
+		_, testSourceFilePath, _, ok := runtime.Caller(0)
+		if !ok {
+			zap.L().Fatal("現在ディレクトリ取得処理でエラー")
+			panic(fmt.Errorf("現在ディレクトリ取得処理でエラー"))
+		}
+		// プロジェクトルート/config/migrate.goというディレクトリ前提でマイグレーションフォルダのパスを取得している
+		return filepath.Join(filepath.Dir(filepath.Dir(testSourceFilePath)), migrationFolderName), nil
 	}
 
-	return "migrations", nil
+	return migrationFolderName, nil
 }

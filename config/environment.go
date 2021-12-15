@@ -37,9 +37,18 @@ func isTestEnv() bool {
 	return os.Getenv("ENV") == "test"
 }
 
+func isNotEnvSet() bool {
+	return os.Getenv("ENV") == ""
+}
+
 // SetEnvValues 環境変数を設定ファイルから取得しその後変数として保持する。アプリ起動時に呼び出す処理のため、環境変数取得時にエラーが発生した場合はpanicを起こすようにしている。
 func NewEnvironment() *Environment {
 	projectRoot := "."
+
+	if isNotEnvSet() {
+		panic("環境変数ENVは必須です")
+	}
+
 	if isTestEnv() {
 		_, testSourceFilePath, _, ok := runtime.Caller(0)
 		if !ok {
