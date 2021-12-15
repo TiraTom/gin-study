@@ -47,7 +47,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] GitHubAction で push 後自動でテスト実施
 - [ ] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
 - [ ] presentation のテスト記述
-- [ ] .env.test ファイルをプロジェクトルートに移動（repository_impl のテストでの env ファイル読み込みでエラーが起きないようにパス設定をあれこれ直す必要あり）
+- [x] .env.test ファイルをプロジェクトルートに移動（repository_impl のテストでの env ファイル読み込みでエラーが起きないようにパス設定をあれこれ直す必要あり）
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）
 - [x] ~~AWS にデプロイして動かす（CloudFormation 等利用）~~ 別でやる
 - [ ] ローカルで JMeter で負荷をかけてみる

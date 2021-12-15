@@ -3,10 +3,13 @@ package config
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
+	"go.uber.org/zap"
 )
 
 type Environment struct {
@@ -30,17 +33,33 @@ func (e *Environment) IsDebugEnv() bool {
 	panic(fmt.Errorf("想定しないENVの値が設定されています"))
 }
 
+func isTestEnv() bool {
+	return os.Getenv("ENV") == "test"
+}
+
 // SetEnvValues 環境変数を設定ファイルから取得しその後変数として保持する。アプリ起動時に呼び出す処理のため、環境変数取得時にエラーが発生した場合はpanicを起こすようにしている。
 func NewEnvironment() *Environment {
+	projectRoot := "."
+	if isTestEnv() {
+		_, testSourceFilePath, _, ok := runtime.Caller(0)
+		if !ok {
+			zap.L().Fatal("現在ディレクトリ取得処理でエラー")
+			panic(fmt.Errorf("現在ディレクトリ取得処理でエラー"))
+		}
+		projectRoot = filepath.Dir(filepath.Dir(testSourceFilePath))
+	}
+
 	// 指定した環境に対応した環境変数ファイルを読み込む
-	err := godotenv.Load(fmt.Sprintf(".env.%s", os.Getenv("ENV")))
+	err := godotenv.Load(fmt.Sprintf("%s/.env.%s", projectRoot, os.Getenv("ENV")))
 	if err != nil {
+		zap.L().Fatal(fmt.Sprintf("環境変数ファイル読み込みでエラー: %v", err))
 		panic(err)
 	}
 
 	var env Environment
 	err = envconfig.Process("", &env)
 	if err != nil {
+		zap.L().Fatal(err.Error())
 		panic(err)
 	}
 
