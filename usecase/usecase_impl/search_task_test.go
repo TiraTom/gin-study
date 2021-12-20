@@ -1,4 +1,4 @@
-package usecase
+package usecase_impl_test
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"github.com/Tiratom/gin-study/domain/domain_obj"
 	gr "github.com/Tiratom/gin-study/grpc"
 	"github.com/Tiratom/gin-study/mock/mock_repository_interface"
+	"github.com/Tiratom/gin-study/usecase/usecase_impl"
 	"github.com/golang/mock/gomock"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -110,8 +111,8 @@ func TestSearchTask_Do(t *testing.T) {
 			mTaskR := mock_repository_interface.NewMockTask(ctrl)
 			tt.prepareMockFunc(mTaskR)
 
-			s := &SearchTask{
-				tr: mTaskR,
+			s := &usecase_impl.SearchTask{
+				Tr: mTaskR,
 			}
 
 			_, err := s.Do(tt.args.p)

@@ -1,4 +1,4 @@
-package usecase
+package usecase_impl
 
 import (
 	"fmt"
@@ -8,21 +8,21 @@ import (
 )
 
 type GetTask struct {
-	tr repository_interface.Task
+	Tr repository_interface.Task
 }
 
 func (gt *GetTask) DoAll() (*domain_obj.Tasks, error) {
-	allTasks, err := gt.tr.GetAll()
+	allTasks, err := gt.Tr.GetAll()
 	if err != nil {
-		return nil, fmt.Errorf("タスク全件取得においてエラーが発生しました: %w", err)
+		return nil, fmt.Errorf("タスク全件取得においてエラーが発生しました; %w", err)
 	}
 	return allTasks, err
 }
 
 func (gt *GetTask) DoById(id string) (*domain_obj.Task, error) {
-	task, err := gt.tr.GetById(id)
+	task, err := gt.Tr.GetById(id)
 	if err != nil {
-		return nil, fmt.Errorf("idによるタスク取得においてエラーが発生しました(id=%v): %w", id, err)
+		return nil, fmt.Errorf("idによるタスク取得においてエラーが発生しました(id=%v); %w", id, err)
 	}
 	return task, err
 }

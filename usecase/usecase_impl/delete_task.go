@@ -1,4 +1,4 @@
-package usecase
+package usecase_impl
 
 import (
 	"fmt"
@@ -9,13 +9,13 @@ import (
 )
 
 type DeleteTask struct {
-	tr repository_interface.Task
+	Tr repository_interface.Task
 }
 
 func (d *DeleteTask) Do(p *gr.DeleteTaskRequestParam) error {
-	err := d.tr.Delete(p.Id)
+	err := d.Tr.Delete(p.Id)
 	if err != nil {
-		return fmt.Errorf("タスク削除においてエラーが発生しました(id=%v): %w", p.Id, err)
+		return fmt.Errorf("タスク削除においてエラーが発生しました(id=%v); %w", p.Id, err)
 	}
 	return err
 }

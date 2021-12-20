@@ -61,7 +61,7 @@ func NewEnvironment() *Environment {
 	// 指定した環境に対応した環境変数ファイルを読み込む
 	err := godotenv.Load(fmt.Sprintf("%s/.env.%s", projectRoot, os.Getenv("ENV")))
 	if err != nil {
-		zap.L().Fatal(fmt.Sprintf("環境変数ファイル読み込みでエラー: %v", err))
+		zap.L().Fatal(fmt.Sprint("環境変数ファイル読み込みでエラー; ", err))
 		panic(err)
 	}
 

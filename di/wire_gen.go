@@ -8,10 +8,9 @@ package di
 import (
 	"github.com/Tiratom/gin-study/config"
 	"github.com/Tiratom/gin-study/domain/repository_interface"
-	"github.com/Tiratom/gin-study/infrastructure/repository_impl"
 	"github.com/Tiratom/gin-study/middleware"
 	"github.com/Tiratom/gin-study/presentation"
-	"github.com/Tiratom/gin-study/usecase"
+	"github.com/Tiratom/gin-study/usecase/usecase_interface"
 )
 
 // Injectors from wire.go:
@@ -27,12 +26,6 @@ func InitializeDB() *config.DB {
 	return db
 }
 
-func InitializeImportanceRepository() *repository_impl.Importance {
-	db := InitializeDB()
-	importance := repository_impl.NewImportance(db)
-	return importance
-}
-
 func InitializeImportanceRepositoryInterface() repository_interface.Importance {
 	db := InitializeDB()
 	importance := repository_interface.NewImportance(db)
@@ -45,43 +38,43 @@ func InitializeTaskRepositoryInterface() repository_interface.Task {
 	return task
 }
 
-func InitializeGetTaskUsecase() *usecase.GetTask {
+func InitializeGetTaskUsecaseIF() usecase_interface.GetTask {
 	task := InitializeTaskRepositoryInterface()
-	getTask := usecase.NewGetTask(task)
+	getTask := usecase_interface.NewGetTask(task)
 	return getTask
 }
 
-func InitializeCreateTaskUsecase() *usecase.CreateTask {
+func InitializeCreateTaskUsecaseIF() usecase_interface.CreateTask {
 	task := InitializeTaskRepositoryInterface()
-	createTask := usecase.NewCreateTask(task)
+	createTask := usecase_interface.NewCreateTask(task)
 	return createTask
 }
 
-func InitializeUpdateTaskUsecase() *usecase.UpdateTask {
+func InitializeUpdateTaskUsecaseIF() usecase_interface.UpdateTask {
 	task := InitializeTaskRepositoryInterface()
-	updateTask := usecase.NewUpdateTask(task)
+	updateTask := usecase_interface.NewUpdateTask(task)
 	return updateTask
 }
 
-func InitializeDeleteTaskUsercase() *usecase.DeleteTask {
+func InitializeDeleteTaskUsecaseIF() usecase_interface.DeleteTask {
 	task := InitializeTaskRepositoryInterface()
-	deleteTask := usecase.NewDeleteTask(task)
+	deleteTask := usecase_interface.NewDeleteTask(task)
 	return deleteTask
 }
 
-func InitializeSearchTaskUsercase() *usecase.SearchTask {
+func InitializeSearchTaskUsecaseIF() usecase_interface.SearchTask {
 	task := InitializeTaskRepositoryInterface()
-	searchTask := usecase.NewSearchTask(task)
+	searchTask := usecase_interface.NewSearchTask(task)
 	return searchTask
 }
 
 func InitializeTaskServiceServer() *presentation.TaskServiceServer {
 	zapLogger := middleware.NewZapLogger()
-	getTask := InitializeGetTaskUsecase()
-	createTask := InitializeCreateTaskUsecase()
-	updateTask := InitializeUpdateTaskUsecase()
-	deleteTask := InitializeDeleteTaskUsercase()
-	searchTask := InitializeSearchTaskUsercase()
+	getTask := InitializeGetTaskUsecaseIF()
+	createTask := InitializeCreateTaskUsecaseIF()
+	updateTask := InitializeUpdateTaskUsecaseIF()
+	deleteTask := InitializeDeleteTaskUsecaseIF()
+	searchTask := InitializeSearchTaskUsecaseIF()
 	taskServiceServer := presentation.NewTaskServiceServer(zapLogger, getTask, createTask, updateTask, deleteTask, searchTask)
 	return taskServiceServer
 }

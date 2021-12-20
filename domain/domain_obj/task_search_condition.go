@@ -28,7 +28,7 @@ func (t *TaskSearchCondition) AsDeadlineConditionSentence() (string, error) {
 	case gr.TimestampCompareBy_AFTER.Number():
 		return "tasks.deadline > ?", nil
 	default:
-		return "", fmt.Errorf("期限日時の比較条件設定として使えない値です %s", t.SearchTypeForDeadline)
+		return "", fmt.Errorf("期限日時の比較条件設定として使えない値です(invalidaValue=%s)", t.SearchTypeForDeadline)
 	}
 }
 

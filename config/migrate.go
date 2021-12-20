@@ -17,12 +17,12 @@ const migrationFolderName = "migrations"
 func DoMigrate(dsn string, isTest bool) error {
 	m, err := connectToDB(dsn, isTest)
 	if err != nil {
-		return fmt.Errorf("DBマイグレーション用接続においてエラーが発生しました %v", err)
+		return fmt.Errorf("DBマイグレーション用接続においてエラーが発生しました; %w", err)
 	}
 	defer func() {
 		err1, err2 := m.Close()
 		if err1 != nil || err2 != nil {
-			panic(fmt.Sprint("DBマイグレーション用接続のClose時にエラーが発生しました sourceErr=%w, databaseErr=%w", err1, err2))
+			panic(fmt.Sprintf("DBマイグレーション用接続のClose時にエラーが発生しました sourceErr=%v, databaseErr=%v", err1, err2))
 		}
 	}()
 
@@ -39,7 +39,7 @@ func DoMigrate(dsn string, isTest bool) error {
 func ResetMigrate(dsn string, isTest bool) error {
 	m, err := connectToDB(dsn, isTest)
 	if err != nil {
-		return fmt.Errorf("DBマイグレーション用接続においてエラーが発生しました %w", err)
+		return fmt.Errorf("DBマイグレーション用接続においてエラーが発生しました; %w", err)
 	}
 	defer func() {
 		err1, err2 := m.Close()
@@ -60,17 +60,17 @@ func ResetMigrate(dsn string, isTest bool) error {
 func connectToDB(dsn string, isTest bool) (*migrate.Migrate, error) {
 	db, err := sql.Open("mysql", fmt.Sprintf("%s&multiStatements=true", dsn))
 	if err != nil {
-		return nil, fmt.Errorf("DB接続(dsn=%s)においてエラーが発生しました: %w", dsn, err)
+		return nil, fmt.Errorf("DB接続(dsn=%s)においてエラーが発生しました; %w", dsn, err)
 	}
 
 	driver, err := mm.WithInstance(db, &mm.Config{})
 	if err != nil {
-		return nil, fmt.Errorf("マイグレーション用DB接続(dsn=%s)においてエラーが発生しました: %w", dsn, err)
+		return nil, fmt.Errorf("マイグレーション用DB接続(dsn=%s)においてエラーが発生しました; %w", dsn, err)
 	}
 
 	fPath, err := getDBDefinitionFolderPath(isTest)
 	if err != nil {
-		return nil, fmt.Errorf("マイグレーション用フォルダパス(isTest=%v)取得においてエラーが発生しました: %w", isTest, err)
+		return nil, fmt.Errorf("マイグレーション用フォルダパス(isTest=%v)取得においてエラーが発生しました; %w", isTest, err)
 	}
 
 	return migrate.NewWithDatabaseInstance(

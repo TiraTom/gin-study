@@ -45,9 +45,11 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] DB 周辺のテスト記述
 - [x] toDTO()は presentation 部分で呼び出した方が、grpc でない時にも presentation 層だけで対応できるしいい気がする
 - [x] GitHubAction で push 後自動でテスト実施
-- [ ] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
-- [ ] presentation のテスト記述
 - [x] .env.test ファイルをプロジェクトルートに移動（repository_impl のテストでの env ファイル読み込みでエラーが起きないようにパス設定をあれこれ直す必要あり）
+- [ ] presentation のテスト記述：
+- [ ] infrastructure のテストで isTest フラグを使っている箇所を除去する。設定必須の環境変数 ENV の値で管理して分岐させることにして、通常コードがテストのことを意識しなくて済むようにする
+- [ ] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
+- [ ] usecase のテストは DB 処理まで実際に行わせるので、infra 層のテストと並列実行にならないようにしないとテスト失敗するかも？
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）
 - [x] ~~AWS にデプロイして動かす（CloudFormation 等利用）~~ 別でやる
 - [ ] ローカルで JMeter で負荷をかけてみる
