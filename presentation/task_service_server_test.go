@@ -2,6 +2,7 @@ package presentation_test
 
 import (
 	"context"
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/Tiratom/gin-study/presentation"
 	"github.com/Tiratom/gin-study/usecase/usecase_interface"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // 勉強がてらなのでpresentation層のテストはGetAllTasksの分だけ書いて終わりにする
@@ -34,7 +36,51 @@ func TestTaskServiceServer_GetAllTasks(t *testing.T) {
 			},
 			wantErr: false,
 		},
-		// TODO: Add test cases.
+		{
+			name: "タスクが存在する場合",
+			mock: &GetTaskUsecaseMock{
+				FakeDoAll: func() (*domain_obj.Tasks, error) {
+					return &domain_obj.Tasks{
+						Value: []*domain_obj.Task{
+							{
+								Id:             "DUMMY_ID",
+								Name:           "DUMMY_NAME",
+								Details:        "DUMMY_DETAILS",
+								ImportanceName: "DUMMY_IMPORTANCE_NAME",
+								Deadline:       &time20210822150001,
+								RegisteredAt:   &time20210822150002,
+								UpdatedAt:      &time20210822150003,
+								Version:        2,
+							},
+						},
+					}, nil
+				},
+			},
+			want: &gr.Tasks{
+				Tasks: []*gr.Task{
+					{
+						Id:             "DUMMY_ID",
+						Name:           "DUMMY_NAME",
+						Details:        "DUMMY_DETAILS",
+						ImportanceName: "DUMMY_IMPORTANCE_NAME",
+						Deadline:       &timestamppb.Timestamp{Seconds: timestamp20210822150001},
+						RegisteredAt:   &timestamppb.Timestamp{Seconds: timestamp20210822150002},
+						UpdatedAt:      &timestamppb.Timestamp{Seconds: timestamp20210822150003},
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "usecase層の処理でエラーが発生した場合panicが起きずにエラーを返却する",
+			mock: &GetTaskUsecaseMock{
+				FakeDoAll: func() (*domain_obj.Tasks, error) {
+					return nil, fmt.Errorf("usecase層でのエラー")
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
