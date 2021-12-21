@@ -2,7 +2,6 @@ package presentation_test
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -19,18 +18,15 @@ import (
 func TestTaskServiceServer_GetAllTasks(t *testing.T) {
 	tests := []struct {
 		name    string
-		f       *GetTaskUsecaseMock
+		mock    *GetTaskUsecaseMock
 		want    *gr.Tasks
 		wantErr bool
 	}{
 		{
 			name: "タスクが空の場合",
-			f: &GetTaskUsecaseMock{
+			mock: &GetTaskUsecaseMock{
 				FakeDoAll: func() (*domain_obj.Tasks, error) {
-					return nil, fmt.Errorf("MOCK-1!!")
-				},
-				FakeDoById: func(id string) (*domain_obj.Task, error) {
-					return nil, fmt.Errorf("MOCK-2!!")
+					return &domain_obj.Tasks{}, nil
 				},
 			},
 			want: &gr.Tasks{
@@ -44,9 +40,8 @@ func TestTaskServiceServer_GetAllTasks(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 
 			tss := &presentation.TaskServiceServer{
-				Log: &middleware.ZapLogger{},
-				// GetTaskUsecase:    &GetTaskUsecaseMock{},
-				GetTaskUsecase:    tt.f,
+				Log:               &middleware.ZapLogger{},
+				GetTaskUsecase:    tt.mock,
 				CreateTaskUsecase: &CreateTaskUsecaseEmptyMock{},
 				UpdateTaskUsecase: &UpdateTaskUsecaseEmptyMock{},
 				DeleteTaskUsecase: &DeleteTaskUsecaseEmptyMock{},
@@ -71,12 +66,10 @@ type GetTaskUsecaseMock struct {
 
 func (m *GetTaskUsecaseMock) DoAll() (*domain_obj.Tasks, error) {
 	return m.FakeDoAll()
-	// return nil, fmt.Errorf("MOCK-1!!")
 }
 
 func (m *GetTaskUsecaseMock) DoById(id string) (*domain_obj.Task, error) {
 	return m.FakeDoById(id)
-	// return nil, fmt.Errorf("MOCK-2!!")
 }
 
 type CreateTaskUsecaseEmptyMock struct {
