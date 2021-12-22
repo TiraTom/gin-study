@@ -33,8 +33,11 @@ func (e *Environment) IsDebugEnv() bool {
 	panic(fmt.Errorf("想定しないENVの値が設定されています"))
 }
 
-func isTestEnv() bool {
-	return os.Getenv("ENV") == "test"
+func IsTestEnv() (bool, error) {
+	if isNotEnvSet() {
+		return false, fmt.Errorf("環境変数ENVがセットされていません")
+	}
+	return os.Getenv("ENV") == "test", nil
 }
 
 func isNotEnvSet() bool {
@@ -45,11 +48,12 @@ func isNotEnvSet() bool {
 func NewEnvironment() *Environment {
 	projectRoot := "."
 
-	if isNotEnvSet() {
-		panic("環境変数ENVは必須です")
+	isTest, err := IsTestEnv()
+	if err != nil {
+		panic(fmt.Errorf("テスト環境かどうかの判別処理でエラーが発生しました; %w", err))
 	}
 
-	if isTestEnv() {
+	if isTest {
 		_, testSourceFilePath, _, ok := runtime.Caller(0)
 		if !ok {
 			zap.L().Fatal("現在ディレクトリ取得処理でエラー")
@@ -59,7 +63,7 @@ func NewEnvironment() *Environment {
 	}
 
 	// 指定した環境に対応した環境変数ファイルを読み込む
-	err := godotenv.Load(fmt.Sprintf("%s/.env.%s", projectRoot, os.Getenv("ENV")))
+	err = godotenv.Load(fmt.Sprintf("%s/.env.%s", projectRoot, os.Getenv("ENV")))
 	if err != nil {
 		zap.L().Fatal(fmt.Sprint("環境変数ファイル読み込みでエラー; ", err))
 		panic(err)

@@ -14,8 +14,8 @@ import (
 const migrationFolderName = "migrations"
 
 // DoMigrateはDBのマイグレーションを実施する。
-func DoMigrate(dsn string, isTest bool) error {
-	m, err := connectToDB(dsn, isTest)
+func DoMigrate(dsn string) error {
+	m, err := connectToDB(dsn)
 	if err != nil {
 		return fmt.Errorf("DBマイグレーション用接続においてエラーが発生しました; %w", err)
 	}
@@ -36,8 +36,8 @@ func DoMigrate(dsn string, isTest bool) error {
 
 // ResetMigrateはDBのマイグレーションを全てDOWN状態にする。
 // 主目的はDBテスト用。
-func ResetMigrate(dsn string, isTest bool) error {
-	m, err := connectToDB(dsn, isTest)
+func ResetMigrate(dsn string) error {
+	m, err := connectToDB(dsn)
 	if err != nil {
 		return fmt.Errorf("DBマイグレーション用接続においてエラーが発生しました; %w", err)
 	}
@@ -57,7 +57,7 @@ func ResetMigrate(dsn string, isTest bool) error {
 }
 
 // connectToDBはマイグレーション用のDB接続を行う。
-func connectToDB(dsn string, isTest bool) (*migrate.Migrate, error) {
+func connectToDB(dsn string) (*migrate.Migrate, error) {
 	db, err := sql.Open("mysql", fmt.Sprintf("%s&multiStatements=true", dsn))
 	if err != nil {
 		return nil, fmt.Errorf("DB接続(dsn=%s)においてエラーが発生しました; %w", dsn, err)
@@ -68,9 +68,9 @@ func connectToDB(dsn string, isTest bool) (*migrate.Migrate, error) {
 		return nil, fmt.Errorf("マイグレーション用DB接続(dsn=%s)においてエラーが発生しました; %w", dsn, err)
 	}
 
-	fPath, err := getDBDefinitionFolderPath(isTest)
+	fPath, err := getDBDefinitionFolderPath()
 	if err != nil {
-		return nil, fmt.Errorf("マイグレーション用フォルダパス(isTest=%v)取得においてエラーが発生しました; %w", isTest, err)
+		return nil, fmt.Errorf("マイグレーション用フォルダパス取得においてエラーが発生しました; %w", err)
 	}
 
 	return migrate.NewWithDatabaseInstance(
@@ -82,9 +82,13 @@ func connectToDB(dsn string, isTest bool) (*migrate.Migrate, error) {
 
 // getDBDefinitionFolderPathはマイグレーション用ファイル格納フォルダのパスを取得する。
 // マイグレーションファイルはプロジェクトルート配下のmirationsフォルダを参照するが、
-// テスト（go testによるユニットテスト）かどうかで現在位置のディレクトリが異なるので、引数で判断してパスを設定している。
-func getDBDefinitionFolderPath(isTest bool) (string, error) {
-	if isTest {
+// テスト（go testによるユニットテスト）かどうかで現在位置のディレクトリが異なるので、環境変数の値で判断してパスを設定している。
+func getDBDefinitionFolderPath() (string, error) {
+	isTestEnv, err := IsTestEnv()
+	if err != nil {
+		panic(fmt.Errorf("テスト環境かどうかの判別処理でエラーが発生しました; %w", err))
+	}
+	if isTestEnv {
 		_, testSourceFilePath, _, ok := runtime.Caller(0)
 		if !ok {
 			zap.L().Fatal("現在ディレクトリ取得処理でエラー")

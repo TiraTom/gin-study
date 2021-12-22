@@ -12,6 +12,9 @@ run:
 test:
 	ENV=test go test -v ./...
 
+clearTestcache:
+	go clean -testcache
+
 grpc-list:
 	grpcurl -plaintext localhost:8081 list
 
