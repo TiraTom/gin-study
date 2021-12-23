@@ -48,7 +48,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] .env.test ファイルをプロジェクトルートに移動（repository_impl のテストでの env ファイル読み込みでエラーが起きないようにパス設定をあれこれ直す必要あり）
 - [x] presentation のテスト記述：<https://moneyforward.com/engineers_blog/2021/03/08/go-test-mock/>を参考にモック用意（インターフェース用意が必要）
 - [x] infrastructure のテストで isTest フラグを使っている箇所を除去する。設定必須の環境変数 ENV の値で管理して分岐させることにして、通常コードがテストのことを意識しなくて済むようにする
-- [ ] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
+- [x] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
 - [ ] usecase のテストは DB 処理まで実際に行わせるので、infra 層のテストと並列実行にならないようにしないとテスト失敗するかも？
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）
 - [x] ~~AWS にデプロイして動かす（CloudFormation 等利用）~~ 別でやる

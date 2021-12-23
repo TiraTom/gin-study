@@ -10,7 +10,7 @@ run:
 	ENV=local go run main.go
 
 test:
-	ENV=test go test -v ./...
+	ENV=test go test ./...
 
 clearTestcache:
 	go clean -testcache
