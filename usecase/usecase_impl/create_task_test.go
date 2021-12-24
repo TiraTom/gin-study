@@ -18,7 +18,7 @@ import (
 // 勉強がてらなのでusecaseのテストも一部だけ書いて完了とする。
 
 func TestCreateTask_Do(t *testing.T) {
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForUsecaseDBTest(t)
 
 	type args struct {
 		p *gr.CreateTaskRequestParam
@@ -102,7 +102,7 @@ type createdTaskDbDataTestWantParam struct {
 // あくまでusecaseの実装から見たテストなので、idの固定値設定などは行わずまたテストのチェック項目からも外している
 func createdTaskDbDataTest(t *testing.T, db *config.DB, createResult *domain_obj.Task, rp *gr.CreateTaskRequestParam, wantParam *createdTaskDbDataTestWantParam, testStartTime time.Time) {
 	var taskSavedByTest *record.Task
-	result := db.Gdb.Raw("SELECT * FROM gin_study.tasks WHERE id = ?;", createResult.Id).Scan(&taskSavedByTest)
+	result := db.Gdb.Raw("SELECT * FROM tasks WHERE id = ?;", createResult.Id).Scan(&taskSavedByTest)
 	if result.Error != nil {
 		t.Errorf("作成処理実施後のデータ存在チェックテストにおいてエラー発生; %v", result.Error)
 	}

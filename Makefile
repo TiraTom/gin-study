@@ -10,7 +10,7 @@ run:
 	ENV=local go run main.go
 
 test:
-	ENV=test go test ./...
+	go test ./...
 
 clearTestcache:
 	go clean -testcache
@@ -54,7 +54,7 @@ local-db:
 
 insert-dummyData:
 	QUERY="$$(cat ./dummyData/dummyData.sql | tr -d '\n')"; \
-	docker exec -it 【コンテナ名】 mysql -uroot -p -h 127.0.0.1 -Dgin_study -e "$$QUERY" -p
+	docker exec -it 【コンテナ名】 mysql -uroot -p -h 127.0.0.1 -D【DB名】 -e "$$QUERY" -p
 
 show-migrate-ver:
 	migrate -source file://migrations -database "mysql://docker:docker@tcp(localhost:3306)/gin_study" version

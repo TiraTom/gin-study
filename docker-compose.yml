@@ -16,18 +16,35 @@ services:
     ports:
       - 3306:3306
 
-  test-db:
+  test-db1:
     image: mysql:8.0.26
-    container_name: test-db
+    container_name: test-db1
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-      - ./docker/test-mysql/data:/var/lib/mysql
-      - ./docker/test-mysql/log:/var/log/mysql
-      - ./docker/test-mysql/mysql-files:/var/lib/mysql-files
+      - ./docker/test-mysql-1/data:/var/lib/mysql
+      - ./docker/test-mysql-1/log:/var/log/mysql
+      - ./docker/test-mysql-1/mysql-files:/var/lib/mysql-files
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: docker
       MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: gin_study_test1
       TZ: "Asia/Tokyo"
     ports:
       - 13306:3306
+  test-db2:
+    image: mysql:8.0.26
+    container_name: test-db2
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/test-mysql-2/data:/var/lib/mysql
+      - ./docker/test-mysql-2/log:/var/log/mysql
+      - ./docker/test-mysql-2/mysql-files:/var/lib/mysql-files
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: gin_study_test2
+      TZ: "Asia/Tokyo"
+    ports:
+      - 13307:3306

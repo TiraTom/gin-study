@@ -16,13 +16,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     services:
-      db:
+      db1:
         image: mysql:8.0.26
         ports:
           - 13306:3306
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: gin_study
+          MYSQL_DATABASE: gin_study_test1
+          MYSQL_USER: docker
+          MYSQL_PASSWORD: docker
+          TZ: "Asia/Tokyo"
+      db2:
+        image: mysql:8.0.26
+        ports:
+          - 13307:3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: gin_study_test2
           MYSQL_USER: docker
           MYSQL_PASSWORD: docker
           TZ: "Asia/Tokyo"

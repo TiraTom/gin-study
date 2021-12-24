@@ -7,10 +7,11 @@ import (
 	"github.com/Tiratom/gin-study/config"
 )
 
-// SetUpForDBTestはDB接続テストをするに当たっての前提となる共通処理を実施する。
+// SetUpForInfrastructureDBTestはDB接続テストをするに当たっての前提となる共通処理を実施する。
 // テスト記述部分をシンプルにするため、このメソッド内でエラーが起きた場合はそこでテストを失敗させている。
-func SetUpForDBTest(t *testing.T) (*config.Environment, *config.DB) {
-	err := os.Setenv("ENV", "test")
+func SetUpForInfrastructureDBTest(t *testing.T) (*config.Environment, *config.DB) {
+	// usecaseのテスト（DBと接続する）と競合しないようにするため環境はtest1としている
+	err := os.Setenv("ENV", "test1")
 	if err != nil {
 		t.Errorf("テストの共通前処理でエラー発生: %v", err)
 		t.FailNow()

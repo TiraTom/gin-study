@@ -18,7 +18,8 @@
 
 !docker/mysql/my.cnf
 docker/mysql/
-docker/test-mysql/
+docker/test-mysql-1/
+docker/test-mysql-2/
 
 log/
 

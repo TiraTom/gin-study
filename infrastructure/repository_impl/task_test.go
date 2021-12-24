@@ -16,7 +16,7 @@ func TestTask_GetAll(t *testing.T) {
 		db *config.DB
 	}
 
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForInfrastructureDBTest(t)
 
 	tests := []struct {
 		name    string
@@ -100,7 +100,7 @@ func TestTask_GetById(t *testing.T) {
 		id string
 	}
 
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForInfrastructureDBTest(t)
 
 	tests := []struct {
 		name    string
@@ -185,7 +185,7 @@ func TestTask_Create(t *testing.T) {
 		p *domain_obj.Task
 	}
 
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForInfrastructureDBTest(t)
 
 	tests := []struct {
 		name    string
@@ -295,7 +295,7 @@ func TestTask_Update(t *testing.T) {
 		p *domain_obj.Task
 	}
 
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForInfrastructureDBTest(t)
 
 	tests := []struct {
 		name    string
@@ -435,7 +435,7 @@ func TestTask_Delete(t *testing.T) {
 		id string
 	}
 
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForInfrastructureDBTest(t)
 
 	tests := []struct {
 		name                     string
@@ -487,7 +487,7 @@ func TestTask_Delete(t *testing.T) {
 			}
 
 			var taskAfterTest *record.Task
-			result := tt.fields.db.Gdb.Raw("SELECT * FROM gin_study.tasks WHERE id = ?;", tt.args.id).Scan(&taskAfterTest)
+			result := tt.fields.db.Gdb.Raw("SELECT * FROM tasks WHERE id = ?;", tt.args.id).Scan(&taskAfterTest)
 			if result.Error != nil {
 				t.Errorf("削除処理実施後のデータ存在チェックテストにおいてエラー発生: %v", result.Error)
 			}
@@ -507,7 +507,7 @@ func TestTask_Search(t *testing.T) {
 		p *domain_obj.TaskSearchCondition
 	}
 
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForInfrastructureDBTest(t)
 
 	tests := []struct {
 		name    string
@@ -737,7 +737,7 @@ func TestTask_Search(t *testing.T) {
 // setUp_GetAllTasks_MultipleTasksは、GetAllTasksのテスト用に複数タスクDBに存在する状態を用意する。
 func setUp_GetAllTasks_MultipleTasks(db *config.DB) error {
 	return db.Gdb.Exec(
-		`INSERT INTO gin_study.tasks
+		`INSERT INTO tasks
 		(id,name,importance_id,details,registered_time,deadline,isDone,updated_time,version)
 		VALUES
 		('1', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1'),
@@ -748,7 +748,7 @@ func setUp_GetAllTasks_MultipleTasks(db *config.DB) error {
 // setUp_GetById_TaskExistは、GetByIdのテスト用に検索対象タスクがDBに存在する状態を用意する。
 func setUp_GetById_TaskExist(db *config.DB) error {
 	return db.Gdb.Exec(
-		`INSERT INTO gin_study.tasks
+		`INSERT INTO tasks
 		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
 		VALUES
 		('1', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1'),
@@ -759,7 +759,7 @@ func setUp_GetById_TaskExist(db *config.DB) error {
 // setUp_Create_DuplicateIdは、Createのテスト用にこれから作成したいタスクと同じIDが既にDBに存在する状態を用意する。
 func setUp_Create_DuplicateId(db *config.DB) error {
 	return db.Gdb.Exec(
-		`INSERT INTO gin_study.tasks
+		`INSERT INTO tasks
 		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
 		VALUES
 		('123', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1');
@@ -769,7 +769,7 @@ func setUp_Create_DuplicateId(db *config.DB) error {
 // setUp_Update_TaskExistは、Updateのテスト用に更新対象タスクがDBに存在する状態を用意する。
 func setUp_Update_TaskExist(db *config.DB) error {
 	return db.Gdb.Exec(
-		`INSERT INTO gin_study.tasks
+		`INSERT INTO tasks
 		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
 		VALUES
 		('2', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1');
@@ -779,7 +779,7 @@ func setUp_Update_TaskExist(db *config.DB) error {
 // setUp_Delete_TaskExistは、Deleteのテスト用に更新対象タスクがDBに存在する状態を用意する。
 func setUp_Delete_TaskExist(db *config.DB) error {
 	return db.Gdb.Exec(
-		`INSERT INTO gin_study.tasks
+		`INSERT INTO tasks
 		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
 		VALUES
 		('2', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1');
@@ -789,7 +789,7 @@ func setUp_Delete_TaskExist(db *config.DB) error {
 // setUp_Search_TaskExistは、Searchのテスト用に検索対象タスクがDBに存在する状態を用意する。
 func setUp_Search_TaskExist(db *config.DB) error {
 	return db.Gdb.Exec(
-		`INSERT INTO gin_study.tasks
+		`INSERT INTO tasks
 		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
 		VALUES
 		('1', 'taskName1', 2, 'details1', '2021-08-23 00:00:01', '2021-08-23 00:00:02', true,  '2021-08-23 00:00:03', '1'),
@@ -800,7 +800,7 @@ func setUp_Search_TaskExist(db *config.DB) error {
 // setUp_Search_TaskExistは、Searchのテスト用にさまざまな期限日時を持ったタスクがDBに存在する状態を用意する。
 func setUp_Search_VariableDeadlineTaskExist(db *config.DB) error {
 	return db.Gdb.Exec(
-		`INSERT INTO gin_study.tasks
+		`INSERT INTO tasks
 		(id,name,importance_id,details,deadline,registered_time,isDone,updated_time,version)
 		VALUES
 		('1', 'taskName1', 2, 'details', '2021-08-22 00:00:01', '2021-08-23 00:00:01', true,  '2021-09-23 00:00:01', '3'),

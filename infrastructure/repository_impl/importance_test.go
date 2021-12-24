@@ -13,7 +13,7 @@ func TestImportance_GetAll(t *testing.T) {
 		db *config.DB
 	}
 
-	conf, db := SetUpForDBTest(t)
+	conf, db := SetUpForInfrastructureDBTest(t)
 
 	tests := []struct {
 		name    string
