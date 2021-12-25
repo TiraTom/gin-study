@@ -50,6 +50,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] infrastructure のテストで isTest フラグを使っている箇所を除去する。設定必須の環境変数 ENV の値で管理して分岐させることにして、通常コードがテストのことを意識しなくて済むようにする
 - [x] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
 - [x] usecase のテストは DB 処理まで実際に行わせるので、infra 層のテストと並列実行にならないようにしないとテスト失敗するかも？：infra と usecase は別 DB に接続してテストを行うようにした
+- [x] go の version の最新化：<https://www.yoshiislandblog.net/2021/10/27/go_go_module_mode/><https://tenntenn.dev/ja/posts/2021-06-27-xxenv/><https://qiita.com/frozenbonito/items/f8569e7afd17ea76b1ab>辺りを参考に
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）
 - [x] ~~AWS にデプロイして動かす（CloudFormation 等利用）~~ 別でやる
 - [ ] ローカルで JMeter で負荷をかけてみる

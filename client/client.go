@@ -6,13 +6,14 @@ import (
 	"log"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	gr "github.com/Tiratom/gin-study/grpc"
 )
 
 // main grpcurlコマンドを使わずにリクエストを送りたいとき用のClientとしてのmainメソッド
 func main() {
-	conn, err := grpc.Dial("localhost:8081", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal("client connection error")
 	}
