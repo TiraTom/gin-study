@@ -51,6 +51,9 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] usecase のテスト記述　<https://zenn.dev/sanpo_shiho/articles/01da627ead98f5>あたり参考にしてみる
 - [x] usecase のテストは DB 処理まで実際に行わせるので、infra 層のテストと並列実行にならないようにしないとテスト失敗するかも？：infra と usecase は別 DB に接続してテストを行うようにした
 - [x] go の version の最新化：<https://www.yoshiislandblog.net/2021/10/27/go_go_module_mode/><https://tenntenn.dev/ja/posts/2021-06-27-xxenv/><https://qiita.com/frozenbonito/items/f8569e7afd17ea76b1ab>辺りを参考に
+- [x] dockerignore がちゃんと効いているか確認：綴り間違えてたけど修正してちゃんと COPY 対象から除外されていた。
+- [ ] コメントアウト部分の整理
+- [ ] Dockerfile の runner を ubuntu ではなく distroless を利用する
 - [ ] アプリも Docker コンテナとして動かす（デバッグもできるようにする）：.env ファイルなどビルド時じゃなくて実行時に必要なファイル類を runner 側にコピーする必要あり。mysql コンテナとアプリ用コンテナが別なので、コンテナ間通信ができるように docker のネットワーク設定が必要。
 - [x] ~~AWS にデプロイして動かす（CloudFormation 等利用）~~ 別でやる
 - [ ] ~~ローカルで JMeter で負荷をかけてみる~~　別でやろう、、

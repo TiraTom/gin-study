@@ -78,8 +78,12 @@ imageBuild:
 # DOCKER_BUILDKIT=1 docker build . --tag gin-study:${shell date '+%Y%m%d_%H%M%S'}
 
 # 実行
-dockerRun:
-	docker run -it --env ENV=local -p 8081:8081 --network gin-study_default gin-study:latest
+imageRun:
+	docker run -it --rm --env ENV=local -p 8081:8081 --network gin-study_default gin-study:latest
+
+# イメージの調査用。DockerfileのCMD ["./gin-study"]をコメントアウトしておくと良い
+imageDebug:
+	docker run --entrypoint=sh -p 8081:8081 --network gin-study_default -it --rm gin-study:latest
 
 # docker imageのスキャン
 imageScan:
