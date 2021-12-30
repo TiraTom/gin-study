@@ -16,6 +16,6 @@
 		"durationEncoder": "string",
 		"callerEncoder": "short"
 	},
-	"outputPaths": ["./log/log.txt"],
-	"errorOutputPaths": ["./log/error.txt"]
+	"outputPaths": ["stdout"],
+	"errorOutputPaths": ["stderr"]
 }

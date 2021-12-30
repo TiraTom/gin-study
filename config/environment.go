@@ -35,6 +35,9 @@ var debugENVValue = []string{"local", "test1", "test2"}
 // 設定ファイルで環境名を表す項目名
 const keyForENV = "ENV"
 
+// .env.xxxファイルが格納されているフォルダ名
+const envFileFolder = "conf-files"
+
 // IsDebugEnvは、ローカル開発環境や検証環境などの非本番環境の場合にtrueを返す
 func (e *Environment) IsDebugEnv() bool {
 	if isNotEnvSet() {
@@ -99,7 +102,7 @@ func NewEnvironment() *Environment {
 	}
 
 	// 指定した環境に対応した環境変数ファイルを読み込む
-	err = godotenv.Load(fmt.Sprintf("%s/.env.%s", projectRoot, os.Getenv("ENV")))
+	err = godotenv.Load(fmt.Sprintf("%s/%s/.env.%s", projectRoot, envFileFolder, os.Getenv("ENV")))
 	if err != nil {
 		zap.L().Fatal(fmt.Sprint("環境変数ファイル読み込みでエラー; ", err))
 		panic(err)

@@ -13,6 +13,8 @@ import (
 type ZapLogger struct {
 }
 
+const confFilePath = "conf-files/zap_config.json"
+
 func (l ZapLogger) Debug(ctx context.Context, msg string) {
 	zap.L().Debug(msg, zap.Any(config.LOG_KEY_NAME_FOR_REQUEST_ID, ctx.Value(config.CONTEXT_KEY_FOR_REQUEST_ID)))
 }
@@ -43,7 +45,7 @@ func GetZapLogger() *zap.Logger {
 // readZapConfig zap用の設定ファイルを読み込む
 // <https://qiita.com/emonuh/items/28dbee9bf2fe51d28153>を参考にした
 func readZapConfig() *zap.Config {
-	configJson, err := ioutil.ReadFile("config/zap_config.json")
+	configJson, err := ioutil.ReadFile(confFilePath)
 	if err != nil {
 		panic(err)
 	}
