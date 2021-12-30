@@ -2,7 +2,7 @@ version: "3"
 services:
   db:
     image: mysql:8.0.26
-    container_name: go-study-db
+    container_name: app-db
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
       - ./docker/mysql/data:/var/lib/mysql
@@ -15,6 +15,8 @@ services:
       TZ: "Asia/Tokyo"
     ports:
       - 3306:3306
+    networks:
+      - default
 
   test-db1:
     image: mysql:8.0.26
@@ -32,6 +34,9 @@ services:
       TZ: "Asia/Tokyo"
     ports:
       - 13306:3306
+    networks:
+      - default
+
   test-db2:
     image: mysql:8.0.26
     container_name: test-db2
@@ -48,3 +53,10 @@ services:
       TZ: "Asia/Tokyo"
     ports:
       - 13307:3306
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
+
