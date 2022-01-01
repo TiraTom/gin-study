@@ -16,7 +16,7 @@ services:
     ports:
       - 3306:3306
     networks:
-      - default
+      - app
 
   test-db1:
     image: mysql:8.0.26
@@ -35,7 +35,7 @@ services:
     ports:
       - 13306:3306
     networks:
-      - default
+      - app
 
   test-db2:
     image: mysql:8.0.26
@@ -54,9 +54,9 @@ services:
     ports:
       - 13307:3306
     networks:
-      - default
+      - app
 
 networks:
-  default:
+  app:
     driver: bridge
 

@@ -79,11 +79,11 @@ imageBuild:
 
 # 実行
 imageRun:
-	docker run -it --rm --env ENV=local -p 8081:8081 --network gin-study_default gin-study:latest
+	docker run -it --rm --env ENV=local -p 8081:8081 --network gin-study_app gin-study:latest
 
 # イメージの調査用。DockerfileのCMD ["./gin-study"]をコメントアウトしておくと良い
 imageDebug:
-	docker run --entrypoint=sh -p 8081:8081 --network gin-study_default -it --rm gin-study:latest
+	docker run --entrypoint=sh -p 8081:8081 --network gin-study_app -it --rm gin-study:latest
 
 # docker imageのスキャン
 imageScan:

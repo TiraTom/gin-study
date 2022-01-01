@@ -54,7 +54,7 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 - [x] dockerignore がちゃんと効いているか確認：綴り間違えてたけど修正してちゃんと COPY 対象から除外されていた。
 - [x] コメントアウト部分の整理
 - [x] アプリも Docker コンテナとして動かす：.env ファイルなどビルド時じゃなくて実行時に必要なファイル類を runner 側にコピーする必要あり。mysql コンテナとアプリ用コンテナが別なので、コンテナ間通信ができるように docker のネットワーク設定が必要。
-- [ ] Dockerfile の runner を ubuntu ではなく distroless を利用する
+- [x] Dockerfile の runner を ubuntu ではなく distroless を利用する：debug のイメージ利用だとエラーが出る、、debug じゃなければエラーなく動くけど、、、
 - [x] ~~Docker イメージとして動かしつつデバッグできるようにする~~ vscode 上でデバッグが楽だしでまあやらなくていいかな、、
 - [x] ~~AWS にデプロイして動かす（CloudFormation 等利用）~~ 別でやる
 - [ ] ~~ローカルで JMeter で負荷をかけてみる~~　別でやろう、、
