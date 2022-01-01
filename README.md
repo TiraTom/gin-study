@@ -1,12 +1,12 @@
 # gin-study
 
 Go 言語での勉強用 CRUD(TODO 管理)アプリ  
-gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用って感じ
+gin-study ってレポジトリ名だけど gRPC・DB 接続周り・テスト記述方法の勉強用って感じ
 
 ## 構成案
 
-- バックエンド：Go(Gin)
-- フロントエンド：TypeScript(React)
+- バックエンド：Go(~~Gin~~ GRPC )
+- ~~フロントエンド：TypeScript(React)~~
 - DB：MySQL
 
 ## TODO（勉強がてらやってみたいこと含む）
@@ -62,4 +62,4 @@ gin-study ってレポジトリ名だけど gRPC と DB 接続周りの勉強用
 
 # 起動メモ
 
-- 起動時引数でどの環境用の環境変数ファイルを読み込むか指定する（ex. ENV=local とすると.env.local が読み込まれる）
+- 起動時引数でどの環境用の環境変数ファイルを読み込むかを指定する（ex. ENV=local とすると.env.local が読み込まれる）
