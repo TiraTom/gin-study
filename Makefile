@@ -77,7 +77,7 @@ imageBuild:
 	DOCKER_BUILDKIT=1 docker build . --tag gin-study:latest
 # DOCKER_BUILDKIT=1 docker build . --tag gin-study:${shell date '+%Y%m%d_%H%M%S'}
 
-# 実行
+# 実行。pはローカルPC(=Docker外)からclient利用でリクエストを送れるようにするために設定している。
 imageRun:
 	docker run -it --rm --env ENV=local -p 8081:8081 --network gin-study_app gin-study:latest
 
