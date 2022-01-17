@@ -14,6 +14,7 @@ type UpdateTask struct {
 
 func (u *UpdateTask) Do(p *gr.UpdateTaskRequestParam) (*domain_obj.Task, error) {
 	// memo: RESTapiだとidと更新内容のパラメーターは別変数でもらうだろうから、この引数の書き方だとpresentation層の実装の影響をusecaseが受けてしまうような気もする、、
+  // →このメソッドの引数はドメインオブジェクトにして、controller側でリクエストパラメーターをドメインオブジェクトに詰め替えるというようにした方が分離ができそうだ
 
 	targetTask, err := u.Tr.GetById(p.Id)
 	if err != nil {
